@@ -20,4 +20,4 @@ A leírás az alapoktól kezdődik és remélhetőleg könnyen emészthető.
 
 1. [Fájlok szerkesztése](1)
 1. [HTML](2)
-1. _még írom a többi részt és a fentiek sincsenek kész_
+1. _Még írom a többi részt, és a fentiek sincsenek kész..._
