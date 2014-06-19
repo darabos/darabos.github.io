@@ -15,7 +15,9 @@ Egy egyszerű, modern alkalmazást csinálunk. Legyen a kódneve `babaverseny.hu
 - Böngészőn és telefonon is elérhető.
 - Belépés Facebookkal.
 
+Nincs benne semmi nehéz, de sok különböző technikába kell belekóstolni egy ilyen munkában.
 A leírás az alapoktól kezdődik és remélhetőleg könnyen emészthető.
 
 1. [Fájlok szerkesztése](1)
 1. [HTML](2)
+1. _még írom a többi részt és a fentiek sincsenek kész_
