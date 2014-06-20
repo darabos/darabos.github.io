@@ -18,6 +18,6 @@ Egy egyszerű, modern alkalmazást csinálunk. Legyen a kódneve `babaverseny.hu
 Nincs benne semmi nehéz, de sok különböző technikába kell belekóstolni egy ilyen munkában.
 A leírás az alapoktól kezdődik és remélhetőleg könnyen emészthető.
 
-1. [Fájlok szerkesztése](1)
+1. [Fájlok kezelése](1)
 1. [HTML](2)
 1. _Még írom a többi részt, és a fentiek sincsenek kész..._
