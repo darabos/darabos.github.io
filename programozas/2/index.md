@@ -107,7 +107,7 @@ Nézzük darabonként, mit csináltam:
     <title>Félix a Babaversenyen</title>
 {% endhighlight %}
 
-Ez a másolós rész. A [Bootstrap](http://getbootstrap.com/) nevű CSS könyvtárat használjuk.
+Ez a másolós rész. Hogy ne kelljen annyi mindent magunk megírnunk, a [Bootstrap](http://getbootstrap.com/) nevű CSS könyvtárat használjuk.
 Ezt a részt szinte egyben a [Bootstrap példából](http://getbootstrap.com/getting-started/#template) másoltam.
 
 Egy rendes HTML dokumentum valahogy így kezdődik.
@@ -117,4 +117,95 @@ Megmondjuk, hogy mi a fájl kódolása (`charset="utf-8"`). Ez kell hozzá, hogy
 Megmondjuk, hogy mobiltelefonok mit csináljanak az oldallal.
 Betöltünk egy külső CSS fájlt (`href="..."`). És megadjuk az oldal címét (`<title>`).
 Ez a cím jelenik meg a böngésző címsorában (vagy a fül tetején).
+
+{% highlight html %}
+    <style>
+h1 {
+  padding: 8px;
+}
+.testsuly th {
+  font-weight: normal;
+}
+.testsuly .lead {
+  margin-bottom: 0;
+}
+.testsuly td.lead {
+  padding-left: 20px;
+}
+    </style>
+  </head>
+{% endhighlight %}
+
+Egy pár dolgot azért ízlés szerint módosítottam, de nagyrészt a Bootstrapben megírt CSS szabályokra hagyatkozom.
+A `.testsuly` azt jelenti, hogy bármilyen elem, ami `class="testsuly"`.
+
+{% highlight html %}
+  <body>
+    <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+      <div class="container">
+        <a class="navbar-brand" href="/">Babaverseny</a>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Napló</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/kapcsolat">Kapcsolat</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/kijelentkezes">&#x238b; Kijelentkezés</a></li>
+        </div>
+      </div>
+    </div>
+{% endhighlight %}
+
+Ez a fekete sáv az oldal tetején. A `<div>` elem nem csinál semmit magától, csak egy blokkot jelöl ki.
+Ha beállítunk rajta egy osztályt (`class`), akkor CSS-sel meg tudjuk mondani, hogy nézzen ki.
+A Bootstrap tele van ilyen osztályokra vonatkozó szabályokkal.
+Így mi csak a Bootstrap dokumentációt forgatjuk és megpróbáljuk elérni, hogy jól nézzen ki a sáv.
+
+A fenti részben látható az a tag is, aminek az Internet sikerét köszönhetjük.
+Az `<a href="...">` tag egy linket jelöl ki.
+A `/kapcsolat` cím azt jelenti, hogy ha a most látható oldal a `www.babaverseny.hu/baba/felix`,
+akkor a link a `www.babaverseny.hu/kapcsolat` oldalra visz.
+
+A titokzatos `&#x238b;` egy Unicode karaktert nevez meg (`⎋`).
+Használhattam volna egy kis képet is, de nem volt kéznél jó kép.
+
+{% highlight html %}
+    <div class="container">
+      <h1>Napló</h1>
+      <table class="testsuly table table-hover">
+        <thead>
+          <tr>
+            <th>
+              <p class="lead">Félix testsúlya napról napra.</p>
+            </th>
+            <th>
+              <form class="form-inline">
+                <div class="form-group">
+                  <div class="input-group" style="width: 200px">
+                    <input class="form-control" placeholder="mai mérés">
+                    <span class="input-group-btn">
+                      <button class="btn btn-primary">&#x2b07;</button>
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <select class="form-control">
+                    <option>most</option>
+                    <option>tegnap</option>
+                    <option>tegnapelőtt</option>
+                  </select>
+                </div>
+              </form>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>2014. június 4.</td><td class="lead">4000 g</td></tr>
+          <tr><td>2014. május 4.</td><td class="lead">3400 g</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
+{% endhighlight %}
 
