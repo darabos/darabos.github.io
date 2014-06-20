@@ -14,7 +14,7 @@ A baba növöget.
 
 Ha most ezt a fájlt megnyitod egy böngészőben, ezt fogod látni:
 
-<iframe height="100" src="pelda1.html">iframe</iframe>
+<iframe height="100" src="pelda-alap-html.html">iframe</iframe>
 
 A HTML dokumentum többnyire szöveg, de úgynevezett _tagek_ jelölnek ki benne részleteket és módosítják ezeknek a megjelenését.
 Például a `<h1>` tag egy címsort jelöl ki ("h1", mint "header 1").
@@ -35,16 +35,56 @@ Most: <input>
 Látszik, hogy az `<input>` tagnek nincs párja, a többinek viszont van.
 A `<table>` egy táblázatot hoz létre. A táblázaton belül a `<tr>` jelöli ki a sorokat, a `<td>` pedig a soron belül az oszlopokat.
 
-HTML, CSS és Javascript kérdésekben megbízható forrás az [MDN](https://developer.mozilla.org/en-US/).
-(Például a [`<table>` leírása](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table).)
-De a legfontosabbakat én is igyekszem leírni.
-
 A fenti HTML kód most valahogy így fest a böngészőben:
 
-<iframe height="100" src="pelda2.html">iframe</iframe>
+<iframe height="100" src="pelda-tablazattal.html">iframe</iframe>
 
 Szinte kész is vagyunk. Már csak annyi van hátra, hogy kicsit kicsinosítsuk a weboldalt. Design!
-Ez egyáltalán nem egyszerű, és sokan abból élnek, hogy értenek hozzá.
+Itt jön a képbe a CSS, amivel megmondjuk, hogy a HTML elemek pontosan hogyan nézzenek ki.
+
+{% highlight html %}
+<style>
+table.ritka td {
+  padding-right: 5px;
+  padding-left: 5px;
+  background: lightskyblue;
+  border-radius: 10px;
+  font-family: sans-serif;
+}
+td.suly {
+  font-size: 20pt;
+}
+</style>
+<table class="ritka">
+  <tr><td>2014. június 4.</td><td class="suly">4000 g</td></tr>
+  <tr><td>2014. május 4.</td><td class="suly">3400 g</td></tr>
+</table>
+{% endhighlight %}
+
+Itt két új jelenség van:
+
+- Egyes elemeknek adtunk egy _attribútumot_. Ez a `class="ritka"` rész.
+  Van rengeteg attribútum, de a `class` a legfontosabb.
+- A másik újdonság a `<style>` elem. Ennek a tartalma nem jelenik meg szövegként az oldalon.
+  A `<style>` elemben CSS szabályokat írunk. Ezekkel mondjuk meg, hogy melyik elem hogy nézzen ki.
+
+A CSS-ben először megadjuk, hogy mire vonatkozik a szabály. Két szabályunk van a példában.
+Az első a `ritka` osztályú `<table>` elemeken belüli `<td>` elemekre vonatkozik: `table.ritka td`.
+A második a `suly` osztályú `<td>` elemekre: `td.suly`.
+
+Aztán pedig kapcsos zárójelek között (`{}`) leírjuk, hogy hogy szeretnénk, hogy eltérjen a normálistól a megnevezett elem.
+Például legyen jobbra és balra nagyobb hézag. Legyen hupikék. Legyen lekerekített a sarka. És talp nélküli betűket kérünk.
+A súlyt tartalmazó mezők pedig legyenek nagyobb betűvel.
+
+HTML, CSS és Javascript kérdésekben megbízható forrás az [MDN](https://developer.mozilla.org/en-US/).
+(Például a [`font` leírása](https://developer.mozilla.org/en/docs/Web/CSS/font).)
+De a legfontosabbakat én is igyekszem leírni.
+
+A CSS hozzáadásával most így nézünk ki:
+
+<iframe height="100" src="pelda-alap-css.html">iframe</iframe>
+
+Bármilyen elképzelést meg lehet így valósítani, de sokszor ez egyáltalán nem egyszerű. Sokan abból élnek, hogy értenek hozzá.
 Míg odáig eljutunk, kezdetben két módszert kell váltogassunk:
 
 - Másolunk valahonnan.
@@ -52,7 +92,7 @@ Míg odáig eljutunk, kezdetben két módszert kell váltogassunk:
 
 Ezzel a technikával nekem ennyire futotta:
 
-<iframe height="320" src="pelda3.html">iframe</iframe>
+<iframe height="330" src="pelda-bootstrappel.html">iframe</iframe>
 
 Ezzel rengeteg időt el lehet szöszölni, és a legegyszerűbb külső mögött is bonyolult kód lappang.
 Nézzük darabonként, mit csináltam:

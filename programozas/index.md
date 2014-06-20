@@ -19,5 +19,5 @@ Nincs benne semmi nehéz, de sok különböző technikába kell belekóstolni eg
 A leírás az alapoktól kezdődik és remélhetőleg könnyen emészthető.
 
 1. [Fájlok kezelése](1)
-1. [HTML](2)
+1. [HTML és CSS](2)
 1. _Még írom a többi részt, és a fentiek sincsenek kész..._
