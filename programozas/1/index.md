@@ -5,6 +5,16 @@ title: Fájlok kezelése
 
 # Fájlok kezelése
 
+A terv megvalósíításához szükséges, hogy tudj
+
+- könyvtárat létrehozni,
+- fájlokat másolni,
+- fájlokat szerkeszteni,
+- programokat futtatni.
+
+Ezek nem egyértelműek elsőre és minden számítógépen kicsit máshogy kell őket csinálni.
+Írásban nem vállalkozom az elmagyarázásukra, de gyakorlatban szívesen segítek.
+
 Hosszútávon megtérül a **terminál** használata. Kevésbé téved el az ember, mint a fájlkezelő ablakok között.
 De ebbe nem megyek bele részletesen.
 
