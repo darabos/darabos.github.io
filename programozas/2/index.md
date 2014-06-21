@@ -167,7 +167,10 @@ A `/kapcsolat` cím azt jelenti, hogy ha a most látható oldal a `www.babaverse
 akkor a link a `www.babaverseny.hu/kapcsolat` oldalra visz.
 
 A titokzatos `&#x238b;` egy Unicode karaktert nevez meg (`⎋`).
+Gondoltam kell valami grafika, ami feldobja az oldalt.
 Használhattam volna egy kis képet is, de nem volt kéznél jó kép.
+
+A maradék:
 
 {% highlight html %}
     <div class="container">
@@ -209,3 +212,9 @@ Használhattam volna egy kis képet is, de nem volt kéznél jó kép.
 </html>
 {% endhighlight %}
 
+Látszik, hogy a táblázat lényegi része (a dátumok és súlyok) nagyon egyszerű.
+Az adatbeviteli mező viszont elég bonyolult. De jól néz ki legalább.
+
+A jobbra-balra kígyózó soroknak nincs igazából jelentősége.
+Ha egy nyitó tag után kezdek új sort, két szóközzel beljebb lépek, ha bezárok egy taget, két szóközzel kijjebb.
+Ha a végső `</html>` a sor elejére kerül, tudom, hogy egy tagnek sem felejtettem el kiírni a párját.
