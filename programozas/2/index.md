@@ -3,7 +3,7 @@ layout: programozas
 title: HTML és CSS
 ---
 
-# HTML és CSS
+# HTML
 
 A HTML nyelven tudjuk leírni, hogy hogy nézzen ki egy weboldal. Hozz létre egy új fájlt, és írd bele:
 
@@ -41,6 +41,8 @@ A fenti HTML kód most valahogy így fest a böngészőben:
 
 Szinte kész is vagyunk. Már csak annyi van hátra, hogy kicsit kicsinosítsuk a weboldalt. Design!
 Itt jön a képbe a CSS, amivel megmondjuk, hogy a HTML elemek pontosan hogyan nézzenek ki.
+
+# CSS
 
 {% highlight html %}
 <style>
@@ -218,3 +220,6 @@ Az adatbeviteli mező viszont elég bonyolult. De jól néz ki legalább.
 A jobbra-balra kígyózó soroknak nincs igazából jelentősége.
 Ha egy nyitó tag után kezdek új sort, két szóközzel beljebb lépek, ha bezárok egy taget, két szóközzel kijjebb.
 Ha a végső `</html>` a sor elejére kerül, tudom, hogy egy tagnek sem felejtettem el kiírni a párját.
+
+Ha most beírsz valamit a beviteli mezőbe és megnyomod a gombot, nem történik semmi, csak eltűnik a beírt szám.
+A következő leckében megnézzük, [hogyan kell a gombnyomásra valami hasznosat csinálni](../3).

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <p>
+        <form class="form-inline" id="bevitel">
+          <input class="form-control" placeholder="mai dátum" id="datum">
+          <input class="form-control" placeholder="mai mérés" id="meres">
+          <button class="btn btn-primary">Mentés</button>
+        </form>
+      </p>
+      <table class="table"><tbody id="naplo">
+        <tr><td>2014. június 4.</td><td>4000 g</td></tr>
+        <tr><td>2014. május 4.</td><td>3400 g</td></tr>
+      <tbody></table>
+    </div>
+    <script>
+
+function meres() {
+  var input = document.getElementById('meres');
+  return input.value;
+}
+
+function datum() {
+  var input = document.getElementById('datum');
+  var ertek = input.value;
+  if (ertek === '') {
+    var ma = new Date();
+    ertek = ma.toLocaleDateString('hu');
+  }
+  return ertek;
+}
+
+function ujTD(szoveg) {
+  var td = document.createElement('td');
+  var tartalom = document.createTextNode(szoveg);
+  td.appendChild(tartalom);
+  return td;
+}
+
+var bevitel = document.getElementById('bevitel');
+bevitel.onsubmit = function() {
+  var naplo = document.getElementById('naplo');
+  var ujTR = document.createElement('tr');
+  ujTR.appendChild(ujTD(datum()));
+  ujTR.appendChild(ujTD(meres()));
+  naplo.insertBefore(ujTR, naplo.firstChild);
+  return false;  // Nem akarunk a szervernek küldeni semmit.
+}
+    </script>
+  </body>
+</html>
