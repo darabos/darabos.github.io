@@ -144,7 +144,9 @@ Ebből a pár alkatrészből áll a programok nagy része. Könnyen tudsz Javasc
 Javascript konzolját (**Tools** > **JavaScript Console**), vagy ennek megfelelőjét bármelyik böngészőben.
 Próbáld meg a fenti példákat bemásolni ide és kísérletezni velük.
 
-(Ezt a konzolt érdemes a munka alatt nyitva tartani, mert ha elrontunk valamit, a hibaüzenetek is itt jelennek meg.)
+Ezt a konzolt érdemes a munka alatt nyitva tartani, mert ha elrontunk valamit, a hibaüzenetek is itt jelennek meg.
+A saját programunkból ki tudunk írni valamit a konzolba a `console.log("üzenet")` paranccsal.
+Ez általában kényelmesebb, mint az `alert` hatására felugró üzenet.
 
 Visszatérve a gomb beprogramozására:
 
