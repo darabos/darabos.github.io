@@ -6,7 +6,7 @@ comments: true
 
 # Javascript
 
-[Az előző leckében](../2) megnéztük, hogyan kell csinos gombokat és beviteli mezőket csinálni.
+Az előző leckében megnéztük, [hogyan kell csinos gombokat és beviteli mezőket csinálni](../2).
 Ha eltekintünk a csinosítástól, a lényeg ez:
 
 {% highlight html %}

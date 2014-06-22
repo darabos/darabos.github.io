@@ -18,19 +18,30 @@ Számtalan lehetőség közül én a [**Node.js**](http://nodejs.org/)-t mutatom
 Ennek előnye, hogy ugyanolyan Javascriptet fogunk írni, mint ami a böngészőben fut.
 És divatos is, tehát könnyen találunk választ bármilyen kérdésre.
 
+Miután a Node.js-t feltelepítetted, hozz létre egy `package.json` fájlt, és írd bele ezt:
+
 {% highlight javascript %}
 {
   "dependencies": {
-    "express": "4.x"
+    "express": "*",
+    "hjs": "*"
   }
 }
 {% endhighlight %}
+
+Ezzel megmondjuk, hogy a Node.js-hez készült millió program közül nekünk mi kell.
+Az _Express_ és a _Hogan.js_. (Mindjárt kiderül, melyik mire kell.)
+Hogy feltelepítsd ezt a két csomagot, futtasd ezt az egyszerű parancsot:
+
+    npm install
+
+Ez megnézi a `package.json` tartalmát, és letölti, amire szükség van.
 
 {% highlight javascript %}
 var express = require('express')
 var app = express();
 app.get('/', function(req, res) {
-  res.send('hello')
+  res.send('<h1>hello</h1>')
 })
 app.listen(8000)
 {% endhighlight %}
