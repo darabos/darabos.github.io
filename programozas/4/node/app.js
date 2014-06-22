@@ -8,4 +8,5 @@ app.get('/baba', function(req, res) {
     res.render('baba.hjs', {hello: count});
     count += 1;
 })
+app.use(express.static(__dirname + '/public'));
 app.listen(8000)
