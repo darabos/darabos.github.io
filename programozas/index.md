@@ -1,7 +1,7 @@
 ---
 layout: programozas
 title: A terv
-comments: true
+comments: false
 ---
 
 # A terv
