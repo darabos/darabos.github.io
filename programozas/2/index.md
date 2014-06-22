@@ -1,6 +1,7 @@
 ---
 layout: programozas
 title: HTML és CSS
+comments: true
 ---
 
 # HTML

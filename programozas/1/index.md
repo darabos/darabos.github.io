@@ -1,6 +1,7 @@
 ---
 layout: programozas
 title: Fájlok kezelése
+comments: true
 ---
 
 # Fájlok kezelése

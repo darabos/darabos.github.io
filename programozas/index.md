@@ -1,6 +1,7 @@
 ---
 layout: programozas
 title: A terv
+comments: true
 ---
 
 # A terv

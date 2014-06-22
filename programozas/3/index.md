@@ -1,6 +1,7 @@
 ---
 layout: programozas
 title: Javascript
+comments: true
 ---
 
 # Javascript
