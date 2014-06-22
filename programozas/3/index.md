@@ -211,7 +211,7 @@ function ujTD(szoveg) {
 }
 {% endhighlight %}
 
-Ezeket felhasználva már szépen meg tudjuk írni az igazi `onclick` függvényt:
+Ezeket felhasználva már szépen meg tudjuk írni az igazi `onsubmit` függvényt:
 
 {% highlight javascript %}
 bevitel.onsubmit = function() {
