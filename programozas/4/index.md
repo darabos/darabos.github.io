@@ -1,7 +1,7 @@
 ---
 layout: programozas
 title: Web szerver
-comments: false
+comments: true
 ---
 
 # Web szerver
@@ -31,17 +31,68 @@ Miután a Node.js-t feltelepítetted, hozz létre egy `package.json` fájlt, és
 
 Ezzel megmondjuk, hogy a Node.js-hez készült millió program közül nekünk mi kell.
 Az _Express_ és a _Hogan.js_. (Mindjárt kiderül, melyik mire kell.)
-Hogy feltelepítsd ezt a két csomagot, futtasd ezt az egyszerű parancsot:
+Hogy feltelepítsd ezt a két csomagot, a terminálban futtasd ezt az egyszerű parancsot:
 
     npm install
 
-Ez megnézi a `package.json` tartalmát, és letölti, amire szükség van.
+Ez megnézi a `package.json` tartalmát, és letölti, amire szükség van. (Ha a jó könyvtárban futtattad.)
+
+## Egy program
+
+Kezdjük el megírni a szervert. Először csak próbáljuk ki, hogy minden működik-e. Egy `app.js` nevű fájlba írd ezt:
 
 {% highlight javascript %}
-var express = require('express')
+console.log('Minden rendben.');
+{% endhighlight %}
+
+És futtasd le:
+
+    node app.js
+
+Ha minden rendben, akkor sikerült böngésző nélkül futtatni Javascriptet.
+Ez nagyon hasznos -- most írhatnánk egy programot, ami megold egy egyenletet, vagy egyéb ravaszságot csinál.
+De mi egy web szerverre vágyunk.
+
+## Egy szerver
+
+A web szerver a böngészőtől kapott kérésre válaszul visszaküld egy HTML fájlt. (Vagy CSS-t vagy akármit.)
+Mi történik pontosan, amikor beírjuk egy weboldal címét, például `www.babaverseny.hu/baba/felix`?
+
+- A böngésző kideríti, hogy az Interneten lévő számítógépek közül melyik a `www.babaverseny.hu`.
+  Ezt egy nagy, közös adatbázisból kérdezi le, aminek _DNS_ a neve.
+  Ebbe az adatbázisba csak pénzért lehet bekerülni, így biztosítják, hogy ne akarjon mindenki `www.facebook.com` lenni.
+  Ezzel egyelőre nincs dolgunk.
+- A `www.babaverseny.hu`-ért felelős szervernek a böngésző elküld egy `GET /baba/felix` kérést.
+- A szerver visszaküld valamiféle tartalmat. (`<html>...</html>`)
+- A böngésző megjeleníti a tartalmat, és lefuttatja a benne talált Javascriptet.
+
+Tehát a célunk most az, hogy amikor a szerverünkhöz egy `GET /baba/felix` kérés érkezik, akkor visszaküldjük
+a csodálatosan megtervezett HTML oldalunkat. De úgy, hogy a táblázat soraiba a megfelelő baba adatait illesszük be.
+
+De haladjunk lépésenként. Először is egy szerver, ami köszön. Írd ezt az `app.js`-be:
+
+{% highlight javascript %}
+var express = require('express');
 var app = express();
 app.get('/', function(req, res) {
-  res.send('<h1>hello</h1>')
-})
-app.listen(8000)
+  res.send('<h1>Hello!</h1>');
+});
+app.listen(8000);
 {% endhighlight %}
+
+Betöltjük az _Express_ csomagot (`express` néven).
+A csomag úgy viselkedik, mint egy függvény, és visszaad egy sokoldalú objektumot (amit `app`-nak keresztelünk).
+Az `app.get('/', function...)` sor egy címhez egy függvényt rendel.
+Amikor egy `GET /` kérés érkezik, ez a függvény fog lefutni. A `res.send(...)` elküldi válaszként a megadott tartalmat.
+
+Az `app.listen(8000)` sor indítja el a szervert. Megkéri, hogy figyeljen a 8000-es porton. A "port" csak egy szám.
+Azért vannak portok, hogy egy számítógépen több különböző szerver is futhatsson.
+Indíthatsz egy másik szervert a 8001-es porton, ha akarsz, és békésen meglesznek egymás mellett.
+
+A 8000-es porton futó szerver a böngészőből a `http://localhost:8000/` címen érhető el.
+Jó esetben egy nagy "Hello!" feliratot látunk ezen a címen. (A `localhost` fixen a helyi géphez rendelt név, tehát
+nem kell DNS regisztrációval bajlódjunk, ha csak a saját gépünkön kísérletezünk.)
+
+## Egy template
+
+
