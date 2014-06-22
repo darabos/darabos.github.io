@@ -76,7 +76,7 @@ Gyorsan elmagyarázok pár dolgot az ilyen programokkal kapcsolatban. Ezek a leg
 
 - **A függvények** kis alprogramok.
   A receptes hasonlatot folytatva ha nincs türelmünk újra és újra kiírni, hogy
-  _"lisztet zsírban megpirítunk, hideg vízzel elkeverünk, és az ételbe keverjük"_, adhatunk ennek a néhány lépésnek egy
+  _"lisztet zsírban megpirítunk, hideg vízzel elkeverünk, és az ételhez adjuk"_, adhatunk ennek a néhány lépésnek egy
   együttes nevet (_"berántjuk"_). Csak egyszer kell leírnunk, hogy mit értünk _"rántás"_ alatt, és utána mindig elég
   csak ezt a nevet használnunk.
 
@@ -142,6 +142,8 @@ Gyorsan elmagyarázok pár dolgot az ilyen programokkal kapcsolatban. Ezek a leg
 Ebből a pár alkatrészből áll a programok nagy része. Könnyen tudsz Javascripttel kísérletezni, ha megnyitod a Chrome
 Javascript konzolját (**Tools** > **JavaScript Console**), vagy ennek megfelelőjét bármelyik böngészőben.
 Próbáld meg a fenti példákat bemásolni ide és kísérletezni velük.
+
+(Ezt a konzolt érdemes a munka alatt nyitva tartani, mert ha elrontunk valamit, a hibaüzenetek is itt jelennek meg.)
 
 Visszatérve a gomb beprogramozására:
 
