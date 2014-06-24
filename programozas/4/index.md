@@ -93,6 +93,46 @@ A 8000-es porton futó szerver a böngészőből a `http://localhost:8000/` cím
 Jó esetben egy nagy "Hello!" feliratot látunk ezen a címen. (A `localhost` fixen a helyi géphez rendelt név, tehát
 nem kell DNS regisztrációval bajlódjunk, ha csak a saját gépünkön kísérletezünk.)
 
+Így már tudunk a szerveren adatokat tárolni. Például:
+
+{% highlight javascript %}
+var szamlalo = 0;
+app.get('/', function(req, res) {
+  szamlalo += 1;
+  res.send('<h1>' + szamlalo + '. látogató</h1>');
+});
+{% endhighlight %}
+
 ## Egy template
 
+Elég kényelmetlen lenne, ha a teljes HTML tartalmat be kéne másoljuk az `app.js`-be. Szerencsére nem kell.
+A _statikus_ tartalmat (ami mindig ugyanaz) egyszerűen betehetjük egy könyvtárba, és az Express gondjaira bízzuk.
 
+{% highlight javascript %}
+app.use(express.static(__dirname + '/public'));
+{% endhighlight %}
+
+Ezután ha létrehozunk egy `public` nevű könyvtárat, és beletesszük a `babaverseny.css`-t, akkor a
+`http://localhost:8000/babaverseny.css` címen el is érhetjük.
+
+Ez hasznos, de nem megoldás a _dinamikus_ tartalomra, azokra az oldalakra, ahova valamilyen adatokat szeretnénk beszúrni.
+Itt fordulunk a _Hogan.js_-hez. Hozz létre egy `views` könyvtárat.
+Ezen belül egy `baba.hjs` fájlba másold be a korábban megtervezett weboldalt. (A HTML-t.) Valahova helyettesítsünk be valamit!
+
+{% highlight html %}
+<th>
+  <p class="lead">{{baba_neve}} testsúlya napról napra.</p>
+</th>
+{% endhighlight %}
+
+A `.hjs` kiterjesztésű HTML fájlban `{{` és `}}` jelek között kijelölhetünk behelyettesítendő részeket.
+Ezeket a szerver programban kell kitöltenünk, még mielőtt elküldenénk a látogató böngészőjébe.
+
+{% highlight javascript %}
+app.get('/baba/:azonosito', function(req, res) {
+  res.render('baba.hjs', { baba_neve: req.params.azonosito });
+});
+{% endhighlight %}
+
+Tehát `res.send` helyett `res.render` kell, ha template-et akarunk használni, és az első paraméter a `.hjs` fájl neve,
+a második paraméter pedig egy objektum, ami leírja, hogy hova mit szeretnénk behelyettesíteni.

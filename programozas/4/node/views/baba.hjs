@@ -1,1 +1,107 @@
-<h1>{{hello}}</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <title>{{neve}} a Babaversenyen</title>
+    <style>
+h1 {
+  padding: 8px;
+}
+.testsuly th {
+  font-weight: normal;
+}
+.testsuly .lead {
+  margin-bottom: 0;
+}
+.testsuly td.lead {
+  padding-left: 20px;
+}
+    </style>
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+      <div class="container">
+        <a class="navbar-brand" href="/">Babaverseny</a>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Napló</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/kapcsolat">Kapcsolat</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/kijelentkezes">&#x238b; Kijelentkezés</a></li>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <h1>Napló</h1>
+      <table class="testsuly table table-hover">
+        <thead>
+          <tr>
+            <th>
+              <p class="lead">{{neve}} testsúlya napról napra.</p>
+            </th>
+            <th>
+              <form class="form-inline" id="bevitel">
+                <div class="form-group">
+                  <div class="input-group" style="width: 200px">
+                    <input class="form-control" placeholder="mai mérés" id="meres">
+                    <span class="input-group-btn">
+                      <button class="btn btn-primary">&#x2b07;</button>
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <select class="form-control">
+                    <option>most</option>
+                    <option>tegnap</option>
+                    <option>tegnapelőtt</option>
+                  </select>
+                </div>
+              </form>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>2014. június 4.</td><td class="lead">4000 g</td></tr>
+          <tr><td>2014. május 4.</td><td class="lead">3400 g</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <script>
+
+function meres() {
+  var input = document.getElementById('meres');
+  return input.value;
+}
+
+function datum() {
+  var input = document.getElementById('datum');
+  var ertek = input.value;
+  if (ertek === '') {
+    var ma = new Date();
+    ertek = ma.toLocaleDateString('hu');
+  }
+  return ertek;
+}
+
+function ujTD(szoveg) {
+  var td = document.createElement('td');
+  var tartalom = document.createTextNode(szoveg);
+  td.appendChild(tartalom);
+  return td;
+}
+
+var bevitel = document.getElementById('bevitel');
+bevitel.onsubmit = function() {
+  var naplo = document.getElementById('naplo');
+  var ujTR = document.createElement('tr');
+  ujTR.appendChild(ujTD(datum()));
+  ujTR.appendChild(ujTD(meres()));
+  naplo.insertBefore(ujTR, naplo.firstChild);
+  return false;  // Nem akarunk a szervernek küldeni semmit.
+}
+    </script>
+  </body>
+</html>
