@@ -1,5 +1,8 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
+app.use(bodyParser.json());
+
 var babak = {
   felix: {
     azonosito: 'felix',
@@ -17,8 +20,9 @@ app.get('/baba/:azonosito', function(req, res) {
   res.render('baba.hjs', baba);
 });
 
-app.get('/mentes', function(req, res) {
-  console.log(req.params);
+app.post('/mentes', function(req, res) {
+  var uj = req.body;
+  babak[uj.azonosito].meresek.unshift({ datum: uj.datum, suly: uj.suly });
 });
 
 app.use(express.static(__dirname + '/public'));

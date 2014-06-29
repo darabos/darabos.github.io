@@ -102,7 +102,8 @@ bevitel.onsubmit = function() {
 
   var xhr = new XMLHttpRequest();
   xhr.open('POST', '/mentes');
-  var adat = { baba: '{{azonosito}}', datum: datum(), meres: meres() };
+  var adat = { azonosito: '{{azonosito}}', datum: datum(), suly: meres() };
+  xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send(JSON.stringify(adat));
   return false;  // Nem akarunk a szervernek küldeni semmit.
 }
