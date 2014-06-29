@@ -1,10 +1,10 @@
 ---
 layout: programozas
-title: Web szerver
+title: Webszerver
 comments: true
 ---
 
-# Web szerver
+# Webszerver
 
 Az előző leckében megnéztük, [hogyan tudunk reagálni egy gomb megnyomására](../3).
 Be tudunk már vinni adatokat, de az oldal frissítésekor elvesznek.
@@ -51,11 +51,11 @@ console.log('Minden rendben.');
 
 Ha minden rendben, akkor sikerült böngésző nélkül futtatni Javascriptet.
 Ez nagyon hasznos -- most írhatnánk egy programot, ami megold egy egyenletet, vagy egyéb ravaszságot csinál.
-De mi egy web szerverre vágyunk.
+De mi egy webszerverre vágyunk.
 
 ## Egy szerver
 
-A web szerver a böngészőtől kapott kérésre válaszul visszaküld egy HTML fájlt. (Vagy CSS-t vagy akármit.)
+A webszerver a böngészőtől kapott kérésre válaszul visszaküld egy HTML fájlt. (Vagy CSS-t vagy akármit.)
 Mi történik pontosan, amikor beírjuk egy weboldal címét, például `www.babaverseny.hu/baba/felix`?
 
 - A böngésző kideríti, hogy az Interneten lévő számítógépek közül melyik a `www.babaverseny.hu`.
