@@ -53,19 +53,16 @@ h1 {
                   </div>
                 </div>
                 <div class="form-group">
-                  <select class="form-control">
-                    <option>most</option>
-                    <option>tegnap</option>
-                    <option>tegnapelőtt</option>
-                  </select>
+                  <input class="form-control" placeholder="dátum" id="datum">
                 </div>
               </form>
             </th>
           </tr>
         </thead>
-        <tbody>
-          <tr><td>2014. június 4.</td><td class="lead">4000 g</td></tr>
-          <tr><td>2014. május 4.</td><td class="lead">3400 g</td></tr>
+        <tbody id="naplo">
+          {{#meresek}}
+          <tr><td>{{datum}}</td><td class="lead">{{suly}} g</td></tr>
+          {{/meresek}}
         </tbody>
       </table>
     </div>
@@ -98,8 +95,15 @@ bevitel.onsubmit = function() {
   var naplo = document.getElementById('naplo');
   var ujTR = document.createElement('tr');
   ujTR.appendChild(ujTD(datum()));
-  ujTR.appendChild(ujTD(meres()));
+  var m = ujTD(meres() + ' g');
+  m.classList.add('lead');
+  ujTR.appendChild(m);
   naplo.insertBefore(ujTR, naplo.firstChild);
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/mentes');
+  var adat = { baba: '{{azonosito}}', datum: datum(), meres: meres() };
+  xhr.send(JSON.stringify(adat));
   return false;  // Nem akarunk a szervernek küldeni semmit.
 }
     </script>

@@ -119,20 +119,79 @@ Ez hasznos, de nem megoldás a _dinamikus_ tartalomra, azokra az oldalakra, ahov
 Itt fordulunk a _Hogan.js_-hez. Hozz létre egy `views` könyvtárat.
 Ezen belül egy `baba.hjs` fájlba másold be a korábban megtervezett weboldalt. (A HTML-t.) Valahova helyettesítsünk be valamit!
 
-{% highlight html %}
+{% highlight html %}{% raw %}
 <th>
-  <p class="lead">{{baba_neve}} testsúlya napról napra.</p>
+  <p class="lead">{{neve}} testsúlya napról napra.</p>
 </th>
-{% endhighlight %}
+{% endraw %}{% endhighlight %}
 
-A `.hjs` kiterjesztésű HTML fájlban `{{` és `}}` jelek között kijelölhetünk behelyettesítendő részeket.
+A `.hjs` kiterjesztésű HTML fájlban {% raw %}`{{` és `}}`{% endraw %} jelek között kijelölhetünk behelyettesítendő részeket.
 Ezeket a szerver programban kell kitöltenünk, még mielőtt elküldenénk a látogató böngészőjébe.
 
 {% highlight javascript %}
 app.get('/baba/:azonosito', function(req, res) {
-  res.render('baba.hjs', { baba_neve: req.params.azonosito });
+  res.render('baba.hjs', { neve: req.params.azonosito });
 });
 {% endhighlight %}
 
 Tehát `res.send` helyett `res.render` kell, ha template-et akarunk használni, és az első paraméter a `.hjs` fájl neve,
 a második paraméter pedig egy objektum, ami leírja, hogy hova mit szeretnénk behelyettesíteni.
+
+Egy másik újdonság, hogy az URL-ből (a weboldal címéből) kiolvasunk egy azonosítót.
+Ha az `app.get`-nek megadott útvonal egyik része kettősponttal kezdődik (`:azonosito`), akkor ott bármi lehet.
+Például `http://localhost:8000/baba/felix`. És amit ott talál a szerver, azt megkapjuk a `req.params` objektumban.
+
+Így most ha a `/baba/felix` oldalt nézzük, akkor azt látjuk, _"felix testsúlya napról napra"_.
+
+## Adatok
+
+Egyelőre tároljuk az adatainkat egy változóban.
+
+{% highlight javascript %}
+var babak = {
+  felix: { 
+    neve: 'Félix',
+    meresek: [
+      { datum: '2014-05-04', suly: 3400 },
+      { datum: '2014-05-05', suly: 3300 },
+      { datum: '2014-05-06', suly: 3200 },
+    ], 
+  },
+};
+{% endhighlight %}
+
+Ez már egy elég bonyolult objektum. A `babak` objektumnak egy tulajdonsága van, `babak.felix`, ami szintén egy objektum,
+aminek két tulajdonsága van, `babak.felix.neve` és `babak.felix.meresek`. Az előbbi egy _string_ (szöveg), az utóbbi egy
+_tömb_ (lista). A tömb elemei objektumok, amiknek két tulajdonsága van, `datum` és `meresek`.
+
+Ha egy objektumnak úgy akarjuk elérni egy tulajdonságát, hogy csak menet közben (_futásidőben_) tudjuk a tulajdonság
+nevét, akkor `babak.felix` helyett írhatjuk, hogy `babak[azonosito]`. A tömb elemeit is ilyen szögletes zárójelekkel
+érhetjük el. Például az első mérés: `babak[azonosito].meresek[0].suly`.
+(`[0]` a tömb első eleme, `[1]` a második, `[2]` a harmadik.)
+
+A babát leíró objektum pont meg is felel a behelyettesítésre, mert van `neve` tulajdonsága.
+
+{% highlight javascript %}
+app.get('/baba/:azonosito', function(req, res) {
+  var baba = babak[req.params.azonosito];
+  res.render('baba.hjs', baba);
+});
+{% endhighlight %}
+
+Még a méréseket kell valahogy behelyettesítsük.
+
+{% highlight html %}{% raw %}
+<table>
+  {{#meresek}}
+  <tr><td>{{datum}}</td><td>{{suly}} g</td></tr>
+  {{/meresek}}
+</table>
+{% endraw %}{% endhighlight %}
+
+{% raw %}
+Itt a `<valami>...</valami>` szintaxishoz hasonlóan van egy nyitó (`{{#meresek}}`) és egy záró jelünk (`{{/meresek}}`).
+Amit ezek között talál, azt a Hogan.js megismétli a megnevezett lista minden egyes elemére.
+És a két jel között a lista elemeinek a tulajdonságaira is hivatkozhatunk. (`{{datum}}`, `{{suly}}`)
+{% endraw %}
+
+
