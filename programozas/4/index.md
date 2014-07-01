@@ -274,5 +274,6 @@ app.post('/mentes', function(req, res) {
 Most az új mérés bevitele után a Javascript ugyanúgy létrehozza az új sort, mint eddig. De ha utána frissítjük az oldalt,
 akkor is ott marad az új adat, mert elküldtük a szervernek, és visszaküldjük, amikor a böngésző újra kéri.
 
-Már csak az a baj, hogy ha újraindítjuk a szervert, elveszik az összes adat.
-A következő leckében megtanuljuk, [hogyan tároljuk az adatokat egy adatbázisban](../5).
+Az eddigieket ügyesen használva már készíthetsz olyan programokat, amik másoknak is hasznosak lehetnek.
+Jó lenne, ha nem csak a laptopodon futnának, és nem csak te láthathatnád őket. 
+A következő leckében leírom, [hogyan futtathatsz programokat egy adatközpontban](../5).

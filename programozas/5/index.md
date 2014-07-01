@@ -1,25 +1,17 @@
 ---
 layout: programozas
-title: Adatbázis
+title: Heroku
 comments: true
 ---
 
-# Adatbázis
+# Heroku
 
-Az előző leckében [írtunk egy webszervert](../3). Az weboldalon bevitt adatok már eljutnak a szerverhez,
-csak a tárolásuk kérdéses.
-
-Itt is sok választási lehetőségünk van. Én egy klasszikus SQL adatbázis használatát mutatom be.
-
-Konkrétan egy PostgreSQL adatbázist fogunk használni. Ezt is telepíthetnénk a laptopra, és folytathatnánk
-úgy a fejlesztést. De ugyanannyi (vagy kevesebb) erőfeszítéssel beüzemelhetünk egy olyan adatbázist, ami
-nem a laptopon, hanem egy távoli adatközpontban fut. Erre úgyis szükség lesz, úgyhogy csak előnye van.
-
-## Heroku
+Az előző leckében [írtunk egy webszervert](../4). Most megoldjuk, hogy a szerver ne csak a laptopunkon
+fusson, és meg tudjuk mutatni mindenkinek.
 
 Sok cég azzal foglalkozik, hogy számítógépeket ad bérbe az Interneten keresztül. Nagy a verseny közöttük
 és annyira lenyomják az árakat, hogy mindegyik cégnél kaphatunk valamit ingyen.
-A [Heroku](https://www.heroku.com/)nál ez 1 számítógép és egy 10 000 soros adatbázis.
+A [Heroku](https://www.heroku.com/)nál ez 1 számítógép.
 Ez most tökéletesen megfelel, tehát irány a regisztráció!
 Amikor egy _Heroku Toolbelt_ letöltését kínálja, fogadd el és telepítsd fel azt is.
 
@@ -91,66 +83,8 @@ nem nulla, nem üres string), akkor `a`, egyébként `b`. Így ha definiálva va
 környezeti változó, akkor azt használjuk, egyébként a 8000-es portot.
 
 Újabb commit és push után végre működik a `http://frozen-plains-1234.herokuapp.com/baba/felix`.
+Ország-világ láthatja a programunkat és vihet fel mérési eredményeket Félixhez. Az adatok egy
+darabig megmaradnak, de ha újraindul a szerver, elvesznek. Abban nem bízhatunk, hogy sosem
+fog újraindulni, hiszen amiatt is újraindítjuk, ha feltöltünk egy új változatot.
 
----
-
-Azért kezdtünk bele az egészbe, hogy egy adatbázisunk legyen, tehát indítsuk el azt is:
-
-    heroku addons:add heroku-postgresql
-
-## Egy tábla
-
-Egy adatbázis _tábla_ olyan, mint egy Excel munkalap. Azzal a különbséggel, hogy a fejlécet előre
-rögzítenünk kell, és szigorúan csak azok az oszlopok vannak, amiket kértünk, nincs mellettük üres hely.
-
-Nekünk egy olyan tábla kell, aminek három oszlopa van: azonosító, dátum, súly.
-
-    CREATE TABLE adatok (azonosito TEXT, datum TEXT, suly TEXT)
-
-Az SQL is egy programozási nyelv, kifejezetten adatbázisokhoz. Adatbázis műveleteket és lekérdezéseket
-tudunk vele leírni. A nyelv alap elemeit (mint `CREATE TABLE`) nagybetűvel szokás írni, de nem
-kötelező.
-
-A fenti sor létrehozza a táblát, amit szeretnénk. De hogy futtassuk le? Előbb csatlakoznunk kell az
-adatbázishoz. Írjunk erre egy Node.js programot, mondjuk `create.js` néven.
-
-{% highlight javascript %}
-var pg = require('pg');
-client = new pg.Client(process.env.DATABASE_URL);
-client.connect();
-var query = client.query('CREATE TABLE adatok (azonosito TEXT, datum TEXT, suly TEXT)');
-query.on('end', function() { client.end(); });
-{% endhighlight %}
-
-Egy új modulra van szükség (`pg`). Ezt is tedd a `package.json`-ba és futtass `npm install`-t.
-A porthoz hasonlóan az adatbázis címében is arra hagyatkozunk, hogy a Heroku beállítja majd a
-`DATABASE_URL` környezeti változót. Csatlakozás után lefuttatjuk a kiszemelt parancsot.
-Ha lefutott, bezárjuk a kapcsolatot. (Enélkül sose lépne ki a program.)
-
-Ezt a programot a `node create.js` paranccsal tudjuk futtatni. De a saját gépünkön nem fog működni.
-A Heroku rendszerben kell lefuttassuk. Tehát `git add .`, `git commit -m 'create.js'`, `git push heroku master`.
-Majd:
-
-    heroku run node create.js
-
-Ez lefuttatja a programot. Ha minden rendben ment, nem ír ki semmit.
-Hogy megbizonyosodj a sikerről, lefuttathatod mégegyszer.
-Most hibaüzenetet fogsz kapni: `error: relation "adatok" already exists`. A tábla létezik!
-
-## Lekérdezés és bevitel
-
-A lekérdezés parancsa:
-
-    SELECT datum, suly FROM adatok WHERE azonosito = 'felix'
-
-A bevitel parancsa:
-
-    INSERT INTO adatok VALUES ('felix', '2014-07-02', '5000')
-
-Írjuk át az `app.js`-t, hogy a saját `babak` változónk helyett ezekkel a parancsokkal az adatbázist használja.
-
-{% highlight javascript %}
-var pg = require('pg');
-client = new pg.Client(process.env.DATABASE_URL);
-client.connect();
-{% endhighlight %}
+A következő leckében megnézzük, [hogyan kell az adatokat egy adatbázisban tárolni](../6).
