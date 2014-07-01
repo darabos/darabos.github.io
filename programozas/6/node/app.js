@@ -13,7 +13,7 @@ app.get('/baba/:azonosito', function(req, res) {
     sorok.push(sor);
   });
   query.on('end', function() {
-    res.render('baba.hjs', { azonosito: 'felix', meresek: sorok });
+    res.render('baba.hjs', { azonosito: req.params.azonosito, neve: req.params.azonosito, meresek: sorok });
   });
   query.on('error', function(e) {
     console.log('hiba', e);
