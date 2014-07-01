@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "express": "*",
+    "pg": "*",
     "body-parser": "*",
     "hjs": "*"
   }
