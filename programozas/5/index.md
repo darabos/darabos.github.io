@@ -116,14 +116,16 @@ adatbázishoz. Írjunk erre egy Node.js programot, mondjuk `create.js` néven.
 
 {% highlight javascript %}
 var pg = require('pg');
-pg.connect(process.env.DATABASE_URL, function(err, client) {
-  client.query('CREATE TABLE adatok (azonosito TEXT, datum TEXT, suly TEXT)');
-});
+client = new pg.Client(process.env.DATABASE_URL);
+client.connect();
+var query = client.query('CREATE TABLE adatok (azonosito TEXT, datum TEXT, suly TEXT)');
+query.on('end', function() { client.end(); });
 {% endhighlight %}
 
 Egy új modulra van szükség (`pg`). Ezt is tedd a `package.json`-ba és futtass `npm install`-t.
 A porthoz hasonlóan az adatbázis címében is arra hagyatkozunk, hogy a Heroku beállítja majd a
 `DATABASE_URL` környezeti változót. Csatlakozás után lefuttatjuk a kiszemelt parancsot.
+Ha lefutott, bezárjuk a kapcsolatot. (Enélkül sose lépne ki a program.)
 
 Ezt a programot a `node create.js` paranccsal tudjuk futtatni. De a saját gépünkön nem fog működni.
 A Heroku rendszerben kell lefuttassuk. Tehát `git add .`, `git commit -m 'create.js'`, `git push heroku master`.
@@ -131,9 +133,24 @@ Majd:
 
     heroku run node create.js
 
-Ez lefuttatja a programot. Ha rendesen írtuk volna meg, a program kilépne a tábla létrehozása után.
-Hogy pár sorral rövidebb legyen, én ezt kihagytam. Egy pár másodperc várakozás után _Ctrl-C_ gombbal
-állítsd le a programot. Hogy megbizonyosodj a sikerről, lefuttathatod mégegyszer.
+Ez lefuttatja a programot. Ha minden rendben ment, nem ír ki semmit.
+Hogy megbizonyosodj a sikerről, lefuttathatod mégegyszer.
 Most hibaüzenetet fogsz kapni: `error: relation "adatok" already exists`. A tábla létezik!
 
+## Lekérdezés és bevitel
 
+A lekérdezés parancsa:
+
+    SELECT datum, suly FROM adatok WHERE azonosito = 'felix'
+
+A bevitel parancsa:
+
+    INSERT INTO adatok VALUES ('felix', '2014-07-02', '5000')
+
+Írjuk át az `app.js`-t, hogy a saját `babak` változónk helyett ezekkel a parancsokkal az adatbázist használja.
+
+{% highlight javascript %}
+var pg = require('pg');
+client = new pg.Client(process.env.DATABASE_URL);
+client.connect();
+{% endhighlight %}
