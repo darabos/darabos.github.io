@@ -24,6 +24,8 @@ A Heroku használatához a kódunkat egy Git repository-ba kell tegyük. Mi sem 
 Az első paranccsal létrehoztunk egy üres repository-t.
 A második paranccsal kiválasztottuk az összes fájlt a könyvtárunkban.
 A harmadik paranccsal pedig elmentettük a változtatásunkat.
+A `git status` parancsot bármikor lefuttathatod, és tájékoztat a pillanatnyi helyzetről.
+(Mi van elmentve, mi nincs.)
 
 A Git egy verziókezelő rendszer, vagyis minden commithoz vissza tudunk menni később, meg tudjuk nézni
 két commit között a különbséget, stb. A Herokutól függetlenül is nagyon hasznos megszokni.
