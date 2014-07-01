@@ -1,28 +1,31 @@
 var express = require('express');
+var pg = require('pg');
 var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.json());
-
-var babak = {
-  felix: {
-    azonosito: 'felix',
-    neve: 'Félix',
-    meresek: [
-      { datum: '2014-05-04', suly: 3400 },
-      { datum: '2014-05-05', suly: 3300 },
-      { datum: '2014-05-06', suly: 3200 },
-    ],
-  },
-};
+client = new pg.Client(process.env.DATABASE_URL);
+client.connect();
 
 app.get('/baba/:azonosito', function(req, res) {
-  var baba = babak[req.params.azonosito];
-  res.render('baba.hjs', baba);
+  var query = client.query('SELECT datum, suly FROM adatok WHERE azonosito = $1 ORDER BY datum DESC', [req.params.azonosito]);
+  var sorok = [];
+  query.on('row', function(sor) {
+    sorok.push(sor);
+  });
+  query.on('end', function() {
+    res.render('baba.hjs', { azonosito: 'felix', meresek: sorok });
+  });
+  query.on('error', function(e) {
+    console.log('hiba', e);
+  });
 });
 
 app.post('/mentes', function(req, res) {
   var uj = req.body;
-  babak[uj.azonosito].meresek.unshift({ datum: uj.datum, suly: uj.suly });
+  var query = client.query('INSERT INTO adatok VALUES ($1, $2, $3)', [uj.azonosito, uj.datum, uj.suly]);
+  query.on('error', function(e) {
+    console.log('hiba', e);
+  });
 });
 
 app.use(express.static(__dirname + '/public'));

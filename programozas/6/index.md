@@ -63,16 +63,66 @@ Most hibaüzenetet fogsz kapni: `error: relation "adatok" already exists`. A tá
 
 A lekérdezés parancsa:
 
-    SELECT datum, suly FROM adatok WHERE azonosito = 'felix'
+    SELECT datum, suly FROM adatok WHERE azonosito = 'felix' ORDER BY datum DESC
 
 A bevitel parancsa:
 
     INSERT INTO adatok VALUES ('felix', '2014-07-02', '5000')
 
 Írjuk át az `app.js`-t, hogy a saját `babak` változónk helyett ezekkel a parancsokkal az adatbázist használja.
+A program indulásakor kapcsolódnunk kell az adatbázishoz:
 
 {% highlight javascript %}
 var pg = require('pg');
 client = new pg.Client(process.env.DATABASE_URL);
 client.connect();
 {% endhighlight %}
+
+Mentéskor az `INSERT INTO` parancsot futtatjuk le:
+
+{% highlight javascript %}
+app.post('/mentes', function(req, res) {
+  var uj = req.body;
+  var query = client.query('INSERT INTO adatok VALUES ($1, $2, $3)', [uj.azonosito, uj.datum, uj.suly]);
+});
+{% endhighlight %}
+
+Az SQL parancsot egyfajta template-tel írjuk le, amiben a `$1`, `$2`, `$3` jelek helyére a program behelyettesíti
+a listában megadott változókat. Erre azért van szükség, hogy elkerüljük az _"SQL injection"_ támadásokat.
+Például ha súlynak azt adja meg valaki, hogy `"1"); DROP TABLE adatok; --`, és ezt egyenesen behelyettesítjük a
+parancsunkba, abból az lesz, hogy rögzítünk egy 1 gramos mérést, majd letöröljük az `adatok` táblát.
+A template-es behelyettesítésnél a program gondosan elkerüli ezeket a veszélyeket.
+
+Az elmentett adatokat pedig a `SELECT` paranccsal kérjük vissza az adatbázisból:
+
+{% highlight javascript %}
+app.get('/baba/:azonosito', function(req, res) {
+  var query = client.query('SELECT datum, suly FROM adatok WHERE azonosito = $1 ORDER BY datum DESC', [req.params.azonosito]);
+  var sorok = [];
+  query.on('row', function(sor) {
+    sorok.push(sor);
+  });
+  query.on('end', function() {
+    res.render('baba.hjs', { azonosito: req.params.azonosito, neve: req.params.azonosito, meresek: sorok });
+  });
+});
+{% endhighlight %}
+
+A `SELECT` parancsnak lehet, hogy borzasztóan sok eredménye van. Ezért nem egyszerre kapjuk meg mindet, hanem soronként.
+A `query.on('row', f)` paranccsal megadunk egy függvényt, ami fogadja a sorokat. Ezeket egyszerűen betesszük egy tömbbe.
+A `query.on('end', f)` paranccsal megadunk egy függvényt, ami az utolsó sor után kell, hogy lefusson.
+Ebben a függvényben helyettesítjük be a Hogan.js template-be a tömbben összegyűjtött mérési eredményeket.
+
+Ezekkel a változtatásokkal már működnie kell a programnak. Ha mégsem működik, a `heroku logs` paranccsal nézhetjük meg
+a naplókat. Itt jó esetben láthatunk valamit, de magunk is írhatunk a naplóba. Ajánlott az SQL hibákat a naplóba írni:
+
+{% highlight javascript %}
+  query.on('error', function(hiba) {
+    console.log(hiba);
+  });
+{% endhighlight %}
+
+Ha sikerül minden hibát elhárítani, az adataink biztonságban vannak.
+Annyi gond van csak, hogy bárki felvihet adatokat bármelyik babához.
+Mielőtt népszerűsíteni kezdjük az oldalt, meg kell tanuljuk, [hogyan tudunk felhasználókat azonosítani](../7).
+Erről szól a következő lecke.
