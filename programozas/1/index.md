@@ -6,7 +6,7 @@ comments: true
 
 # Fájlok kezelése
 
-A terv megvalósíításához szükséges, hogy tudj
+A terv megvalósításához szükséges, hogy tudj
 
 - könyvtárat létrehozni,
 - fájlokat másolni,
