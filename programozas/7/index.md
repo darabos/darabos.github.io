@@ -179,7 +179,7 @@ passport.use(new facebook.Strategy(
   {
     clientID: '312500572251092',
     clientSecret: titok,
-    callbackURL: 'http://frozen-plains-6587.herokuapp.com/facebooktol',
+    callbackURL: 'http://furcsa-nev-1234.herokuapp.com/facebooktol',
   },
   function(accessToken, refreshToken, profile, done) {
     done(null, profile);
@@ -208,4 +208,102 @@ passport.deserializeUser(function(user, done) {
 Itt is a lehető legegyszerűbb megoldással élünk, a felhasználói profilt ahogy van betesszük
 a sessionbe. Így könnyű kivenni is. (Megtehetnénk, hogy csak egy azonosítót
 tárolunk a sessionben, és az adatbázisunkból vesszük a részleteket.)
+
+Ezzel kész a Passport konfigurálása, de még nem használjuk semmire.
+
+## Middleware
+
+A _"middleware"_ kifejezés gyakran előjön Node.js fejlesztésben. Csináljunk egy naplózó
+middleware-t a példa kedvéért.
+
+{% highlight javascript %}
+function naploz(req, res, next) {
+  console.log(req);
+  next();
+}
+{% endhighlight %}
+
+Egy egyszerű függvény. Az első két paramétere a kérés (_request_) és a válasz (_response_).
+A harmadik paraméter egy függvény, ami meghívja a következő middleware-t.
+
+Kétféleképpen használhatunk egy middleware-t:
+
+  - Ha azt akarjuk, hogy minden beérkező kérést naplózzon:
+
+        app.use(naploz);
+
+  - Ha csak egy bizonyos oldalnál akarjuk használni:
+
+        app.get('/oldal', naploz, function(req, res) {
+          // Szokásos.
+        });
+
+Az első formával már rengetegszer találkoztunk. Egy csomó middleware-t beállítottunk `app.use`-zal.
+Amikor egy kérés érkezik a szerverhez, lefut az első beállított middleware függvény. Amikor ő
+meghívja a `next` függvényt, az meghívja a következő beállított middleware-t. Így megy a lánc,
+és amikor az utolsó middleware meghívja a `next` függvényt, az meghívja az `app.get`-tel
+beállított függvényt, ami elküldi a weboldal tartalmát a látogatónak.
+
+Ez az oka a "middleware" névnek -- ezek a függvények a szerver és az oldal kódja között vannak.
+
+Bármelyik middleware visszaküldhet egy választ a `next` függvény meghívása előtt vagy helyett.
+Így az utolsó függvény, amit az `app.get`-tel állítottunk be, tulajdonképpen nem különleges,
+hívhatjuk azt is middleware-nek. (Csak akkor mi a "middleware" név értelme?)
+
+## Beléptetés
+
+Bizonyos oldalaknak van értelme belépés nélkül is:
+
+{% highlight javascript %}
+app.get('/', function(req, res) {
+  if (req.isAuthenticated()) {
+    res.send('Szia, ' + req.user.displayName);
+  } else {
+    res.send('Szia, idegen!');
+  }
+});
+{% endhighlight %}
+
+De vannak olyan oldalak, ahol muszáj, hogy tudjuk, ki a látogató. Például a saját profil.
+Egy olyan middleware-t csinálunk, ami ezeknek az oldalaknak a látogatóit, ha nincsenek
+belépve, belépteti.
+
+{% highlight javascript %}
+app.get('/profil', belepve, function(req, res) {
+  res.send('Szia, ' + req.user.displayName);
+});
+{% endhighlight %}
+
+A Passport biztosít egy beléptetős middleware-t, de figyelnünk kell rá, hogy csak egyszer
+léptessük be a felhasználót. (Különben a Facebook egy hibaüzenetet küld.) Ezért a saját
+middleware-ünkben csak akkor hívjuk meg a Passport middleware függvényét
+(`passport.authenticate('facebook')`), ha még nincs belépve a látogató.
+
+{% highlight javascript %}
+function belepve(req, res, next) {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    req.session.eredeti = req.path;
+    passport.authenticate('facebook')(req, res, next);
+  }
+}
+{% endhighlight %}
+
+A Passport middleware át fogja irányítani a Facebook szerverére, ami visszairányítja hozzánk,
+a megadott címre (`/facebooktol`). Innen vissza szeretnénk irányítani az eredeti oldalra
+(`/profil`). Ehhez a sessionben eltároljuk az eredeti oldal címét.
+
+Amikor a Facebooktól visszaérkezik a látogató, szükség van a Passport middleware-re
+(most tárolja el a sessionbe a felhasználói adatokat). És el kell végezzük az átirányítást
+az eredeti oldal címére.
+
+{% highlight javascript %}
+app.get('/facebooktol', passport.authenticate('facebook'), function(req, res) {
+  res.redirect(req.session.eredeti);
+});
+{% endhighlight %}
+
+## Babák és szülők
+
 
