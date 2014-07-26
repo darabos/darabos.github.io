@@ -16,7 +16,8 @@ a másik kilencvenkilencbe is be tudtak lépni a nevünkbne.
 
 Ma kicsit jobb a helyzet, mert sok helyen Facebook, Twitter vagy Google felhasználónkkal tudunk
 belépni. A felhasználónak könnyebb, gyorsabb, biztonságosabb, és nekünk sem kell saját felhasználói
-azonosító rendszert fejlesztenünk. A Facebookos belépés a legelterjedtebb, úgyhogy én is ezt választom.
+azonosító rendszert fejlesztenünk. A [Facebookos belépés](https://developers.facebook.com/products/login/)
+a legelterjedtebb, úgyhogy én is ezt választom.
 
 Hogy ezt be tudjuk üzemelni, meg kell ismernünk néhány technikát először.
 
@@ -138,7 +139,8 @@ könnyen dekódolhatjuk.
 
 Az `express:sess.sig` cookie a hozzá tartozó aláírás. A szerverünk aláírja az `express:sess` cookie tartalmát
 a megadott titkos kulccsal (a `secret` paraméter). Ha ez nem egyezik meg az `express:sess.sig` cookie tartalmával,
-akkor érvénytelen a session.
+akkor érvénytelen a session. (Ezekkel a cookie-kkal nincs mit tennünk gyakorlatban. Csak a jobb megértés
+érdekében írtam le a működésüket.)
 
 Így most már ha egy felhasználóról egyszer megtudjuk, hogy kicsoda, onnantól a sessionben biztonságosan meg
 tudjuk őrizni ezt az adatot, és nem kell minden oldalon újra és újra beléptetnünk.
@@ -146,4 +148,64 @@ Már csak azt kell megoldanunk, hogy egyszer megtudjuk, kicsoda a felhasználó.
 
 ## Facebook
 
+Hogy a felhasználók Facebookkal be tudjanak hozzánk lépni, be kell regisztrálni a weboldalunkat
+a https://developers.facebook.com/apps/ oldalon. Megkérdezi, hogy milyen felhasználói adatokhoz akarunk
+hozzáférni. Semmilyenhez. Végül kapunk egy alkalmazás azonosítót (_App ID_) és egy jelszót (_App Secret_).
+Erre a kettőre lesz szükség a felhasználók azonosításához.
+
+A `passport` nevű modult használjuk. Ez nem csak a Facebookos belépést teszi könnyűvé, de Google, Twitter és
+minden más accountot is támogat. Mindegyik nagyjából ugyanúgy működik. A Passport a felhasználó identitását
+a sessionben teszi elérhetővé, ezért a `cookie-session` modullal együtt kell használnunk.
+
+{% highlight javascript %}
+var session = require('cookie-session');
+var passport = require('passport')
+var titok = process.env.TITOK;
+app.use(session({ secret: titok }));
+app.use(passport.initialize());
+app.use(passport.session());
+{% endhighlight %}
+
+A Facebooktól kapott titkot semmiképp se tedd a program kódjába. Egyszerű megoldás inkább egy környezeti
+változóban tartani. A változót pedig így lehet beállítani:
+
+    heroku config:set TITOK=01234567890123456789
+
+Facebookos beállítások:
+
+{% highlight javascript %}
+var facebook = require('passport-facebook');
+passport.use(new facebook.Strategy(
+  {
+    clientID: '312500572251092',
+    clientSecret: titok,
+    callbackURL: 'http://frozen-plains-6587.herokuapp.com/facebooktol',
+  },
+  function(accessToken, refreshToken, profile, done) {
+    done(null, profile);
+  }
+));
+{% endhighlight %}
+
+A `clientID` és a `clientSecret` a Facebookos alkalmazás azonosítója és jelszava.
+A `callbackURL` az a cím, ahova szeretnénk, hogy a Facebook visszairányítsa a látogatót.
+A megadott függvény a Facebooktól kapott felhasználói profilt saját rendszerünk felhasználói
+profiljává alakítja. Itt tehetnénk be a felhasználót a saját adatbázisunkba. De egyelőre
+nem tárolunk magunk semmit, csak átvesszük a Facebook profilt.
+
+Meg kell adnunk azt is, hogy a felhasználót hogyan mentse a Passport a sessionbe, és
+onnan hogyan töltse vissza.
+
+{% highlight javascript %}
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+{% endhighlight %}
+
+Itt is a lehető legegyszerűbb megoldással élünk, a felhasználói profilt ahogy van betesszük
+a sessionbe. Így könnyű kivenni is. (Megtehetnénk, hogy csak egy azonosítót
+tárolunk a sessionben, és az adatbázisunkból vesszük a részleteket.)
 
