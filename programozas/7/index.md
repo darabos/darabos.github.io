@@ -66,16 +66,23 @@ módosítania a cookie tartalmát (`felhasználó = rendszergazda`).
 A `cookie-parser` modullal könnyen beállíthatunk és kiolvashatunk cookie-kat:
 
 {% highlight javascript %}
-cookieParser = require('cookie-parser');
+var cookieParser = require('cookie-parser');
 app.use(cookieParser());
-app.get('/belep/:felhasznalo', function(req, res) {
+app.get('/belepes/:felhasznalo', function(req, res) {
   res.cookie('felhasznalo', req.params.felhasznalo);
   res.redirect('/valami');
 });
 app.get('/valami', function(req, res) {
-  console.log('felhasználó:', req.cookies.felhasznalo);
+  res.send('felhasználó: ' + req.cookies.felhasznalo);
 });
 {% endhighlight %}
+
+Amikor a felhasználó megnyitja a `/belepes/bela` oldalt, a szervertől válaszul egy weboldal helyett két
+utasítást kap: tárolja el, hogy `felhasznalo=bela`, és menjen a `/valami` oldalra. Ezeket az utasításokat
+a böngészők automatikusan végrehajtják. De a felhasználó nagyon könnyen küldhet módosított cookie-kat is,
+például ezzel a paranccsal:
+
+    curl -b felhasznalo=superman http://localhost:8000/valami
 
 ## Session
 
@@ -84,3 +91,59 @@ A cookie meghamisításának problémáját oldja meg a _session_. A felhasznál
 tárolunk cookie-ban, és megoldjuk, hogy ezt ne igazán lehessen meghamisítani. A session cookie védelmére
 az a megoldás, hogy egy nagyon nagyon nagy véletlen számot választunk azonosítónak. Ha valaki meg akarna
 tippelni egy érvényes azonosítót, egymillió évig tippelgethetne, míg találna egy érvényeset.
+
+Hasonló, de bonyolultabb kriptográfiai eszközökkel elérhető, hogy egy cookie tartalmát se lehessen meghamisítani.
+Ez lehetővé teszi, hogy a sessionhöz tartozó adatokat mégis egy cookie-ban tároljuk el.
+
+Az Expressben az `express-session` modul biztosítja a sessionök kezelését.
+Külön kell hozzá választanunk egy "session store"-t, ami valamilyen adatbázisban tárolja a session adatokat.
+Létezik egy PostgreSQL session store (`postgres-session`), de négy éve nem nyúlt hozzá senki, így nem biztos,
+hogy működik a többi modul friss változatával.
+
+`express-session` helyett használjuk inkább a `cookie-session` modult, ami egy cookie-ban tárolja digitálisan
+aláírva a session adatokat.
+
+{% highlight javascript %}
+var session = require('cookie-session');
+app.use(session({ secret: 'titok' }));
+app.get('/belepes/:felhasznalo', function(req, res) {
+  req.session.felhasznalo = req.params.felhasznalo;
+  res.redirect('/valami');
+});
+app.get('/valami', function(req, res) {
+  res.send('felhasználó: ' + req.session.felhasznalo);
+});
+{% endhighlight %}
+
+Ez nagyon hasonlít az előző cookie-s példához. Mivel a `cookie-session` modult használjuk `express-session`
+helyett, még abban is megegyzetnek, hogy mindkét esetben egy cookie-ban, a felhasználó böngészőjében
+tároljuk el a felhasználó azonosítóját. Az a különbség, hogy most az azonosítót digitálisan aláírva tároljuk,
+így a `/valami` kezelőjében biztosak lehetünk benne, hogy az van a cookie-ban, amit a `/belepes` kezelőjében
+a sessionhöz rendeltünk.
+
+A legtöbb böngészőben meg lehet nézni, hogy milyen headert küldtünk és milyet kaptunk egy webszervertől.
+(Chrome-ban ezt a _Developer Tools_ _Network_ fülén találjuk, ha ráklikkelünk egy kérésre.)
+A kapott header most így néz ki:
+
+    Set-Cookie:express:sess=eyJmZWxoYXN6bmFsbyI6ImRhbmkifQ==; path=/; httponly
+    Set-Cookie:express:sess.sig=kz4b2OFYVR1VJMA_2B8DdCTmfJY; path=/; httponly
+
+Az `express:sess` cookie tárolja a session adatokat _base-64_ kódolásban. Ezt a böngésző Javascript konzoljában
+könnyen dekódolhatjuk.
+
+{% highlight javascript %}
+> atob('eyJmZWxoYXN6bmFsbyI6ImRhbmkifQ==')
+'{"felhasznalo":"dani"}'
+{% endhighlight %}
+
+Az `express:sess.sig` cookie a hozzá tartozó aláírás. A szerverünk aláírja az `express:sess` cookie tartalmát
+a megadott titkos kulccsal (a `secret` paraméter). Ha ez nem egyezik meg az `express:sess.sig` cookie tartalmával,
+akkor érvénytelen a session.
+
+Így most már ha egy felhasználóról egyszer megtudjuk, hogy kicsoda, onnantól a sessionben biztonságosan meg
+tudjuk őrizni ezt az adatot, és nem kell minden oldalon újra és újra beléptetnünk.
+Már csak azt kell megoldanunk, hogy egyszer megtudjuk, kicsoda a felhasználó.
+
+## Facebook
+
+
