@@ -123,6 +123,11 @@ a naplókat. Itt jó esetben láthatunk valamit, de magunk is írhatunk a napló
 {% endhighlight %}
 
 Ha sikerül minden hibát elhárítani, az adataink biztonságban vannak.
-Annyi gond van csak, hogy bárki felvihet adatokat bármelyik babához.
+A programunk _skálázhatóbb_ is lett. Most futtathatunk több gépen egy-egy webszervert, és ugyanazokat az adatokat
+fogják látni, mert ugyanabból az adatbázisból olvassák őket. Így működik minden megbízható weboldal. Egy "load balancing"
+rendszer elosztja a beérkező kéréseket a webszerverek között, és mindegy melyikhez megy, ugyanúgy tudnak válaszolni.
+És ha egy gép meghibásodik, a többi gép még mindig elég, hogy kiszolgálja a látogatókat.
+
+Annyi gond van csak a mostani programunkkal, hogy bárki felvihet adatokat bármelyik babához.
 Mielőtt népszerűsíteni kezdjük az oldalt, meg kell tanuljuk, [hogyan tudunk felhasználókat azonosítani](../7).
 Erről szól a következő lecke.
