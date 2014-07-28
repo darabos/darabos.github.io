@@ -304,6 +304,20 @@ app.get('/facebooktol', passport.authenticate('facebook'), function(req, res) {
 });
 {% endhighlight %}
 
+Ezzel kész a beléptetős middleware. Nincs több akadálya, hogy a babákat csak szüleik számára
+tegyük elérhetővé.
+
 ## Babák és szülők
+
+Mit szeretnénk elérni?
+
+ - Legyen egy főoldal (`/`). Belépés előtt marketing szöveg, belépés után a felhasználó babáinak
+   listája van rajta. Itt lehet új babanaplót is létrehozni.
+ - Egy baba oldalát (`/baba/azonosító`) csak belépés után lehet elérni és csak a szülőnek.
+
+Kelleni fog egy babákat leíró adatbázis tábla. Az `adatok` táblával megegyező módon hozzuk létre
+a `babak` táblát:
+
+    CREATE TABLE babak (azonosito TEXT, nev TEXT, szulo TEXT)
 
 
