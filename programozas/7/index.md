@@ -167,11 +167,13 @@ app.use(passport.session());
 {% endhighlight %}
 
 A Facebooktól kapott titkot semmiképp se tedd a program kódjába. Egyszerű megoldás inkább egy környezeti
-változóban tartani. A változót pedig így lehet beállítani:
+változóban tartani. A változót pedig így lehet beállítani Herokun:
 
     heroku config:set TITOK=01234567890123456789
 
-Facebookos beállítások:
+Ezt csak egyszer kell beállítani.
+
+A Passport Facebookos beállításai:
 
 {% highlight javascript %}
 var facebook = require('passport-facebook');
@@ -311,13 +313,54 @@ tegyük elérhetővé.
 
 Mit szeretnénk elérni?
 
- - Legyen egy főoldal (`/`). Belépés előtt marketing szöveg, belépés után a felhasználó babáinak
+ - Legyen egy főoldal (`/`). Belépés előtt bemutatkozó szöveg, belépés után a felhasználó babáinak
    listája van rajta. Itt lehet új babanaplót is létrehozni.
- - Egy baba oldalát (`/baba/azonosító`) csak belépés után lehet elérni és csak a szülőnek.
+ - Egy baba oldalához (`/baba/azonosító`) csak a szülő férhet hozzá.
 
 Kelleni fog egy babákat leíró adatbázis tábla. Az `adatok` táblával megegyező módon hozzuk létre
 a `babak` táblát:
 
     CREATE TABLE babak (azonosito TEXT, nev TEXT, szulo TEXT)
 
+Ebből a táblából ki tudjuk listázni a felhasználó babáit. Mivel már másodszor akarjuk elérni egy
+SQL lekérdezés összes eredményét, írjunk rá egy kényelmes függvényt.
+
+{% highlight javascript %}
+function sql(utana, lekerdezes, p1, p2, p3, p4) {
+  var query = client.query(lekerdezes, p1, p2, p3, p4);
+  var sorok = [];
+  query.on('row', function(sor) {
+    sorok.push(sor);
+  });
+  query.on('end', function() {
+    utana(sorok);
+  });
+}
+function babak(szulo, utana) {
+  sql(utana, 'SELECT azonosito, nev FROM babak WHERE szulo = $1 ORDER BY nev', szulo);
+}
+{% endhighlight %}
+
+Kétféle template-et kell megírnunk a főoldalhoz. Esztétikai igény nélküli kis vázlatban a
+`bemutatkozo.hjs`:
+
+{% highlight html %}
+Vezess te is babasúlynaplót!
+<... login gomb ...>
+{% endhighlight %}
+
+A [Facebook Login Gomb](https://developers.facebook.com/docs/plugins/login-button) oldalról ide másolhatod
+a gomb ízlés szerint beállított kódját.
+
+{% highlight javascript %}
+app.get('/', function(req, res) {
+  if (req.isAuthenticated()) {
+    babak(req.user.id, function(babak) {
+      res.render('babak.hjs', { szulo: req.user.id, nev: req.user.displayName, babak: babak });
+    });
+  } else {
+    res.render('bemutatkozo.hjs');
+  }
+});
+{% endhighlight %}
 

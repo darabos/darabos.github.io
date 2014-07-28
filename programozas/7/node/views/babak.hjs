@@ -1,0 +1,32 @@
+<p class="lead">Babák:</p>
+<div class="list-group">
+  {{#babak}}
+  <a href="/baba/{{azonosito}}" class="list-group-item">{{nev}}</a>
+  {{/babak}}
+  <form class="list-group-item form-inline" id="ujbaba">
+    <div class="form-group">
+      <div class="input-group">
+        <input placeholder="Új baba" class="form-control" id="nev">
+        <span class="input-group-btn">
+          <button type="submit" class="btn btn-primary">&#x25b6;</button>
+        </span>
+      </div>
+    </div>
+  </form>
+</ul>
+<script>
+var ujbaba = document.getElementById('ujbaba');
+ujbaba.onsubmit = function() {
+  var nev = document.getElementById('nev').value;
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/ujbaba');
+  var adat = { nev: nev };
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.addEventListener('loadend', function() {
+    var res = JSON.parse(xhr.response);
+    window.location = res.redirect;
+  });
+  xhr.send(JSON.stringify(adat));
+  return false;
+}
+</script>
