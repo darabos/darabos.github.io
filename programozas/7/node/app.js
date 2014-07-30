@@ -36,8 +36,9 @@ function query(q, ps, cb) {
       done();
       if (err) {
         return console.error(q, 'nem sikerult:', err);
+      } else if (cb) {
+        cb(res);
       }
-      cb(res);
     });
   });
 }
