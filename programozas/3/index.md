@@ -96,16 +96,18 @@ Gyorsan elmagyarázok pár dolgot az ilyen programokkal kapcsolatban. Ezek a leg
 
   Javascriptben a függvényeket is lehet változókba tenni.
   Például `var f = duplaz`, és aztán `var z = f(3)` eredményeként `z` értéke 6 lesz.
-  Ezt alaposan ki fogjuk használni. Olyannyira, hogy előfordul, hogy nem is akarunk igazán nevet adni a függvénynek,
-  csak be akarjuk tenni egy változóba. (Persze a változónak adunk nevet.) Ez így néz ki:
+  Ezt alaposan ki fogjuk használni.
+
+  Gyakori helyzet, hogy meg akarjuk mondani, mi történjen egy esemény hatására. Például mi legyen, amikor ráklikkelnek
+  egy gombra. Ilyenkor egy _név nélküli_ függvényt használhatunk:
 
   ~~~ javascript
-  var f = function(x) {
-    return x * 3;
-  };
+  gomb.onclick = function() { alert('Megnyomtak!'); };
+  gomb.addEventListener('click', function() { alert('Megnyomtak!'); });
   ~~~
 
-  Ebben a helyzetben nincs nagy különbség a két megoldás között.
+  Mindkét sor működik. Az első sor példa arra, hogy függvényeket változókba is tehetünk. A második sor példa rá,
+  hogy egy függvény lehet egy másik függvény paramétere. Az ilyen függvényt _callback_-nek is nevezzük.
 
 - **Az objektumok** komplex értékek. Egy szám az egy szám, de egy weboldal már egy sokkal bonyolultabb objektum.
   De objektumokat is ugyanúgy betehetünk változókba, mint számokat. Például:

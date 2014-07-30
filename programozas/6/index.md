@@ -52,6 +52,11 @@ Az SQL parancsot a parancssorról vesszük. Ez a `process.argv[2]`.
 Ha a `node sql.js "CREATE TABLE"` sorral futtatjuk a programot, a `process.argv` lista
 három eleme `'node'`, `'sql.js'` és `'CREATE TABLE'` lesz.
 
+> A program folyása most elég összetett. A `pg.connect` és a `client.query` függvények is egy-egy
+callback függvényt vesznek paraméterül. Az egyik callback egy másik callbacket (`done`) kap paraméteréül.
+Ez tipikus a Node.js-ben, és a célja az, hogy a kód sehol se álljon meg. A `client.query` lekérdezés
+tarthat sokáig, de a programunk közben csinálhat mást, nem ragad meg egy sorban amíg vár.
+
 Egy új modulra is szükség van (`pg`). Ezt is tedd a `package.json`-ba és futtass `npm install`-t.
 A porthoz hasonlóan az adatbázis címében is arra hagyatkozunk, hogy a Heroku beállítja majd a
 `DATABASE_URL` környezeti változót. A `pg.connect` paranccsal kérünk egy adatbázis klienst.

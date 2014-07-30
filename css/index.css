@@ -4,3 +4,22 @@ iframe {
   border: 1px solid lightgrey;
   margin-bottom: 10px;
 }
+
+blockquote {
+  width: 40%;
+  padding: 0.5em;
+  padding-left: 1em;
+  margin-top: -0.5em;
+  margin-left: 0.5em;
+  border-radius: 5px;
+  background: lightyellow;
+  float: right;
+  border: 0;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+blockquote code {
+  background: transparent;
+  padding: 0;
+}
