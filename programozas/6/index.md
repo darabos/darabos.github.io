@@ -97,7 +97,11 @@ Mentéskor az `INSERT INTO` parancsot futtatjuk le:
 app.post('/mentes', function(req, res) {
   var uj = req.body;
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    var query = client.query('INSERT INTO adatok VALUES ($1, $2, $3)', [uj.azonosito, uj.datum, uj.suly], function() { done(); });
+    var query = client.query(
+      'INSERT INTO adatok VALUES ($1, $2, $3)',
+      [uj.azonosito, uj.datum, uj.suly],
+      function() { done(); }
+    );
   });
 });
 {% endhighlight %}
