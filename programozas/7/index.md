@@ -354,7 +354,8 @@ Vezess te is babasúlynaplót!
 
 A `babak.hjs` a `baba.hjs`-hez hasonlít. Kilistázza a babákat és van egy beviteli mező,
 amivel új babát adhatunk a listához. A `baba.hjs`-től eltérően most az `XMLHttpRequest`re
-választ is várunk. Így kapjuk meg az új baba oldalának címét.
+választ is várunk. (Ez a `loadend` eseménykezelő.) Így kapjuk meg az új baba oldalának címét.
+A `window.location` a böngésző címsorának tartalma, ezt átírva átlépünk az új baba oldalára.
 
 {% highlight html %}
 <p class="lead">Babák:</p>
