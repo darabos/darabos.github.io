@@ -117,7 +117,7 @@ app.get('/valami', function(req, res) {
 {% endhighlight %}
 
 Ez nagyon hasonlít az előző cookie-s példához. Mivel a `cookie-session` modult használjuk `express-session`
-helyett, még abban is megegyzetnek, hogy mindkét esetben egy cookie-ban, a felhasználó böngészőjében
+helyett, még abban is megegyzenek, hogy mindkét esetben egy cookie-ban, a felhasználó böngészőjében
 tároljuk el a felhasználó azonosítóját. Az a különbség, hogy most az azonosítót digitálisan aláírva tároljuk,
 így a `/valami` kezelőjében biztosak lehetünk benne, hogy az van a cookie-ban, amit a `/belepes` kezelőjében
 a sessionhöz rendeltünk.
@@ -149,8 +149,9 @@ Már csak azt kell megoldanunk, hogy egyszer megtudjuk, kicsoda a felhasználó.
 ## Facebook
 
 Hogy a felhasználók Facebookkal be tudjanak hozzánk lépni, be kell regisztrálni a weboldalunkat
-a https://developers.facebook.com/apps/ oldalon. Megkérdezi, hogy milyen felhasználói adatokhoz akarunk
-hozzáférni. Semmilyenhez. Végül kapunk egy alkalmazás azonosítót (_App ID_) és egy jelszót (_App Secret_).
+a [https://developers.facebook.com/apps/](https://developers.facebook.com/apps/) oldalon.
+Megkérdezi, hogy milyen felhasználói adatokhoz akarunk hozzáférni. Semmilyenhez.
+Végül kapunk egy alkalmazás azonosítót (_App ID_) és egy jelszót (_App Secret_).
 Erre a kettőre lesz szükség a felhasználók azonosításához.
 
 A `passport` nevű modult használjuk. Ez nem csak a Facebookos belépést teszi könnyűvé, de Google, Twitter és
@@ -292,7 +293,7 @@ function belepve(req, res, next) {
 }
 {% endhighlight %}
 
-A Passport middleware át fogja irányítani a Facebook szerverére, ami visszairányítja hozzánk,
+A Passport middleware át fogja irányítani a látogatót a Facebook szerverére, ami visszairányítja hozzánk,
 a megadott címre (`/facebooktol`). Innen vissza szeretnénk irányítani az eredeti oldalra
 (`/profil`). Ehhez a sessionben eltároljuk az eredeti oldal címét.
 
@@ -322,41 +323,21 @@ a `babak` táblát:
 
     CREATE TABLE babak (azonosito TEXT, nev TEXT, szulo TEXT)
 
-Ebből a táblából ki tudjuk listázni a felhasználó babáit. Mivel már másodszor akarjuk elérni egy
-SQL lekérdezés összes eredményét, írjunk rá egy kényelmes függvényt.
+Ebből a táblából ki tudjuk listázni a felhasználó babáit.
 
 {% highlight javascript %}
-function sql(utana, lekerdezes, p1, p2, p3, p4) {
-  var query = client.query(lekerdezes, p1, p2, p3, p4);
-  var sorok = [];
-  query.on('row', function(sor) {
-    sorok.push(sor);
-  });
-  query.on('end', function() {
-    utana(sorok);
-  });
-}
 function babak(szulo, utana) {
-  sql(utana, 'SELECT azonosito, nev FROM babak WHERE szulo = $1 ORDER BY nev', szulo);
+  query(
+    'SELECT azonosito, nev FROM babak WHERE szulo = $1 ORDER BY nev',
+    [szulo],
+    utana
+  );
 }
-{% endhighlight %}
 
-Kétféle template-et kell megírnunk a főoldalhoz. Esztétikai igény nélküli kis vázlatban a
-`bemutatkozo.hjs`:
-
-{% highlight html %}
-Vezess te is babasúlynaplót!
-<... login gomb ...>
-{% endhighlight %}
-
-A [Facebook Login Gomb](https://developers.facebook.com/docs/plugins/login-button) oldalról ide másolhatod
-a gomb ízlés szerint beállított kódját.
-
-{% highlight javascript %}
 app.get('/', function(req, res) {
   if (req.isAuthenticated()) {
     babak(req.user.id, function(babak) {
-      res.render('babak.hjs', { szulo: req.user.id, nev: req.user.displayName, babak: babak });
+      res.render('babak.hjs', { babak: babak });
     });
   } else {
     res.render('bemutatkozo.hjs');
@@ -364,3 +345,116 @@ app.get('/', function(req, res) {
 });
 {% endhighlight %}
 
+A kétféle template-ből a `bemutatkozo.hjs` az egyszerűbb. Esztétikai igény nélküli kis vázlatban:
+
+{% highlight html %}
+Vezess te is babasúlynaplót!
+<a href="/belepes" class="btn btn-primary">Kezdjük el!</a>
+{% endhighlight %}
+
+A `babak.hjs` a `baba.hjs`-hez hasonlít. Kilistázza a babákat és van egy beviteli mező,
+amivel új babát adhatunk a listához. A `baba.hjs`-től eltérően most az `XMLHttpRequest`re
+választ is várunk. Így kapjuk meg az új baba oldalának címét.
+
+{% highlight html %}
+<p class="lead">Babák:</p>
+<div class="list-group">
+  {{#babak}}
+  <a href="/baba/{{azonosito}}" class="list-group-item">{{nev}}</a>
+  {{/babak}}
+  <form class="list-group-item form-inline" id="ujbaba">
+    <div class="form-group">
+      <div class="input-group">
+        <input placeholder="Új baba" class="form-control" id="nev">
+        <span class="input-group-btn">
+          <button type="submit" class="btn btn-primary">&#x25b6;</button>
+        </span>
+      </div>
+    </div>
+  </form>
+</ul>
+<script>
+var ujbaba = document.getElementById('ujbaba');
+ujbaba.onsubmit = function() {
+  var nev = document.getElementById('nev').value;
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/ujbaba');
+  var adat = { nev: nev };
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.addEventListener('loadend', function() {
+    var res = JSON.parse(xhr.response);
+    window.location = res.redirect;
+  });
+  xhr.send(JSON.stringify(adat));
+  return false;
+}
+</script>
+{% endhighlight %}
+
+A szerveroldalon pedig így néz ki a `/belepes`, `/kilepes` és `/ujbaba` kódja:
+
+{% highlight javascript %}
+app.get('/belepes', belepve, function(req, res) {
+  res.redirect('/');
+});
+app.get('/kilepes', function(req, res) {
+  req.session = null;
+  res.redirect('/');
+});
+app.post('/ujbaba', belepve, function(req, res) {
+  var uj = req.body;
+  var azonosito = req.user.id + '-' + uj.nev.replace(/\W/g, '-');
+  query(
+    'INSERT INTO babak VALUES ($1, $2, $3)',
+    [azonosito, uj.nev, req.user.id],
+    function() {
+      res.send(JSON.stringify({ redirect: '/baba/' + azonosito }));
+    }
+  );
+});
+{% endhighlight %}
+
+Az új baba azonosítóját a szülő azonosítójából és a baba nevéből kombináljuk.
+A `replace(/\W/g, '-')` függvény a névben a nem-betű karaktereket (például a szóközt) `-`-ra cseréli,
+hogy az azonosító jobban nézzen ki a böngésző címsorában.
+
+A baba oldalához most már le tudjuk kérdezni a baba nevét is. Írjunk egy `baba()` függvényt,
+ami két lekérdezést futtat le. Miután megvan a baba neve és a szülő azonosítója, lekérdezzük a
+mérési eredményeket is. Miután ez is megvan, felhasználhatjuk az adatokat.
+
+{% highlight javascript %}
+function baba(azonosito, utana) {
+  query(
+    'SELECT nev, szulo FROM babak WHERE azonosito = $1',
+    [azonosito],
+    function(babak) {
+      query(
+        'SELECT datum, suly FROM adatok WHERE azonosito = $1 ORDER BY datum DESC',
+        [azonosito],
+        function(adatok) {
+          utana(babak[0], adatok);
+        }
+      );
+    }
+  );
+}
+{% endhighlight %}
+
+A baba oldalán a fő változás, hogy most ellenőrizzük, hogy a látogató a babához tartozó szülő-e.
+Ha nem, visszairányítjuk a főoldalra.
+
+{% highlight javascript %}
+app.get('/baba/:azonosito', belepve, function(req, res) {
+  baba(req.params.azonosito, function(baba, meresek) {
+    if (baba.szulo != req.user.id) {
+      res.redirect('/');
+    } else {
+      render(res, 'baba.hjs', {
+        azonosito: req.params.azonosito,
+        neve: baba.nev,
+        meresek: meresek
+      });
+    }
+  });
+});
+{% endhighlight %}

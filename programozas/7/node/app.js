@@ -37,7 +37,7 @@ function query(q, ps, cb) {
       if (err) {
         return console.error(q, 'nem sikerult:', err);
       } else if (cb) {
-        cb(res);
+        cb(res.rows);
       }
     });
   });
@@ -56,22 +56,20 @@ function babak(szulo, utana) {
   query(
     'SELECT azonosito, nev FROM babak WHERE szulo = $1 ORDER BY nev',
     [szulo],
-    function(babak) {
-      utana(babak.rows)
-    }
+    utana
   );
 }
 
 function baba(azonosito, utana) {
   query(
-    'SELECT nev FROM babak WHERE azonosito = $1',
+    'SELECT nev, szulo FROM babak WHERE azonosito = $1',
     [azonosito],
     function(babak) {
       query(
         'SELECT datum, suly FROM adatok WHERE azonosito = $1 ORDER BY datum DESC',
         [azonosito],
         function(adatok) {
-          utana(babak.rows[0], adatok.rows);
+          utana(babak[0], adatok);
         }
       );
     }
@@ -111,13 +109,17 @@ app.get('/facebooktol', passport.authenticate('facebook'), function(req, res) {
 
 app.get('/baba/:azonosito', belepve, function(req, res) {
   baba(req.params.azonosito, function(baba, meresek) {
-    render(res, 'baba.hjs', {
-      title: baba.nev + 'a Babaversenyen',
-      szulo: req.user.displayName,
-      azonosito: req.params.azonosito,
-      neve: baba.nev,
-      meresek: meresek
-    });
+    if (baba.szulo != req.user.id) {
+      res.redirect('/');
+    } else {
+      render(res, 'baba.hjs', {
+        title: baba.nev + 'a Babaversenyen',
+        szulo: req.user.displayName,
+        azonosito: req.params.azonosito,
+        neve: baba.nev,
+        meresek: meresek
+      });
+    }
   });
 });
 
@@ -129,9 +131,14 @@ app.post('/mentes', belepve, function(req, res) {
 
 app.post('/ujbaba', belepve, function(req, res) {
   var uj = req.body;
-  var azonosito = req.user.id + '-' + uj.nev.replace(/\W/g, '');
-  query('INSERT INTO babak VALUES ($1, $2, $3)', [azonosito, uj.nev, req.user.id]);
-  res.send(JSON.stringify({ redirect: '/baba/' + azonosito }));
+  var azonosito = req.user.id + '-' + uj.nev.replace(/\W/g, '-');
+  query(
+    'INSERT INTO babak VALUES ($1, $2, $3)',
+    [azonosito, uj.nev, req.user.id],
+    function() {
+      res.send(JSON.stringify({ redirect: '/baba/' + azonosito }));
+    }
+  );
 });
 
 app.use(express.static(__dirname + '/public'));
