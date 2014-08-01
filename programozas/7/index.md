@@ -459,3 +459,10 @@ app.get('/baba/:azonosito', belepve, function(req, res) {
   });
 });
 {% endhighlight %}
+
+Elkészültünk az alapokkal. Most már nyugodt szívvel fogadhatnánk látogatókat. Egy egyedi
+domainnév regisztrációjával évi párezer Forintért teljessé tehetjük a profi hatást.
+(Ezt nem mutatom be, mert semmi nehéz nincs benne.)
+
+A következő leckékben csak annyi dolgunk van, hogy még hasznosabbá tegyük az oldalt.
+[Kezdjük egy grafikon hozzáadásával!](../8)

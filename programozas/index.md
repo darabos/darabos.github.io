@@ -20,10 +20,11 @@ Nincs benne semmi nehéz, de sok különböző technikába kell belekóstolni eg
 A leírás az alapoktól kezdődik és remélhetőleg könnyen emészthető.
 
 1. [Fájlok kezelése](1)
-1. [HTML és CSS](2)
-1. [Javascript](3)
-1. [Webszerver](4)
-1. [Heroku](5)
-1. [Adatbázis](6)
-1. [Felhasználók](7)
-1. _Még írom a többi részt, és a fentiek sincsenek kész..._
+2. [HTML és CSS](2)
+3. [Javascript](3)
+4. [Webszerver](4)
+5. [Heroku](5)
+6. [Adatbázis](6)
+7. [Felhasználók](7)
+8. [Grafikonok](8)
+0. _Még írom a többi részt, és a fentiek sincsenek kész..._
