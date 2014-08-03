@@ -327,7 +327,7 @@ Ebből a táblából ki tudjuk listázni a felhasználó babáit.
 
 {% highlight javascript %}
 function babak(szulo, utana) {
-  query(
+  adatbazis(
     'SELECT azonosito, nev FROM babak WHERE szulo = $1 ORDER BY nev',
     [szulo],
     utana
@@ -405,7 +405,7 @@ app.get('/kilepes', function(req, res) {
 app.post('/ujbaba', belepve, function(req, res) {
   var uj = req.body;
   var azonosito = req.user.id + '-' + uj.nev.replace(/\W/g, '-');
-  query(
+  adatbazis(
     'INSERT INTO babak VALUES ($1, $2, $3)',
     [azonosito, uj.nev, req.user.id],
     function() {
@@ -425,11 +425,11 @@ mérési eredményeket is. Miután ez is megvan, felhasználhatjuk az adatokat.
 
 {% highlight javascript %}
 function baba(azonosito, utana) {
-  query(
+  adatbazis(
     'SELECT nev, szulo FROM babak WHERE azonosito = $1',
     [azonosito],
     function(babak) {
-      query(
+      adatbazis(
         'SELECT datum, suly FROM adatok WHERE azonosito = $1 ORDER BY datum DESC',
         [azonosito],
         function(adatok) {

@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.json());
 
-function query(q, ps, cb) {
+function adatbazis(q, ps, cb) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     if (err) {
       return console.error('db kliens:', err);
@@ -21,7 +21,7 @@ function query(q, ps, cb) {
 }
 
 app.get('/baba/:azonosito', function(req, res) {
-  query(
+  adatbazis(
     'SELECT datum, suly FROM adatok WHERE azonosito = $1 ORDER BY datum DESC',
     [req.params.azonosito],
     function(meresek) {
@@ -35,7 +35,7 @@ app.get('/baba/:azonosito', function(req, res) {
 
 app.post('/mentes', function(req, res) {
   var uj = req.body;
-  query('INSERT INTO adatok VALUES ($1, $2, $3)', [uj.azonosito, uj.datum, uj.suly]);
+  adatbazis('INSERT INTO adatok VALUES ($1, $2, $3)', [uj.azonosito, uj.datum, uj.suly]);
 });
 
 app.use(express.static(__dirname + '/public'));

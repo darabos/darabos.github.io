@@ -27,7 +27,7 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-function query(q, ps, cb) {
+function adatbazis(q, ps, cb) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     if (err) {
       return console.error('db kliens:', err);
@@ -53,7 +53,7 @@ function belepve(req, res, next) {
 }
 
 function babak(szulo, utana) {
-  query(
+  adatbazis(
     'SELECT azonosito, nev FROM babak WHERE szulo = $1 ORDER BY nev',
     [szulo],
     utana
@@ -61,11 +61,11 @@ function babak(szulo, utana) {
 }
 
 function baba(azonosito, utana) {
-  query(
+  adatbazis(
     'SELECT nev, szulo FROM babak WHERE azonosito = $1',
     [azonosito],
     function(babak) {
-      query(
+      adatbazis(
         'SELECT datum, suly FROM adatok WHERE azonosito = $1 ORDER BY datum DESC',
         [azonosito],
         function(adatok) {
@@ -125,14 +125,14 @@ app.get('/baba/:azonosito', belepve, function(req, res) {
 
 app.post('/mentes', belepve, function(req, res) {
   var uj = req.body;
-  query('INSERT INTO adatok VALUES ($1, $2, $3)', [uj.azonosito, uj.datum, uj.suly]);
+  adatbazis('INSERT INTO adatok VALUES ($1, $2, $3)', [uj.azonosito, uj.datum, uj.suly]);
   res.send('ok');
 });
 
 app.post('/ujbaba', belepve, function(req, res) {
   var uj = req.body;
   var azonosito = req.user.id + '-' + uj.nev.replace(/\W/g, '-');
-  query(
+  adatbazis(
     'INSERT INTO babak VALUES ($1, $2, $3)',
     [azonosito, uj.nev, req.user.id],
     function() {

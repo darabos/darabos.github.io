@@ -139,7 +139,7 @@ a naplókat. Itt jó esetben láthatunk valamit, de magunk is írhatunk a napló
 Írjunk is egy függvényt, ami gondoskodik a kliens kikéréséről és visszaadásáról, és naplózza az SQL hibákat:
 
 {% highlight javascript %}
-function query(q, ps, cb) {
+function adatbazis(q, ps, cb) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     if (err) {
       return console.error('db kliens:', err);
@@ -161,11 +161,11 @@ Ezzel valamivel takarosabb lesz az `INSERT` és `SELECT` parancsok futtatása:
 {% highlight javascript %}
 app.post('/mentes', function(req, res) {
   var uj = req.body;
-  query('INSERT INTO adatok VALUES ($1, $2, $3)', [uj.azonosito, uj.datum, uj.suly]);
+  adatbazis('INSERT INTO adatok VALUES ($1, $2, $3)', [uj.azonosito, uj.datum, uj.suly]);
 });
 
 app.get('/baba/:azonosito', function(req, res) {
-  query(
+  adatbazis(
     'SELECT datum, suly FROM adatok WHERE azonosito = $1 ORDER BY datum DESC',
     [req.params.azonosito],
     function(meresek) {
