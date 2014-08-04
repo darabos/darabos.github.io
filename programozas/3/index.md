@@ -21,7 +21,7 @@ Ha eltekintünk a csinosítástól, a lényeg ez:
 
 És (kicsit csinosítva) így néz ki:
 
-<iframe height="150" src="pelda-csak-html.html">iframe</iframe>
+<iframe height="150" src="source/pelda-csak-html.html">iframe</iframe>
 
 Most azt szeretnénk, hogy ha beírunk valamit és elmentjük, az egy új sorban a táblázat tetejére kerülne.
 
@@ -233,7 +233,7 @@ bevitel.onsubmit = function() {
 
 Kész is vagyunk. Be lehet vinni új adatokat a táblázatba.
 
-<iframe height="150" src="pelda-javascript.html">iframe</iframe>
+<iframe height="150" src="source/pelda-javascript.html">iframe</iframe>
 
 Még nem tökéletes, például elfogad súlynak is és dátumnak is bármit.
 De ezekkel egyelőre együtt tudunk élni.

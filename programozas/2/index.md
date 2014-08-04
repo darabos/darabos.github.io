@@ -15,7 +15,7 @@ A baba növöget.
 
 Ha most ezt a fájlt megnyitod egy böngészőben, ezt fogod látni:
 
-<iframe height="100" src="pelda-alap-html.html">iframe</iframe>
+<iframe height="100" src="source/pelda-alap-html.html">iframe</iframe>
 
 A HTML dokumentum többnyire szöveg, de úgynevezett _tagek_ jelölnek ki benne részleteket és módosítják ezeknek a megjelenését.
 Például a `<h1>` tag egy címsort jelöl ki ("h1", mint "header 1").
@@ -38,7 +38,7 @@ A `<table>` egy táblázatot hoz létre. A táblázaton belül a `<tr>` jelöli 
 
 A fenti HTML kód most valahogy így fest a böngészőben:
 
-<iframe height="100" src="pelda-tablazattal.html">iframe</iframe>
+<iframe height="100" src="source/pelda-tablazattal.html">iframe</iframe>
 
 Szinte kész is vagyunk. Már csak annyi van hátra, hogy kicsit kicsinosítsuk a weboldalt. Design!
 Itt jön a képbe a CSS, amivel megmondjuk, hogy a HTML elemek pontosan hogyan nézzenek ki.
@@ -85,7 +85,7 @@ De a legfontosabbakat én is igyekszem leírni.
 
 A CSS hozzáadásával most így nézünk ki:
 
-<iframe height="100" src="pelda-alap-css.html">iframe</iframe>
+<iframe height="100" src="source/pelda-alap-css.html">iframe</iframe>
 
 Bármilyen elképzelést meg lehet így valósítani, de sokszor ez egyáltalán nem egyszerű. Sokan abból élnek, hogy értenek hozzá.
 Míg odáig eljutunk, kezdetben két módszert kell váltogassunk:
@@ -95,7 +95,7 @@ Míg odáig eljutunk, kezdetben két módszert kell váltogassunk:
 
 Ezzel a technikával nekem ennyire futotta:
 
-<iframe height="330" src="pelda-bootstrappel.html">iframe</iframe>
+<iframe height="330" src="source/pelda-bootstrappel.html">iframe</iframe>
 
 Ezzel rengeteg időt el lehet szöszölni, és a legegyszerűbb külső mögött is bonyolult kód lappang.
 Nézzük darabonként, mit csináltam:
