@@ -113,7 +113,7 @@ app.get('/baba/:azonosito', belepve, function(req, res) {
       res.redirect('/');
     } else {
       render(res, 'baba.hjs', {
-        title: baba.nev + 'a Babaversenyen',
+        title: baba.nev + ' a Babaversenyen',
         szulo: req.user.displayName,
         azonosito: req.params.azonosito,
         neve: baba.nev,
