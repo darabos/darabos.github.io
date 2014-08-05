@@ -20,8 +20,8 @@ Ez kicsit egyszerűsítette a munkánkat, de a felhasználó bevihette, hogy `h�
 súlya `két dinnyényi` volt. Az ilyen adatokat nem tudjuk jól ábrázolni. Át kell térjünk a
 dátum és a súly numerikus tárolására.
 
-Egy adatbázis táblájának az alapvető megváltoztatását _séma változtatásnak_ nevezzük.
-(Angolul _"schema change"_.) Ez nagyon egyszerű, ha még nincsenek igazi adataink:
+Egy adatbázis tábláinak az átrendszerezését _sémaváltoztatásnak_ nevezzük.
+Ez nagyon egyszerű, ha még nincsenek igazi adataink:
 
     DROP TABLE adatok
     CREATE TABLE adatok (azonosito TEXT, datum BIGINT, suly BIGINT)
@@ -31,7 +31,17 @@ eltelt másodpercek formájában fogjuk tárolni. (A számítógépek általába
 
 Ha már vannak valódi adataink, nem dobhatjuk el őket csak azért, hogy megváltoztassuk a táblát.
 Különösen nehéz a helyzet, ha a sémaváltoztatás ideje alatt is megbízhatóan kell a rendszernek
-működnie. (TODO: leírni, hogy kell ezt csinálni)
+működnie.
+
+Ebben az esetben a következő lenne a megoldás:
+
+1. Új oszlop létrehozása `ALTER TABLE` paranccsal.
+2. Adatrögzítéskor (`/mentes`) az új adatokat a régi és az új oszlopba is mentsük el.
+3. A meglévő adatokat olvassuk ki a régi oszlopból és írjuk át számként az új oszlopba.
+4. Most már használható az új oszlop. Olvassunk ebből a `/baba` oldal kiszolgálásakor.
+   Ha valami gond kiderül, itt még visszafordulhatunk. Várjunk néhány napot mielőtt továbbmennénk.
+5. Adatrögzítéskor már nem kell a régi oszlopba írni, csak az újba.
+6. Ha már nem írunk bele, a régi oszlop az `ALTER TABLE` paranccsal törölhető.
 
 ## Dygraph
 
