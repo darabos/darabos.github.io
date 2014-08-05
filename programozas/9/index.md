@@ -23,3 +23,19 @@ Az összehasonlítás egy ritkán használt funkció, ezért jó megoldás elrej
 vezérlőfelületet.
 
 <iframe height="170" src="source/demo.html">iframe</iframe>
+
+A HTML egyszerű:
+
+{% highlight html %}
+<div class="container">
+  <div id="osszehasonlitas">Összehasonlítás <span class="lead">&raquo;</span></div>
+  <div id="babalista">
+    <label class="checkbox"><input type="checkbox">Öcsike</label>
+    <label class="checkbox"><input type="checkbox">Nővérke</label>
+    <label class="checkbox"><input type="checkbox">Hugica</label>
+  </div>
+  <p class="lead">Félix testsúlya napról napra.</p>
+</div>
+{% endhighlight %}
+
+
