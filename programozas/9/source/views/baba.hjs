@@ -1,0 +1,111 @@
+<h1>Napló</h1>
+<div id="grafikon" style="width: 100%; height: 200px;"></div>
+<script src="/dygraph-combined.js"></script>
+<table class="testsuly table table-hover">
+  <thead>
+    <tr>
+      <th>
+        <p class="lead">{{neve}} testsúlya napról napra.</p>
+      </th>
+      <th>
+        <form class="form-inline" id="bevitel">
+          <div class="form-group">
+            <div class="input-group" style="width: 200px;">
+              <input class="form-control" placeholder="mai mérés" id="meres">
+              <span class="input-group-btn">
+                <button class="btn btn-primary">&#x2b07;</button>
+              </span>
+            </div>
+          </div>
+          <div class="form-group">
+            <input class="form-control" placeholder="dátum" id="datum">
+          </div>
+        </form>
+      </th>
+    </tr>
+  </thead>
+  <tbody id="naplo">
+  </tbody>
+</table>
+<script>
+
+function formaz(datum) {
+  return new Date(datum).strftime('%Y-%m-%d %H:%M:%S');
+}
+
+var adatok = [
+  {{#meresek}}
+    { datum: {{datum}}, suly: {{suly}} },
+  {{/meresek}}
+  ];
+
+function kirajzol() {
+  var csv = 'Dátum,Testsúly\n';
+  for (var i = 0; i < adatok.length; ++i) {
+    var adat = adatok[i];
+    csv += formaz(adat.datum) + ',' + adat.suly + '\n';
+  }
+  var d = new Dygraph(document.getElementById('grafikon'), csv, { fillGraph: true, includeZero: true });
+}
+
+function betablaz() {
+  var naplo = document.getElementById('naplo');
+  while (naplo.firstChild) {
+    naplo.removeChild(naplo.firstChild);
+  }
+  for (var i = 0; i < adatok.length; ++i) {
+    var adat = adatok[i];
+    naplo.insertBefore(ujTR(formaz(adat.datum), adat.suly), naplo.firstChild);
+  }
+}
+
+window.onload = function() {
+  betablaz();
+  kirajzol();
+};
+
+function meres() {
+  var input = document.getElementById('meres');
+  return input.value;
+}
+
+function datum() {
+  var input = document.getElementById('datum');
+  if (input.value === '') {
+    return new Date().getTime();
+  } else {
+    return new Date(input.value).getTime();
+  }
+}
+
+function ujTD(szoveg) {
+  var td = document.createElement('td');
+  var tartalom = document.createTextNode(szoveg);
+  td.appendChild(tartalom);
+  return td;
+}
+
+function ujTR(datum, suly) {
+  var tr = document.createElement('tr');
+  tr.appendChild(ujTD(formaz(datum)));
+  var m = ujTD(suly + ' g');
+  m.classList.add('lead');
+  tr.appendChild(m);
+  return tr;
+}
+
+var bevitel = document.getElementById('bevitel');
+bevitel.onsubmit = function() {
+  adatok.push({ datum: datum(), suly: meres() });
+  adatok.sort(function(a, b) { return a.datum - b.datum; });
+  betablaz();
+  kirajzol();
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/mentes');
+  var adat = { azonosito: '{{azonosito}}', datum: datum(), suly: meres() };
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.send(JSON.stringify(adat));
+  return false;
+}
+</script>

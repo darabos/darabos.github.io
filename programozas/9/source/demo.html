@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="public/bootstrap.min.css">
+    <script src="public/jquery.min.js"></script>
+    <title>Félix a Babaversenyen</title>
+    <style>
+#osszehasonlitas {
+  cursor: default;
+}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="osszehasonlitas">Összehasonlítás <span class="lead">&raquo;</span></div>
+        <div id="babalista">
+          <label class="checkbox"><input type="checkbox">Öcsike</label>
+          <label class="checkbox"><input type="checkbox">Nővérke</label>
+          <label class="checkbox"><input type="checkbox">Hugica</label>
+        </div>
+      <script>
+
+$('#babalista').hide();
+$('#osszehasonlitas').click(function() {
+  $('#babalista').toggle(200);
+});
+
+      </script>
+      <p class="lead">Félix testsúlya napról napra.</p>
+    </div>
+  </body>
+</html>

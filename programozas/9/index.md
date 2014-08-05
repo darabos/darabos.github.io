@@ -21,3 +21,5 @@ választjuk ki, hogy melyikeket jelenítjük meg az ábrán.
 
 Az összehasonlítás egy ritkán használt funkció, ezért jó megoldás elrejteni a részletes
 vezérlőfelületet.
+
+<iframe height="170" src="source/demo.html">iframe</iframe>

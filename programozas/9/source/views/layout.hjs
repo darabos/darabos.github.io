@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <title>{{title}}</title>
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+      <div class="container">
+        <a class="navbar-brand" href="/">Babaverseny</a>
+        <ul class="nav navbar-nav">
+          <li><a href="#">Napló</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/kapcsolat">Kapcsolat</a></li>
+        </ul>
+        {{#szulo}}
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/">{{szulo}}</a></li>
+          <li><a href="/kilepes">&#x238b; Kijelentkezés</a></li>
+        </ul>
+        {{/szulo}}
+      </div>
+    </div>
+    <div class="container">
+      {{> content}}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "express": "*",
+    "cookie-session": "*",
+    "cookie-parser": "*",
+    "pg": "*",
+    "body-parser": "*",
+    "hjs": "*",
+    "passport": "*",
+    "passport-facebook": "*"
+  }
+}
