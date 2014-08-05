@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="public/bootstrap.min.css">
+    <title>Félix a Babaversenyen</title>
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-static-top" role="navigation">
+      <div class="container">
+        <a class="navbar-brand" href="/">Babaverseny</a>
+        <ul class="nav navbar-nav">
+          <li><a href="#">Napló</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/kapcsolat">Kapcsolat</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container">
+      <h1>Napló</h1>
+      <div id="grafikon" style="width: 100%; height: 200px;"></div>
+      <script src="public/dygraph-combined.js"></script>
+      <table class="testsuly table table-hover">
+        <thead>
+          <tr>
+            <th>
+              <p class="lead">Félix testsúlya napról napra.</p>
+            </th>
+            <th>
+              <form class="form-inline" id="bevitel">
+                <div class="form-group">
+                  <div class="input-group" style="width: 200px;">
+                    <input class="form-control" placeholder="mai mérés" id="meres">
+                    <span class="input-group-btn">
+                      <button class="btn btn-primary">&#x2b07;</button>
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <input class="form-control" placeholder="dátum" id="datum">
+                </div>
+              </form>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="naplo">
+        </tbody>
+      </table>
+      <script>
+
+      function formaz(datum) {
+        return new Date(datum).strftime('%Y-%m-%d %H:%M:%S');
+      }
+
+      var adatok = [
+          { datum: 1399161600000, suly: 3400 },
+          { datum: 1399420800000, suly: 3200 },
+          { datum: 1400025600000, suly: 3200 },
+          { datum: 1400630400000, suly: 3300 },
+          { datum: 1403222400000, suly: 4000 },
+          { datum: 1405209600000, suly: 5000 },
+          { datum: 1406246400000, suly: 5500 },
+          { datum: 1406851200000, suly: 5800 },
+        ];
+
+      function kirajzol() {
+        var csv = 'Dátum,Testsúly\n';
+        for (var i = 0; i < adatok.length; ++i) {
+          var adat = adatok[i];
+          csv += formaz(adat.datum) + ',' + adat.suly + '\n';
+        }
+        var d = new Dygraph(document.getElementById('grafikon'), csv, { fillGraph: true, includeZero: true });
+      }
+
+      function betablaz() {
+        var naplo = document.getElementById('naplo');
+        while (naplo.firstChild) {
+          naplo.removeChild(naplo.firstChild);
+        }
+        for (var i = 0; i < adatok.length; ++i) {
+          var adat = adatok[i];
+          naplo.insertBefore(ujTR(adat.datum, adat.suly), naplo.firstChild);
+        }
+      }
+
+      window.onload = function() {
+        betablaz();
+        kirajzol();
+      };
+
+      function meres() {
+        var input = document.getElementById('meres');
+        return input.value;
+      }
+
+      function datum() {
+        var input = document.getElementById('datum');
+        if (input.value === '') {
+          return new Date().getTime();
+        } else {
+          return new Date(input.value).getTime();
+        }
+      }
+
+      function ujTD(szoveg) {
+        var td = document.createElement('td');
+        var tartalom = document.createTextNode(szoveg);
+        td.appendChild(tartalom);
+        return td;
+      }
+
+      function ujTR(datum, suly) {
+        var tr = document.createElement('tr');
+        tr.appendChild(ujTD(formaz(datum)));
+        var m = ujTD(suly + ' g');
+        m.classList.add('lead');
+        tr.appendChild(m);
+        return tr;
+      }
+
+      var bevitel = document.getElementById('bevitel');
+      bevitel.onsubmit = function() {
+        adatok.push({ datum: datum(), suly: meres() });
+        adatok.sort(function(a, b) { return a.datum - b.datum; });
+        betablaz();
+        kirajzol();
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/mentes');
+        var adat = { azonosito: 'test-F-lix', datum: datum(), suly: meres() };
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(adat));
+        return false;
+      }
+      </script>
+    </div>
+  </body>
+</html>

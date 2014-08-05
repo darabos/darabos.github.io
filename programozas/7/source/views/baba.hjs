@@ -67,6 +67,6 @@ bevitel.onsubmit = function() {
   var adat = { azonosito: '{{azonosito}}', datum: datum(), suly: meres() };
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send(JSON.stringify(adat));
-  return false;  // Nem akarunk a szervernek küldeni semmit.
+  return false;
 }
 </script>
