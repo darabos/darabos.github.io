@@ -27,4 +27,7 @@ A leírás az alapoktól kezdődik és remélhetőleg könnyen emészthető.
 6. [Adatbázis](6)
 7. [Felhasználók](7)
 8. [Grafikonok](8)
+9. [Két baba összehasonlítása](9)
+10. [Eloszlások](10)
+11. [Androidos alkalmazás](11)
 0. _Még írom a többi részt, és a fentiek sincsenek kész..._
