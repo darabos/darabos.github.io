@@ -66,19 +66,11 @@ function babak(szulo, utana) {
   );
 }
 
-function baba(azonosito, utana) {
+function adatok(szulo, utana) {
   adatbazis(
-    'SELECT nev, szulo FROM babak WHERE azonosito = $1',
-    [azonosito],
-    function(babak) {
-      adatbazis(
-        'SELECT datum, suly FROM adatok WHERE azonosito = $1 ORDER BY datum',
-        [azonosito],
-        function(adatok) {
-          utana(babak[0], adatok);
-        }
-      );
-    }
+    'SELECT azonosito, adatok.datum, adatok.suly, adatok.esemeny FROM babak JOIN adatok USING (azonosito) WHERE babak.szulo = $1',
+    [szulo],
+    utana
   );
 }
 
@@ -114,24 +106,29 @@ app.get('/facebooktol', passport.authenticate('facebook'), function(req, res) {
 });
 
 app.get('/baba/:azonosito', belepve, function(req, res) {
-  baba(req.params.azonosito, function(baba, meresek) {
-    if (baba.szulo != req.user.id) {
+  babak(req.user.id, function(babak) {
+    var baba = babak.filter(function(baba) {
+      return baba.azonosito == req.params.azonosito;
+    })[0];
+    if (baba === undefined) {  // A keresett baba nincs a felhasználó babái között.
       res.redirect('/');
-    } else {
+    }
+    adatok(req.user.id, function(adatok) {
       render(res, 'baba.hjs', {
         title: baba.nev + ' a Babaversenyen',
         szulo: req.user.displayName,
-        azonosito: req.params.azonosito,
+        azonosito: baba.azonosito,
         neve: baba.nev,
-        meresek: meresek
+        babak: babak,
+        adatok: adatok,
       });
-    }
+    });
   });
 });
 
 app.post('/mentes', belepve, function(req, res) {
   var uj = req.body;
-  adatbazis('INSERT INTO adatok VALUES ($1, $2, $3)', [uj.azonosito, uj.datum, uj.suly]);
+  adatbazis('INSERT INTO adatok (azonosito, datum, suly) VALUES ($1, $2, $3)', [uj.azonosito, uj.datum, uj.suly]);
   res.send('ok');
 });
 

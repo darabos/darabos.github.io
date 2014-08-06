@@ -82,7 +82,7 @@ A lekérdezés parancsa:
 
 A bevitel parancsa:
 
-    INSERT INTO adatok VALUES ('felix', '2014-07-02', '5000')
+    INSERT INTO adatok (azonosito, datum, suly) VALUES ('felix', '2014-07-02', '5000')
 
 Írjuk át az `app.js`-t, hogy a saját `babak` változónk helyett ezekkel a parancsokkal az adatbázist használja.
 Szükség lesz ehhez is a `pg` modulra.
@@ -98,7 +98,7 @@ app.post('/mentes', function(req, res) {
   var uj = req.body;
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     var query = client.query(
-      'INSERT INTO adatok VALUES ($1, $2, $3)',
+      'INSERT INTO adatok (azonosito, datum, suly) VALUES ($1, $2, $3)',
       [uj.azonosito, uj.datum, uj.suly],
       function() { done(); }
     );
@@ -161,7 +161,10 @@ Ezzel valamivel takarosabb lesz az `INSERT` és `SELECT` parancsok futtatása:
 {% highlight javascript %}
 app.post('/mentes', function(req, res) {
   var uj = req.body;
-  adatbazis('INSERT INTO adatok VALUES ($1, $2, $3)', [uj.azonosito, uj.datum, uj.suly]);
+  adatbazis(
+    'INSERT INTO adatok (azonosito, datum, suly) VALUES ($1, $2, $3)',
+    [uj.azonosito, uj.datum, uj.suly]
+  );
 });
 
 app.get('/baba/:azonosito', function(req, res) {

@@ -450,7 +450,7 @@ app.get('/baba/:azonosito', belepve, function(req, res) {
     if (baba.szulo != req.user.id) {
       res.redirect('/');
     } else {
-      render(res, 'baba.hjs', {
+      res.render('baba.hjs', {
         azonosito: req.params.azonosito,
         neve: baba.nev,
         meresek: meresek

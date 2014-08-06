@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="public/bootstrap.min.css">
+    <title>Zita a Babaversenyen</title>
+  </head>
+  <body>
+    <div class="container">
+      <p><div id="grafikon" style="width: 100%; height: 200px;"></div></p>
+      <script src="public/dygraph-combined.js"></script>
+      <script src="public/jquery.min.js"></script>
+      <script>
+
+var adatok = [
+    { azonosito: 'test-F-lix', datum: 1399161600000, suly: 3400, esemeny: '' },
+    { azonosito: 'test-F-lix', datum: 1399420800000, suly: 3200, esemeny: '' },
+    { azonosito: 'test-F-lix', datum: 1400025600000, suly: 3200, esemeny: '' },
+    { azonosito: 'test-F-lix', datum: 1400630400000, suly: 3300, esemeny: '' },
+    { azonosito: 'test-F-lix', datum: 1403222400000, suly: 4000, esemeny: '' },
+    { azonosito: 'test-F-lix', datum: 1405209600000, suly: 5000, esemeny: '' },
+    { azonosito: 'test-F-lix', datum: 1406246400000, suly: 5500, esemeny: '' },
+    { azonosito: 'test-F-lix', datum: 1406851200000, suly: 5800, esemeny: '' },
+    { azonosito: 'test-Zita', datum: 1430697600000, suly: 3400, esemeny: '' },
+    { azonosito: 'test-Zita', datum: 1430697600000, suly: 3400, esemeny: '' },
+    { azonosito: 'test-Zita', datum: 1431043200000, suly: 3200, esemeny: '' },
+    { azonosito: 'test-Zita', datum: 1433548800000, suly: 4000, esemeny: '' },
+    { azonosito: 'test-F-lix', datum: 1430697600000, suly: 10000, esemeny: '' },
+    { azonosito: 'test-F-lix', datum: 1430956800000, suly: 10200, esemeny: '' },
+    { azonosito: 'test-F-lix', datum: 1433548800000, suly: 11000, esemeny: '' },
+    { azonosito: 'test-Zita', datum: 1438992000000, suly: 6000, esemeny: '' },
+    { azonosito: 'test-F-lix', datum: 1438992000000, suly: 12000, esemeny: '' },
+  ];
+
+var babak = [
+    { azonosito: 'test-F-lix', nev: 'Félix', adatok: [] },
+    { azonosito: 'test-Zita', nev: 'Zita', adatok: [] },
+  ];
+
+function baba(azonosito) {
+  for (var i = 0; i < babak.length; ++i) {
+    if (babak[i].azonosito === azonosito) {
+      return babak[i];
+    }
+  }
+}
+
+for (var i = 0; i < adatok.length; ++i) {
+  var adat = adatok[i];
+  baba(adat.azonosito).adatok.push(adat);
+}
+
+function formaz(datum) {
+  return new Date(datum).strftime('%Y-%m-%d %H:%M:%S');
+}
+
+$(function() {
+  var rajzol = [baba('test-F-lix'), baba('test-Zita')];
+  var csv = 'Dátum';
+  var idok = {};
+  var adatok = [];
+  for (var i = 0; i < rajzol.length; ++i) {
+    var b = rajzol[i];
+    csv += ',' + b.nev;
+    adatok[i] = {};
+    for (var j = 0; j < b.adatok.length; ++j) {
+      var adat = b.adatok[j];
+      adatok[i][formaz(adat.datum)] = adat.suly;
+      idok[formaz(adat.datum)] = true;
+    }
+  }
+  idok = Object.keys(idok);
+  idok.sort();
+  csv += '\n';
+  for (var i = 0; i < idok.length; ++i) {
+    var ido = idok[i];
+    csv += ido;
+    for (var j = 0; j < adatok.length; ++j) {
+      var adat = adatok[j];
+      csv += ',' + (adat[ido] || '');
+    }
+    csv += '\n';
+  }
+  var d = new Dygraph(document.getElementById('grafikon'), csv, { fillGraph: true, includeZero: true, connectSeparatedPoints: true });
+});
+
+      </script>
+    </div>
+  </body>
+</html>

@@ -1,6 +1,22 @@
 <h1>Napló</h1>
 <div id="grafikon" style="width: 100%; height: 200px;"></div>
 <script src="/dygraph-combined.js"></script>
+<style>
+#osszehasonlitas {
+  background-color: hsl(90, 25%, 95%);
+  border-radius: 5px;
+  margin-top: 5px;
+  display: inline-block;
+  padding: 0 5px;
+}
+#nyito {
+  cursor: default;
+}
+</style>
+<div id="osszehasonlitas">
+  <div id="nyito">Összehasonlítás <span class="lead">&raquo;</span></div>
+  <div id="babalista"></div>
+</div>
 <table class="testsuly table table-hover">
   <thead>
     <tr>
@@ -27,20 +43,52 @@
   <tbody id="naplo">
   </tbody>
 </table>
+<script src="/jquery.min.js"></script>
 <script>
+
+var azonosito = '{{azonosito}}';
+
+var adatok = [
+  {{#adatok}}
+    { azonosito: '{{azonosito}}', datum: {{datum}}, suly: {{suly}}, esemeny: '{{esemeny}}' },
+  {{/adatok}}
+  ];
+
+var babak = {
+  {{#babak}}
+    '{{azonosito}}': { nev: '{{nev}}', adatok: [] },
+  {{/babak}}
+  };
+
+for (var i = 0; i < adatok.length; ++i) {
+  var adat = adatok[i];
+  babak[adat.azonosito].adatok.push(adat);
+}
+
+$(function() {
+  $('#babalista').hide();
+  $('#osszehasonlitas #nyito').click(function() {
+    $('#babalista').toggle(200);
+  });
+
+  for (var b in babak) {
+    if (b != azonosito) {
+      var baba = babak[b];
+      $('#babalista').append('<label class="checkbox"><input class="baba" id="' + baba.azonosito + '" type="checkbox">' + baba.nev + '</label>');
+    }
+  }
+
+  betablaz();
+  kirajzol();
+});
 
 function formaz(datum) {
   return new Date(datum).strftime('%Y-%m-%d %H:%M:%S');
 }
 
-var adatok = [
-  {{#meresek}}
-    { datum: {{datum}}, suly: {{suly}} },
-  {{/meresek}}
-  ];
-
-function kirajzol() {
+function kirajzol1() {
   var csv = 'Dátum,Testsúly\n';
+  var adatok = babak[azonosito].adatok;
   for (var i = 0; i < adatok.length; ++i) {
     var adat = adatok[i];
     csv += formaz(adat.datum) + ',' + adat.suly + '\n';
@@ -48,21 +96,57 @@ function kirajzol() {
   var d = new Dygraph(document.getElementById('grafikon'), csv, { fillGraph: true, includeZero: true });
 }
 
+function kirajzol() {
+  var rajzol = [babak[azonosito]];
+  var tesok = $('#babalista input[type="checkbox"]');
+  for (var i = 0; i < tesok.length; ++i) {
+    var teso = tesok[i];
+    if (teso.checked) {
+      rajzol.push(babak[teso.id]);
+    }
+  }
+  var csv = 'Dátum';
+  var idok = {};
+  var adatok = [];
+  for (var i = 0; i < rajzol.length; ++i) {
+    var b = rajzol[i];
+    csv += ',' + b.nev;
+    adatok[i] = {};
+    for (var j = 0; j < b.adatok.length; ++j) {
+      var adat = b.adatok[j];
+      adatok[i][formaz(adat.datum)] = adat.suly;
+      idok[formaz(adat.datum)] = true;
+    }
+  }
+  idok = Object.keys(idok);
+  idok.sort();
+  csv += '\n';
+  for (var i = 0; i < idok.length; ++i) {
+    var ido = idok[i];
+    csv += ido;
+    for (var j = 0; j < adatok.length; ++j) {
+      var adat = adatok[j];
+      csv += ',' + (adat[ido] || '');
+    }
+    csv += '\n';
+  }
+  console.log(csv);
+  var d = new Dygraph(
+    document.getElementById('grafikon'), csv,
+    { fillGraph: true, includeZero: true, connectSeparatedPoints: true });
+}
+
 function betablaz() {
   var naplo = document.getElementById('naplo');
   while (naplo.firstChild) {
     naplo.removeChild(naplo.firstChild);
   }
+  var adatok = babak[azonosito].adatok;
   for (var i = 0; i < adatok.length; ++i) {
     var adat = adatok[i];
-    naplo.insertBefore(ujTR(formaz(adat.datum), adat.suly), naplo.firstChild);
+    naplo.insertBefore(ujTR(adat.datum, adat.suly), naplo.firstChild);
   }
 }
-
-window.onload = function() {
-  betablaz();
-  kirajzol();
-};
 
 function meres() {
   var input = document.getElementById('meres');
@@ -94,8 +178,8 @@ function ujTR(datum, suly) {
   return tr;
 }
 
-var bevitel = document.getElementById('bevitel');
-bevitel.onsubmit = function() {
+$('#bevitel').submit(function() {
+  var adatok = babak[azonosito].adatok;
   adatok.push({ datum: datum(), suly: meres() });
   adatok.sort(function(a, b) { return a.datum - b.datum; });
   betablaz();
@@ -107,5 +191,5 @@ bevitel.onsubmit = function() {
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send(JSON.stringify(adat));
   return false;
-}
+});
 </script>

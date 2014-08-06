@@ -93,3 +93,203 @@ A `hide` függvény elrejti a kiválasztott elemeket, mintha ott sem volnának. 
 ennek a fordítottja és megjeleníti az elrejtett elemeket. A `toggle` a kettő között vált.
 Mind a három függvénynek megadható, hogy milyen gyorsan (hány ezredmásodperc alatt) végezzék el a változtatást.
 Ha nem adunk meg sebességet, azonnali a változtatás.
+
+## Két idősor
+
+Most a szülőhöz tartozó összes baba adatait el akarjuk küldeni a böngészőnek. Lehetne, hogy a meglévő `babak` függvénnyel
+lekérjük a babák listáját és utána a meglévő `baba` függvénnyel egyesével elkérjük mindegyik baba adatait.
+De egyszerűbb és hatékonyabb, ha az adatbázistól egyszerre kérjük el a megfelelő méréseket.
+Csak annyi a baj ezzel, hogy az `adatok` táblában nincs benne a baba szülőjének azonosítója.
+A megoldást az SQL _join_ képessége nyújtja, amivel két táblát összeköthetünk. Az új lekérdezés parancsa:
+
+    SELECT azonosito, adatok.datum, adatok.suly
+      FROM babak JOIN adatok USING (azonosito) WHERE babak.szulo = '1234567';
+
+Ez a mindkét táblában létező `azonosito` oszlop alapján összekapcsolja a `babak` és az `adatok` táblákat.
+Kiválasztja azokat a sorokat, ahol a `babak` táblázat `szulo` oszlopa `1234567`. (Mondjuk hogy ez egy szülő azonosítója.)
+És ezekből a sorokból kiválasztja az `azonosito`, `datum` és `suly` oszlopokat. (Az utóbbiak az `adatok` táblából jönnek.)
+
+Ennek lekérdezésnek az eredményét beletesszük a `baba.hjs`-be. Az `app.js` valahogy így változik:
+
+{% highlight javascript %}
+function adatok(szulo, utana) {
+  adatbazis(
+    'SELECT azonosito, adatok.datum, adatok.suly' +
+    ' FROM babak JOIN adatok USING (azonosito) WHERE babak.szulo = $1',
+    [szulo],
+    utana
+  );
+}
+
+app.get('/baba/:azonosito', belepve, function(req, res) {
+  babak(req.user.id, function(babak) {
+    var baba = babak.filter(function(baba) {
+      return baba.azonosito == req.params.azonosito;
+    })[0];
+    if (baba === undefined) {  // A keresett baba nincs a felhasználó babái között.
+      res.redirect('/');
+    }
+    adatok(req.user.id, function(adatok) {
+      res.render('baba.hjs', {
+        azonosito: baba.azonosito,
+        neve: baba.nev,
+        babak: babak,
+        adatok: adatok,
+      });
+    });
+  });
+});
+{% endhighlight %}
+
+A `filter` függvény kiválasztja egy tömbnek azokat az elemeit, amik megfelelnek egy megadott függvénynek.
+Ezzel ellenőrizzük, hogy a keresett baba a felhasználó babái közé tartozik-e.
+
+A több baba adatait a kliensoldali Javascriptben bonyolultabb rendszerezni.
+Az adatbázis lekérdezés eredményeként mindenféle rend nélkül, vegyesen kapjuk meg a különböző babákhoz tartozó
+mérési adatokat. Ezeket szét kell válogassuk.
+
+{% highlight javascript %}{% raw %}
+var azonosito = '{{azonosito}}';
+
+var adatok = [
+  {{#adatok}}
+    { azonosito: '{{azonosito}}', datum: {{datum}}, suly: {{suly}}, esemeny: '{{esemeny}}' },
+  {{/adatok}}
+  ];
+
+var babak = {
+  {{#babak}}
+    '{{azonosito}}': { nev: '{{nev}}', adatok: [] },
+  {{/babak}}
+  };
+
+for (var i = 0; i < adatok.length; ++i) {
+  var adat = adatok[i];
+  babak[adat.azonosito].adatok.push(adat);
+}
+{% endraw %}{% endhighlight %}
+
+A fenti ciklusban átcsoportosítottuk baba szerint az adatokat.
+
+Az egyik baba kitüntetett, az ő oldalát nyitotta meg a felhasználó. Ennek a babának az azonosítója van
+az `azonosito` változóban. A táblázatban az ő adatait akarjuk megjeleníteni:
+
+{% highlight javascript %}
+function betablaz() {
+  var adatok = babak[azonosito].adatok;
+  // ...
+}
+{% endhighlight %}
+
+És az új mérési eredményeket is ehhez a babához kell eltároljuk:
+
+{% highlight javascript %}
+$('#bevitel').submit(function() {
+  var adatok = babak[azonosito].adatok;
+  // ...
+});
+{% endhighlight %}
+
+A többi babát pedig az összehasonlításos dobozban kell felsorolnunk. A jQuery sokkal könnyebbé teszi az
+új elemek létrehozását:
+
+{% highlight javascript %}
+$(function() {
+  $('#babalista').hide();
+  $('#osszehasonlitas #nyito').click(function() {
+    $('#babalista').toggle(200);
+  });
+  for (var b in babak) {
+    if (b != azonosito) {
+      var baba = babak[b];
+      $('#babalista').append(
+        '<label class="checkbox"><input class="baba" id="' + baba.azonosito +
+        '" type="checkbox">' + baba.nev + '</label>');
+    }
+  }
+  betablaz();
+  kirajzol();
+});
+{% endhighlight %}
+
+A CSV adatok előkészítése is változik. Egy időponthoz lehet egy vagy több babának is adata.
+A CSV tartalmazhat üres adatokat, például ha három babából csak a másodiknak
+van mérése egy nap, a hozzá tartozó sor lehet `2014-05-04,,3000,`.
+
+Először kiolvassuk az összehasonlításos dobozból, hogy kik vannak kiválasztva. (Az elsődleges
+babát mindig kiválasztjuk.)
+
+{% highlight javascript %}
+function kirajzol() {
+  var rajzol = [babak[azonosito]];
+  var tesok = $('#babalista input[type="checkbox"]');
+  for (var i = 0; i < tesok.length; ++i) {
+    var teso = tesok[i];
+    if (teso.checked) {
+      rajzol.push(babak[teso.id]);
+    }
+  }
+{% endhighlight %}
+
+Utána megcsináljuk a CSV első sorát, amibe a babák nevei kerülnek. Ezzel egyszerre összegyűjtjük
+az összes adatpont dátumát (az `idok` objektumban), és a babák adatait dátum szerint tesszük elérhetővé
+(az `adatok` objektumban).
+
+{% highlight javascript %}
+  var csv = 'Dátum';
+  var idok = {};
+  var adatok = [];
+  for (var i = 0; i < rajzol.length; ++i) {
+    var b = rajzol[i];
+    csv += ',' + b.nev;
+    adatok[i] = {};
+    for (var j = 0; j < b.adatok.length; ++j) {
+      var adat = b.adatok[j];
+      adatok[i][formaz(adat.datum)] = adat.suly;
+      idok[formaz(adat.datum)] = true;
+    }
+  }
+  csv += '\n';
+{% endhighlight %}
+
+Most már csak végig kell mennünk az összes dátumon, és minden babához sorban kiírni az időponthoz
+tartozó mérést, vagy egy üres stringet (`''`).
+
+{% highlight javascript %}
+  idok = Object.keys(idok);
+  idok.sort();
+  for (var i = 0; i < idok.length; ++i) {
+    var ido = idok[i];
+    csv += ido;
+    for (var j = 0; j < adatok.length; ++j) {
+      var adat = adatok[j];
+      csv += ',' + (adat[ido] || '');
+    }
+    csv += '\n';
+  }
+  var d = new Dygraph(
+    document.getElementById('grafikon'), csv,
+    { fillGraph: true, includeZero: true, connectSeparatedPoints: true });
+}
+{% endhighlight %}
+
+A `connectSeparatedPoints` beállítás azt kéri, hogy a vonal folytonos legyen akkor is, ha hiányzó
+eredmények vannak.
+
+<iframe height="220" src="source/demo-ket-idosor.html">iframe</iframe>
+
+Valahogy így néz ki az eredmény. Rendben megjelenik a két idősor, de hacsak nem ikrekről van szó,
+nehéz összehasonlítani a két gyermek fejlődését. Jobb lenne, ha az X tengelyen dátum helyett az életkor
+jelenne meg, amikor összehasonlítást végzünk.
+
+## Események
+
+Feltételezhetnénk, hogy az első mérés a születési súly. De lehetnek születés előtti becsült értékek
+is a listában, vagy lehet más csavar. Szebb megoldás, ha a mérésekhez eseményeket is eltárolunk.
+Ezzel személyesebbé is válnak az adatok, mert tárolhatjuk azt is, hol kezdett el járni, beszélni a baba.
+Ezeket az eseményeket a diagramokon is feltüntethetjük.
+
+Első lépés az adatbázis táblához egy új sort hozzáadni.
+
+    ALTER TABLE adatok ADD esemeny TEXT
+    UPDATE adatok SET esemeny = ''
