@@ -144,7 +144,7 @@ app.get('/baba/:azonosito', belepve, function(req, res) {
 A `filter` függvény kiválasztja egy tömbnek azokat az elemeit, amik megfelelnek egy megadott függvénynek.
 Ezzel ellenőrizzük, hogy a keresett baba a felhasználó babái közé tartozik-e.
 
-A több baba adatait a kliensoldali Javascriptben bonyolultabb rendszerezni.
+A több baba adatait a kliensoldali Javascriptben fogjuk rendszerezni.
 Az adatbázis lekérdezés eredményeként mindenféle rend nélkül, vegyesen kapjuk meg a különböző babákhoz tartozó
 mérési adatokat. Ezeket szét kell válogassuk.
 
@@ -233,7 +233,7 @@ function kirajzol() {
 
 Utána megcsináljuk a CSV első sorát, amibe a babák nevei kerülnek. Ezzel egyszerre összegyűjtjük
 az összes adatpont dátumát (az `idok` objektumban), és a babák adatait dátum szerint tesszük elérhetővé
-(az `adatok` objektumban).
+(az `adatok` listában).
 
 {% highlight javascript %}
   var csv = 'Dátum';
@@ -253,7 +253,7 @@ az összes adatpont dátumát (az `idok` objektumban), és a babák adatait dát
 {% endhighlight %}
 
 Most már csak végig kell mennünk az összes dátumon, és minden babához sorban kiírni az időponthoz
-tartozó mérést, vagy egy üres stringet (`''`).
+tartozó mérést vagy egy üres stringet (`''`).
 
 {% highlight javascript %}
   idok = Object.keys(idok);
@@ -293,3 +293,13 @@ Első lépés az adatbázis táblához egy új sort hozzáadni.
 
     ALTER TABLE adatok ADD esemeny TEXT
     UPDATE adatok SET esemeny = ''
+
+Az `ALTER TABLE` paranccsal lehet különböző változtatásokat elvégezni egy táblán. Az `ADD` parancs egy új
+oszlopot ad hozzá, most épp `esemeny` névvel és `TEXT` típussal.
+
+Az `UPDATE` parancs meglévő sorokat változtat meg. Most az összes soron üresre állítjuk az `esemeny` oszlopot.
+(Az `UPDATE` parancs használható egy sor megváltoztatására is, ha a végére olyat írunk, hogy
+`WHERE azonosito = '1234'`.)
+
+Az `adatok` táblát érintő meglévő kódot mindenhol ki kell egészíteni az új oszlop kezelésével.
+Ezt nem részletezem.

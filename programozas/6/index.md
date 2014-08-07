@@ -100,7 +100,10 @@ app.post('/mentes', function(req, res) {
     var query = client.query(
       'INSERT INTO adatok (azonosito, datum, suly) VALUES ($1, $2, $3)',
       [uj.azonosito, uj.datum, uj.suly],
-      function() { done(); }
+      function() {
+        done();
+        res.send('ok');
+      }
     );
   });
 });
@@ -163,7 +166,8 @@ app.post('/mentes', function(req, res) {
   var uj = req.body;
   adatbazis(
     'INSERT INTO adatok (azonosito, datum, suly) VALUES ($1, $2, $3)',
-    [uj.azonosito, uj.datum, uj.suly]
+    [uj.azonosito, uj.datum, uj.suly],
+    function() { res.send('ok'); }
   );
 });
 

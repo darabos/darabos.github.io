@@ -35,7 +35,11 @@ app.get('/baba/:azonosito', function(req, res) {
 
 app.post('/mentes', function(req, res) {
   var uj = req.body;
-  adatbazis('INSERT INTO adatok VALUES ($1, $2, $3)', [uj.azonosito, uj.datum, uj.suly]);
+  adatbazis(
+    'INSERT INTO adatok (azonosito, datum, suly) VALUES ($1, $2, $3)',
+    [uj.azonosito, uj.datum, uj.suly],
+    function() { res.send('ok') }
+  );
 });
 
 app.use(express.static(__dirname + '/public'));

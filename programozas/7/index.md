@@ -447,7 +447,7 @@ Ha nem, visszairányítjuk a főoldalra.
 {% highlight javascript %}
 app.get('/baba/:azonosito', belepve, function(req, res) {
   baba(req.params.azonosito, function(baba, meresek) {
-    if (baba.szulo != req.user.id) {
+    if (baba.szulo !== req.user.id) {
       res.redirect('/');
     } else {
       res.render('baba.hjs', {
@@ -459,6 +459,28 @@ app.get('/baba/:azonosito', belepve, function(req, res) {
   });
 });
 {% endhighlight %}
+
+A mérések elmentésénél is ellenőriznünk kell a felhasználó jogosultságát.
+
+{% highlight javascript %}
+app.post('/mentes', belepve, function(req, res) {
+  var uj = req.body;
+  baba(uj.azonosito, function(baba, meresek) {
+    if (baba.szulo !== req.user.id) {
+      res.status(403);
+      res.send('A baba nem a felhasználóhoz tartozik.');
+    } else {
+      adatbazis(
+        'INSERT INTO adatok (azonosito, datum, suly) VALUES ($1, $2, $3)',
+        [uj.azonosito, uj.datum, uj.suly],
+        function() { res.send('ok'); }
+      );
+    }
+  });
+});
+{% endhighlight %}
+
+(A 403-as státusz kód a jogosultság hiányát jelzi.)
 
 Elkészültünk az alapokkal. Most már nyugodt szívvel fogadhatnánk látogatókat. Egy egyedi
 domainnév regisztrációjával évi párezer Forintért teljessé tehetjük a profi hatást.

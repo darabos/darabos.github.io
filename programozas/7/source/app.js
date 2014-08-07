@@ -109,7 +109,7 @@ app.get('/facebooktol', passport.authenticate('facebook'), function(req, res) {
 
 app.get('/baba/:azonosito', belepve, function(req, res) {
   baba(req.params.azonosito, function(baba, meresek) {
-    if (baba.szulo != req.user.id) {
+    if (baba.szulo !== req.user.id) {
       res.redirect('/');
     } else {
       render(res, 'baba.hjs', {
@@ -125,8 +125,18 @@ app.get('/baba/:azonosito', belepve, function(req, res) {
 
 app.post('/mentes', belepve, function(req, res) {
   var uj = req.body;
-  adatbazis('INSERT INTO adatok VALUES ($1, $2, $3)', [uj.azonosito, uj.datum, uj.suly]);
-  res.send('ok');
+  baba(uj.azonosito, function(baba, meresek) {
+    if (baba.szulo !== req.user.id) {
+      res.status(403);
+      res.send('A baba nem a felhasználóhoz tartozik.');
+    } else {
+      adatbazis(
+        'INSERT INTO adatok (azonosito, datum, suly) VALUES ($1, $2, $3)',
+        [uj.azonosito, uj.datum, uj.suly],
+        function() { res.send('ok'); }
+      );
+    }
+  });
 });
 
 app.post('/ujbaba', belepve, function(req, res) {
