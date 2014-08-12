@@ -303,3 +303,112 @@ Az `UPDATE` parancs meglévő sorokat változtat meg. Most az összes soron üre
 
 Az `adatok` táblát érintő meglévő kódot mindenhol ki kell egészíteni az új oszlop kezelésével.
 Ezt nem részletezem.
+
+A `/mentes` végponthoz hasonlóan csinálunk egy `/esemeny` végpontot. Ez nem új sort hoz létre az
+`adatok` táblában, hanem egy meglévő sort módosít. De ugyanúgy ellenőriznünk kell előbb, hogy az érintett
+baba a felhasználóhoz tartozik-e. Ezt a funkcionalitást is érdemes kiemelni egy middleware függvénybe.
+
+{% highlight javascript %}
+function sajatBaba(req, res, next) {
+  var azonosito = req.body.azonosito;
+  var szulo = req.user.id;
+  adatbazis('SELECT szulo FROM babak WHERE azonosito = $1', [azonosito], function(babak) {
+    if (babak[0].szulo !== szulo) {
+      res.status(403);
+      res.send('A baba nem a felhasználóhoz tartozik.');
+    } else {
+      next();
+    }
+  });
+}
+
+app.post('/mentes', belepve, sajatBaba, function(req, res) {
+  var uj = req.body;
+  adatbazis(
+    'INSERT INTO adatok (azonosito, datum, suly) VALUES ($1, $2, $3)',
+    [uj.azonosito, uj.datum, uj.suly],
+    function() { res.send('ok'); }
+  );
+});
+
+app.post('/esemeny', belepve, sajatBaba, function(req, res) {
+  var adat = req.body;
+  adatbazis(
+    'UPDATE adatok SET esemeny = $1 WHERE azonosito = $2 AND datum = $3',
+    [adat.esemeny, adat.azonosito, adat.datum],
+    function() { res.send('ok'); }
+  );
+});
+{% endhighlight %}
+
+A kliensoldalon a HTML táblázatban csináljunk egy harmadik oszlopot az eseményeknek.
+
+{% highlight javascript %}
+function betablaz() {
+  var adatok = babak[azonosito].adatok;
+  adatok.sort(function(a, b) { return a.datum - b.datum; });
+  var naplo = $('#naplo');
+  naplo.empty();
+  for (var i = adatok.length - 1; i >= 0; --i) {
+    var adat = adatok[i];
+    naplo.append(
+      '<tr><td>' + formaz(adat.datum) + '</td>' +
+      '<td class="lead">' + adat.suly + ' g</td>' +
+      '<td><input data-datum="' + adat.datum + '" class="form-control" value="' +
+      adat.esemeny + '"></td></tr>');
+  }
+{% endhighlight %}
+
+Az `empty` függvényt a jQuery biztosítja. Ez egy sokkal kényelmesebb módja egy elem tartalmának a törlésére.
+
+A `data-valami` nevű attribútumokkal tetszőleges stringeket tárolhatunk el egy elemben.
+Amikor később az elemmel kapcsolatos Javascript kód fut, az attribútum tartalmát az `elem.dataset.valami`
+szintaxissal érhetjük el. Így oldjuk meg, hogy az esemény mentésekor tudjuk, hogy melyik időponthoz
+akarjuk elmenteni.
+
+Lehetne minden sorban egy _mentés_ gomb az `<input>` mező mellett, de túl bonyolultnak tűnne az oldal.
+Egyszerűbb, ha minden változást elmentünk.
+
+{% highlight javascript %}
+  naplo.find('input').change(function(event) {
+    var adat = { azonosito: azonosito, datum: parseInt(event.target.dataset.datum), esemeny: event.target.value };
+    $.ajax({
+      url: '/esemeny',
+      data: JSON.stringify(adat),
+      type: 'POST',
+      contentType: 'application/json',
+    });
+  });
+}
+{% endhighlight %}
+
+A `naplo.find` függvényt is a jQuery adja. Megkeresi az elemen belüli, feltételnek megfelelő elemeket.
+Ezek pontosan az eseménybeviteli mezők. A `change` függvény egy eseménykezelőt állít be, ami a mező
+változásakor fut le. Ezt a függvényt fogja meghívni, ha a felhasználó módosítja a mező tartalmát, és
+utána entert nyom vagy átlép egy másik mezőbe.
+
+A `$.ajax` is egy jQuery függvény, amivel kényelmesebben küldhetünk `XMLHttpRequest`eket.
+
+Ez működik, de nem a legbarátságosabb. A `change` esemény nem igazán intuitív, mert ha a felhasználónak
+nem jut eszébe entert nyomni, akkor csak úgy mentjük el a változtatást, ha kiválaszt egy _másik_
+elemet a weboldalon. Nem jelzi semmi, hogy elmentettük a változtatást.
+Az események formátuma sem egyértelmű. Lehet-e vesszővel elválasztani több eseményt?
+
+Szerintem jó megoldás a [Bootstrap Tokenfield](http://sliptree.github.io/bootstrap-tokenfield/).
+Könnyű beüzemelni, és így néz ki:
+
+<iframe height="60" src="source/demo-tokenfield.html">iframe</iframe>
+
+A CSS és Javascript fájlok betöltése után csak egy új sorra van szükség.
+
+{% highlight html %}
+<link rel="stylesheet" href="/bootstrap-tokenfield.min.css"></link>
+<script src="/bootstrap-tokenfield.min.js"></script>
+<script>
+// ...
+function betablaz() {
+  // ...
+  naplo.find('input').tokenfield();
+  naplo.find('input').change(function(event) {
+{% endhighlight %}
+

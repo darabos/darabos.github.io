@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="public/bootstrap.min.css">
+    <title>Ixion a Babaversenyen</title>
+    <style>
+      .table.testsuly td {
+        vertical-align: middle;
+      }
+      .table.testsuly td.esemeny {
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <table class="testsuly table" style="margin-bottom: 0;">
+        <tbody id="naplo">
+        </tbody>
+      </table>
+      <script src="public/dygraph-combined.js"></script>
+      <script src="public/jquery.min.js"></script>
+      <link rel="stylesheet" href="public/bootstrap-tokenfield.min.css"></link>
+      <script src="public/bootstrap-tokenfield.min.js"></script>
+      <script>
+
+      var azonosito = 'test-Ixion';
+
+      var adatok = [
+          { azonosito: 'test-Ixion', datum: 1407526483228, suly: 3456, esemeny: 'Megszületett' },
+        ];
+
+      var babak = {
+          'test-Ixion': { nev: 'Ixion', adatok: [] },
+        };
+
+      for (var i = 0; i < adatok.length; ++i) {
+        var adat = adatok[i];
+        babak[adat.azonosito].adatok.push(adat);
+      }
+
+      $(function() {
+        betablaz();
+      });
+
+      function formaz(datum) {
+        return new Date(datum).strftime('%Y-%m-%d %H:%M');
+      }
+
+      function betablaz() {
+        var adatok = babak[azonosito].adatok;
+        adatok.sort(function(a, b) { return a.datum - b.datum; });
+        var naplo = $('#naplo');
+        naplo.find('input').tokenfield('destroy');
+        naplo.empty();
+        for (var i = adatok.length - 1; i >= 0; --i) {
+          var adat = adatok[i];
+          naplo.append(
+            '<tr><td>' + formaz(adat.datum) + '</td>' +
+            '<td class="lead">' + adat.suly + ' g</td>' +
+            '<td class="esemeny"><input data-datum="' + adat.datum + '" value="' +
+            adat.esemeny + '"></td></tr>');
+        }
+        naplo.find('input').tokenfield();
+      }
+      </script>
+    </div>
+  </body>
+</html>
