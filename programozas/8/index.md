@@ -85,7 +85,7 @@ function formaz(datum) {
 }
 {% endhighlight %}
 
-(Itt könnyen lehetne más formátumot is választani.)
+Itt könnyen lehetne más formátumot is választani. A nagyon hasznos `strftime` függvény a Dygraphs csomagból jön.
 
 Amikor betöltődik az oldal, létrehozzuk a táblázat sorait az `adatok`ból.
 
