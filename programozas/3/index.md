@@ -75,72 +75,72 @@ Gyorsan elmagyarázok pár dolgot az ilyen programokkal kapcsolatban. Ezek a leg
 
     Javascriptben egy új változtót a `var` szóval vezetünk be. Például `var x = 3`.
 
-- **A függvények** kis alprogramok.
-  A receptes hasonlatot folytatva ha nincs türelmünk újra és újra kiírni, hogy
-  _"lisztet zsírban megpirítunk, hideg vízzel elkeverünk, és az ételhez adjuk"_, adhatunk ennek a néhány lépésnek egy
-  együttes nevet (_"berántjuk"_). Csak egyszer kell leírnunk, hogy mit értünk _"rántás"_ alatt, és utána mindig elég
-  csak ezt a nevet használnunk.
+-   **A függvények** kis alprogramok.
+    A receptes hasonlatot folytatva ha nincs türelmünk újra és újra kiírni, hogy
+    _"lisztet zsírban megpirítunk, hideg vízzel elkeverünk, és az ételhez adjuk"_, adhatunk ennek a néhány lépésnek egy
+    együttes nevet (_"berántjuk"_). Csak egyszer kell leírnunk, hogy mit értünk _"rántás"_ alatt, és utána mindig elég
+    csak ezt a nevet használnunk.
 
-  Javascriptben a `function` szóval vezetünk be egy új függvényt:
+    Javascriptben a `function` szóval vezetünk be egy új függvényt:
 
-  ~~~ javascript
-  function duplaz(x) {
-    return x * 2;
-  }
-  ~~~
+    ~~~ javascript
+    function duplaz(x) {
+      return x * 2;
+    }
+    ~~~
 
-  Ennek a függvénynek egy _paramétere_ is van (`x`). A paraméter egy változó, csak a kiindulási értékét az adja meg,
-  aki meghívta a függvényt. A fenti függvénynek _visszatérési értéke_ is van.
-  Vagyis ha azt írom, hogy `var y = duplaz(5)`, akkor meghívódik a függvény, `x` értéke 5 lesz a függvényen belül,
-  kiszámítja és _visszaadja_ `x * 2` értékét, és ez az érték kerül az új `y` változóba.
+    Ennek a függvénynek egy _paramétere_ is van (`x`). A paraméter egy változó, csak a kiindulási értékét az adja meg,
+    aki meghívta a függvényt. A fenti függvénynek _visszatérési értéke_ is van.
+    Vagyis ha azt írom, hogy `var y = duplaz(5)`, akkor meghívódik a függvény, `x` értéke 5 lesz a függvényen belül,
+    kiszámítja és _visszaadja_ `x * 2` értékét, és ez az érték kerül az új `y` változóba.
 
-  Javascriptben a függvényeket is lehet változókba tenni.
-  Például `var f = duplaz`, és aztán `var z = f(3)` eredményeként `z` értéke 6 lesz.
-  Ezt alaposan ki fogjuk használni.
+    Javascriptben a függvényeket is lehet változókba tenni.
+    Például `var f = duplaz`, és aztán `var z = f(3)` eredményeként `z` értéke 6 lesz.
+    Ezt alaposan ki fogjuk használni.
 
-  Gyakori helyzet, hogy meg akarjuk mondani, mi történjen egy esemény hatására. Például mi legyen, amikor ráklikkelnek
-  egy gombra. Ilyenkor egy _név nélküli_ függvényt használhatunk:
+    Gyakori helyzet, hogy meg akarjuk mondani, mi történjen egy esemény hatására. Például mi legyen, amikor ráklikkelnek
+    egy gombra. Ilyenkor egy _név nélküli_ függvényt használhatunk:
 
-  ~~~ javascript
-  gomb.onclick = function() { alert('Megnyomtak!'); };
-  gomb.addEventListener('click', function() { alert('Megnyomtak!'); });
-  ~~~
+    ~~~ javascript
+    gomb.onclick = function() { alert('Megnyomtak!'); };
+    gomb.addEventListener('click', function() { alert('Megnyomtak!'); });
+    ~~~
 
-  Mindkét sor működik. Az első sor példa arra, hogy függvényeket változókba is tehetünk. A második sor példa rá,
-  hogy egy függvény lehet egy másik függvény paramétere. Az ilyen függvényt _callback_-nek is nevezzük.
+    Mindkét sor működik. Az első sor példa arra, hogy függvényeket változókba is tehetünk. A második sor példa rá,
+    hogy egy függvény lehet egy másik függvény paramétere. Az ilyen függvényt _callback_-nek is nevezzük.
 
-- **Az objektumok** komplex értékek. Egy szám az egy szám, de egy weboldal már egy sokkal bonyolultabb objektum.
-  De objektumokat is ugyanúgy betehetünk változókba, mint számokat. Például:
+-   **Az objektumok** komplex értékek. Egy szám az egy szám, de egy weboldal már egy sokkal bonyolultabb objektum.
+    De objektumokat is ugyanúgy betehetünk változókba, mint számokat. Például:
 
-  ~~~ javascript
-  var dani = {
-    neve: 'Darabos Dániel',
-    kora: 32,
-    szulinap: function() { dani.kora = dani.kora + 1; },
-  };
-  ~~~
+    ~~~ javascript
+    var dani = {
+      neve: 'Darabos Dániel',
+      kora: 32,
+      szulinap: function() { dani.kora = dani.kora + 1; },
+    };
+    ~~~
 
-  Olyan, mint egy halom változó, amiket úgy tudunk elérni, hogy `objektum.változó`.
+    Olyan, mint egy halom változó, amiket úgy tudunk elérni, hogy `objektum.változó`.
 
-- **Egy elágazás** olyan kód, ahol a következő programrészlet vagy lefut, vagy nem.
+-   **Egy elágazás** olyan kód, ahol a következő programrészlet vagy lefut, vagy nem.
 
-  ~~~ javascript
-  if (dani.kora > 100) {
-    alert("Dani nagyon öreg.");
-  }
-  ~~~
+    ~~~ javascript
+    if (dani.kora > 100) {
+      alert("Dani nagyon öreg.");
+    }
+    ~~~
 
-- **Egy ciklus** olyan kód, ahol egy programrészlet többször fog lefutni.
+-   **Egy ciklus** olyan kód, ahol egy programrészlet többször fog lefutni.
 
-  ~~~ javascript
-  for (var i = 0; i < 10; i = i + 1) {
-    alert("Még " + (10 - i) + "-szer kell OK-t nyomnod.");
-  }
-  ~~~
+    ~~~ javascript
+    for (var i = 0; i < 10; i = i + 1) {
+      alert("Még " + (10 - i) + "-szer kell OK-t nyomnod.");
+    }
+    ~~~
 
-  A `for (X; Y; Z)` sorban az `X` egyszer fut le, az elején.
-  Az `Y`-t minden menet előtt ellenőrizzük, és ha nem teljesül, vége a ciklusnak.
-  A `Z`-t minden menet végén végrehajtjuk. Tehát a fenti ciklus 10 ablakot dob fel egymás után. (Elég bosszantóan.)
+    A `for (X; Y; Z)` sorban az `X` egyszer fut le, az elején.
+    Az `Y`-t minden menet előtt ellenőrizzük, és ha nem teljesül, vége a ciklusnak.
+    A `Z`-t minden menet végén végrehajtjuk. Tehát a fenti ciklus 10 ablakot dob fel egymás után. (Elég bosszantóan.)
 
 Ebből a pár alkatrészből áll a programok nagy része. Könnyen tudsz Javascripttel kísérletezni, ha megnyitod a Chrome
 Javascript konzolját (**Tools** > **JavaScript Console**), vagy ennek megfelelőjét bármelyik böngészőben.
