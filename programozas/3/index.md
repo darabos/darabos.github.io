@@ -67,13 +67,13 @@ Ezek a sorok szépen egymás után hajtódnak végre, mint egy recept lépései.
 
 Gyorsan elmagyarázok pár dolgot az ilyen programokkal kapcsolatban. Ezek a legtöbb programnyelvre igazak, nem csak a Javascriptre.
 
-- **A változók** saját kis adattárolóink. Ha azt mondom, `x = 3`, akkor most `x` értéke 3.
-  Ezután mondhatom, hogy `y = 2 * x`, és most `y` értéke 6.
-  Ha most azt mondom, `x = 5`, akkor `x` értéke megváltozott, de `y` értéke maradt 6.
+-  **A változók** saját kis adattárolóink. Ha azt mondom, `x = 3`, akkor most `x` értéke 3.
+   Ezután mondhatom, hogy `y = 2 * x`, és most `y` értéke 6.
+   Ha most azt mondom, `x = 5`, akkor `x` értéke megváltozott, de `y` értéke maradt 6.
 
-  Vagyis ez nem matematika, hanem egy recept. _"Ezt tegyük ide, aztán azt tegyük oda, stb."_
+   Vagyis ez nem matematika, hanem egy recept. _"Ezt tegyük ide, aztán azt tegyük oda, stb."_
 
-  Javascriptben egy új változtót a `var` szóval vezetünk be. Például `var x = 3`.
+   Javascriptben egy új változtót a `var` szóval vezetünk be. Például `var x = 3`.
 
 - **A függvények** kis alprogramok.
   A receptes hasonlatot folytatva ha nincs türelmünk újra és újra kiírni, hogy
