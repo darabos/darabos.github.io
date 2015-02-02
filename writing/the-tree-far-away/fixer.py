@@ -8,7 +8,10 @@ with file('the-tree-far-away.html') as f:
   for l in f:
     l = l.replace('<head><title></title>', '<head><title>The Tree Far Away</title>')
     if 'link rel="stylesheet"' in l:
-      l = '<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic" type="text/css">\n' + l
+      l = (
+        '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+        '<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic" type="text/css">\n'
+        ) + l
     if separator:
       l = l.replace('"indent"', '"noindent"')
     if l.strip() == 'class="pzdr-">&#x2766;</span>':
