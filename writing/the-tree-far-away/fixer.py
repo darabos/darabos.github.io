@@ -105,6 +105,7 @@ with file('the-tree-far-away.css', 'w') as f:
   margin: 2em;
   margin-left: 4em;
   text-indent: -2em;
+  text-align: left;
 }
 
 .story .verse .noindent {
