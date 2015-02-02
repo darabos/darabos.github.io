@@ -8,7 +8,6 @@ with file('the-tree-far-away.html') as f:
   for l in f:
     l = l.replace('<head><title></title>', '<head><title>The Tree Far Away</title>')
     if 'link rel="stylesheet"' in l:
-      l = '<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">\n' + l
       l = '<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic" type="text/css">\n' + l
     if separator:
       l = l.replace('"indent"', '"noindent"')
@@ -47,6 +46,8 @@ with file('the-tree-far-away.css', 'w') as f:
 @media (min-width: 768px) {
   .container {
     max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .story {
     font-size: 18px;
@@ -82,7 +83,9 @@ with file('the-tree-far-away.css', 'w') as f:
 }
 
 .story p {
+  margin-top: 0;
   margin-bottom: 0;
+  line-height: 1.4;
 }
 .story p.indent {
   text-indent: 2em;
