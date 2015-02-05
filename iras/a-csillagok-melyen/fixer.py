@@ -5,9 +5,9 @@ import re
 hyp = pyphen.Pyphen(lang='hu_HU')
 def hyphenated(text):
   res = []
-  for w in text.decode('cp1250').split(u' '):
-    res.append(hyp.inserted(w, u'&shy;'))
-  return u' '.join(res).encode('cp1250')
+  for w in text.decode('utf-8').split(u' '):
+    res.append(hyp.inserted(w, '&shy;'))
+  return ' '.join(res).encode('utf-8')
 
 lines = []
 prev = None
@@ -16,8 +16,10 @@ heading = False
 body = False
 with file('a-csillagok-melyen.html') as f:
   for l in f:
-    l = l.replace('<head><title></title>', u'<head><title>A csillagok mélyén</title>'.encode('cp1250'))
-    l = l.replace('&#x0151;', u'ő'.encode('cp1250')).replace('&#x0171;', u'ű'.encode('cp1250'))
+    l = l.decode('cp1250').encode('utf-8')
+    l = l.replace('iso-8859-2', 'utf-8')
+    l = l.replace('<head><title></title>', '<head><title>A csillagok mélyén</title>')
+    l = l.replace('&#x0151;', 'ő').replace('&#x0171;', 'ű')
     l = l.replace('>&#x00A0;', '>')
     if 'link rel="stylesheet"' in l:
       l = (
@@ -31,7 +33,7 @@ with file('a-csillagok-melyen.html') as f:
       separator = True
     else:
       separator = False
-    if u'Vége'.encode('cp1250') in l:
+    if 'Vége' in l:
       l = l.replace('"noindent"', '"the-end"')
     if '/body' in l:
       l = '</div>\n' + l
@@ -52,13 +54,13 @@ with file('a-csillagok-melyen.html') as f:
     if heading and not l.strip():
       heading = False
       body = True
-      lines.append(u'''
+      lines.append('''
 <div class="container title">
   <h1>A csillagok mélyén</h1>
   <h2>Darabos Dániel, 2014</h2>
 </div>
 <div class="container story">
-      '''.strip().encode('cp1250'))
+      '''.strip())
 lines.append(prev)
 
 with file('index.html', 'w') as f:
