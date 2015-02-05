@@ -1,0 +1,68 @@
+@media (min-width: 768px) {
+  .container {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .story {
+    font-size: 18px;
+  }
+}
+
+@media screen {
+  body {
+    background: rgb(240, 240, 240);
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.story, .title {
+  font-family: 'Lora', serif;
+}
+
+.title {
+  text-align: center;
+  margin-top: 4em;
+  margin-bottom: 4em;
+}
+.title h1 {
+  margin-bottom: 0;
+}
+.title h2 {
+  font-size: 18px;
+  margin-top: 0;
+}
+
+.story {
+  text-align: justify;
+}
+
+.story p {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 1.4;
+}
+.story p.indent {
+  text-indent: 2em;
+}
+
+.story .separator,
+.story .the-end {
+  text-align: center;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.story .bchri8t- {
+  font-style: italic;
+}
+
+.story dl.description {
+  line-height: 1.4;
+}
+
+.story dt.description {
+  font-weight: bold;
+  margin-top: 1em;
+  margin-bottom: 0;
+}
