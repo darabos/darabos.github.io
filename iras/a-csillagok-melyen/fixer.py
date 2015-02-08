@@ -6,7 +6,17 @@ hyp = pyphen.Pyphen(lang='hu_HU')
 def hyphenated(text):
   res = []
   for w in text.decode('utf-8').split(u' '):
-    res.append(hyp.inserted(w, '&shy;'))
+    h = hyp.inserted(w, '&shy;')
+    h = h.replace('cs&shy;cs', 'ccs')
+    h = h.replace('dz&shy;dz', 'ddz')
+    h = h.replace('dzs&shy;dzs', 'ddzs')
+    h = h.replace('gy&shy;gy', 'ggy')
+    h = h.replace('ly&shy;ly', 'lly')
+    h = h.replace('ny&shy;ny', 'nny')
+    h = h.replace('sz&shy;sz', 'ssz')
+    h = h.replace('ty&shy;ty', 'tty')
+    h = h.replace('zs&shy;zs', 'zzs')
+    res.append(h)
   return ' '.join(res).encode('utf-8')
 
 lines = []
