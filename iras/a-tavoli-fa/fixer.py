@@ -37,7 +37,7 @@ with file('a-tavoli-fa.html') as f:
         '<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,400italic,700" type="text/css">\n'
         ) + l
     if l.strip() == 'class="pzdr-">&#x2766;</span>':
-      prev = prev.replace('"noindent"', '"separator"')
+      prev = prev.replace('"indent"', '"separator"')
       separator = True
     else:
       separator = False
