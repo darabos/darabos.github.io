@@ -1,3 +1,14 @@
+/* index */
+body.index {
+  background-image: radial-gradient(circle, #ffd, #aa8);
+}
+
+#daniel-darabos {
+  width: 100%;
+  height: 100vh;
+}
+
+/* programozas */
 iframe {
   width: 100%;
   border-radius: 5px;
