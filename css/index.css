@@ -1,6 +1,35 @@
 /* index */
-body.index {
+.index .card {
+  display: flex;
   background-image: radial-gradient(circle, #ffd, #aa8);
+  text-align: center;
+}
+
+.index .menu {
+  flex: none;
+  text-align: left;
+  margin-left: 20px;
+  margin-right: 20px;
+  width: 160px;
+  height: 100vh;
+  background-color: #622;
+  color: white;
+  padding-top: 10vh;
+}
+.index .menu ul {
+  padding: 30px;
+}
+.index .menu li {
+  height: 10vh;
+  opacity: 0.9;
+  list-style-type: none;
+}
+.index .menu a {
+  color: white;
+  text-decoration: none;
+}
+.index .menu a:hover {
+  text-decoration: underline;
 }
 
 #daniel-darabos {
