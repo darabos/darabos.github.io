@@ -1,0 +1,119 @@
+\documentclass[a4paper]{memoir}
+\usepackage{charter}
+\usepackage[utf8]{inputenc}
+\usepackage{t1enc}
+\usepackage[hungarian]{babel}
+\usepackage[final]{microtype}
+\usepackage{multicol}
+\usepackage{ifthen}
+\isopage[12]
+\checkandfixthelayout
+
+\title{Molmi Holmi}
+\author{Olivér--magyar szótár}
+\date{}
+
+\newcommand{\ol}[1]{\textbf{#1}} % Olivér formázás.
+\newcommand{\e}{\hangpara{1.5em}{1}} % Szótár bejegyzés.
+\newcommand{\oliver}[1]{\e \ol{#1} \hspace{1ex}} % Olivér bejegyzés.
+\newcommand{\oli}[1]{\hspace{1ex} \ol{#1} \hspace{1ex}} % További Olivér kifejezés.
+\newcommand{\magyar}[1]{\ifthenelse{\equal{#1}{1}}{}{\hspace{1ex}\ }\textbf{#1.}} % Magyar jelentés száma.
+\newcommand{\pelda}[1]{\textit{``#1''}} % Példa mondat.
+
+\begin{document}
+
+\maketitle
+
+\section*{2018 február}
+
+\begin{multicols}{2}
+
+\oliver{á} evés
+
+\oliver{bémbé} BMW
+
+\oliver{busz}
+
+\oliver{cecece} Mercedes
+
+\oliver{cica} emlős állat
+
+\oliver{csücsü} leülni
+
+\oliver{emmi} ez mi
+
+\oliver{Kia}
+
+\oliver{kuku} kukucs
+
+\oliver{Lilli} Félix
+
+\oliver{nínó} autó
+
+\oliver{olló} Volvo
+
+\oliver{pusse} Porsche
+
+\oliver{Tesla}
+
+\end{multicols}
+
+
+
+\section*{2018 március}
+
+\begin{multicols}{2}
+
+\oliver{aú} hajó
+
+\oliver{arra}
+
+\oliver{Bentley}
+
+\oliver{bimbi} pingvin
+
+\oliver{buszedli} busz
+
+\oliver{cicikli} bicikli
+
+\oliver{én is} én is kérek
+
+\oliver{fiá} Fiat
+
+\oliver{Honda}
+
+\oliver{kinkankó} pillangó
+
+\oliver{kukac}
+  \magyar{1}~kukac
+  \magyar{2}~csiga
+
+\oliver{Lilix} Félix
+
+\oliver{mamaó} Alfa Romeo
+
+\oliver{ó} Ford
+
+\oliver{ódi} Audi
+
+\oliver{Oli, Anya, Apa, Lilix} Citroën
+
+\oliver{ondó} motor
+
+\oliver{ope} Opel
+
+\oliver{ótiti} Volkswagen
+
+\oliver{páus} pelenka
+
+\oliver{márt} Smart
+
+\oliver{Skoda}
+
+\oliver{tetti} Mercedes
+
+\oliver{toji} Toyota
+
+\end{multicols}
+
+\end{document}
