@@ -1,2 +1,11 @@
-szotar.aux
-szotar.log
+*.4ct
+*.4tc
+*.autosave
+*.aux
+*.dvi
+*.idv
+*.lg
+*.log
+*.out
+*.tmp
+*.xref
