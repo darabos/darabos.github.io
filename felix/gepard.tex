@@ -2,6 +2,7 @@
 \usepackage{titlesec}
 \usepackage{t1enc}
 \usepackage[utf8]{inputenc}
+\def\magyarOptions{hyphenmins=44}
 \usepackage[magyar]{babel}
 \usepackage[final]{microtype}
 \usepackage{fontspec}
@@ -9,8 +10,6 @@
 \clubpenalty=10000
 \widowpenalty=10000
 \raggedbottom
-\lefthyphenmin=4
-\righthyphenmin=4
 
 \setstocksize{22.86cm}{15.24cm}
 \settrimmedsize{\stockheight}{\stockwidth}{*}
@@ -21,6 +20,7 @@
 \setlength{\emergencystretch}{2em}
 \setmainfont{Crimson Text}
 \newfontfamily\playfair{Playfair Display SC}
+\def\dash{---\kern 0.2em}
 
 \titleformat{\section}
   {\center\huge\bfseries\playfair}
@@ -99,7 +99,7 @@ A gepárd akkor született, amikor dinoszauruszok éltek. Meg mamutok. De
 
 A Lamborghinije már akkor is megvolt.
 
-A gepárd örökké fog élni, mert az űrben lakik, a Pluton. Én is örökké akarok
+A gepárd örökké fog élni, mert az űrben lakik, a Plutón. Én is örökké akarok
 élni.
 
 
@@ -123,21 +123,35 @@ Megyő sárkányt.
 És ha valaki megkérdezi hogy milyen egy sárkány, megmutatja neki ezeket a
 képeket. Odahozza őket dobozostul.
 
-Én kérdeztem tőle, — Miért dobozostul hoztad őket ide?
+Én kérdeztem tőle:
 
-És a gepárd azt mondta, — DOBOZOSTUL!
+\dash Miért dobozostul hoztad őket ide?
 
-Újra megkérdeztem tőle, — Miért dobozostul hoztad őket ide?
+És a gepárd azt mondta:
 
-És a gepárd azt mondta, — DOBOZOSTUL!
+\dash DOBOZOSTUL!
 
-Újra megkérdeztem tőle, — Miért dobozostul hoztad őket ide?
+Újra megkérdeztem tőle:
 
-És a gepárd azt mondta, — DOBOZOSTUL!
+\dash Miért dobozostul hoztad őket ide?
 
-Újra megkérdeztem tőle, — Miért dobozostul hoztad őket ide?
+És a gepárd azt mondta:
 
-— Azért, mert be van lakatolva — mondta a gepárd.
+\dash DOBOZOSTUL!
+
+Újra megkérdeztem tőle:
+
+\dash Miért dobozostul hoztad őket ide?
+
+És a gepárd azt mondta:
+
+\dash DOBOZOSTUL!
+
+Újra megkérdeztem tőle:
+
+\dash Miért dobozostul hoztad őket ide?
+
+\dash Azért, mert be van lakatolva — mondta a gepárd.
 
 
 \section*{A gepárd és a szarvasok}
@@ -157,16 +171,16 @@ Felültem a gepárd hátára, és olyan gyorsan szaladt, hogy majdnem leestem!
 \section*{Csiribú csiribá}
 A királyi család reggelihez készülődött.
 
-— Mit ennél szívesen, édes lányom? — kérdezte a király a királylányt.
+\dash Mit ennél szívesen, édes lányom? — kérdezte a király a királylányt.
 
-— Uborkát!
+\dash Uborkát!
 
 A király tett-vett és elkészült a finom reggeli uborkából.
 
-— De ó jaj! — sopánkodott a király. — Sajnos nincsen tányérunk! Mi lesz most
+\dash De ó jaj! — sopánkodott a király. — Sajnos nincsen tányérunk! Mi lesz most
 velünk?
 
-— Ne félj, királyom! Én tudok varázsolni. Csiribú csiribá — mutatott a
+\dash Ne félj, királyom! Én tudok varázsolni. Csiribú csiribá — mutatott a
 királylány a királyra. — Legyél tányér!
 
 
@@ -190,7 +204,7 @@ A béka köt Olinak ördögjelmezt. Apának a kutyus köt Hókuszpók-jelmezt.
 Meg kell várjuk a gepárdot. Még gallyakat gyűjt Galyatetőn. És még beszélnie
 kell ott egy nővel. Nem tudom, mit kell beszélnie vele. Felhívom a gepárdot.
 
-— Halló, gepárd? Miért kell beszélned még vele?
+\dash Halló, gepárd? Miért kell beszélned még vele?
 
 Azt mondja a gepárd, hogy a szállodában nincs víz. Nincs víz a medencében és
 nem tudnak fürdeni a vendégek. A csapból se folyik víz. Nyállal kell fürdeniük!
@@ -218,21 +232,21 @@ versenyautó. Még a gepárdnál is gyorsabb volt!
 \section*{A szúnyog és a zsiráf}
 Tili-tili, csörög a telefon.
 
-— Halló, rendőrség?
+\dash Halló, rendőrség?
 
-— Mi történt?
+\dash Mi történt?
 
-— Azt mondja, elrabolták a zsiráfot az állatkertből!
+\dash Azt mondja, elrabolták a zsiráfot az állatkertből!
 
-— Nahát, ki tehetett ilyet?
+\dash Nahát, ki tehetett ilyet?
 
-— A szúnyog volt! Menjünk, szabadítsuk ki!
+\dash A szúnyog volt! Menjünk, szabadítsuk ki!
 
-— Állj meg szúnyog! Engedd el a zsiráfot!
+\dash Állj meg szúnyog! Engedd el a zsiráfot!
 
-— De nagyon éhes vagyok. Mit fogok enni, ha elengedem a zsiráfot?
+\dash De nagyon éhes vagyok. Mit fogok enni, ha elengedem a zsiráfot?
 
-— Tessék, itt ez a vér. Ez nagyon sok vér. Nyugodtan szívj belőle, nem fog
+\dash Tessék, itt ez a vér. Ez nagyon sok vér. Nyugodtan szívj belőle, nem fog
 elfogyni. Csak nagyon sokára fog elfogyni. Amikor ez elfogy, akkor már nem is
 fogsz sokat élni. Már csak két napot fogsz élni, amikor ez elfogy.
 
@@ -240,11 +254,11 @@ fogsz sokat élni. Már csak két napot fogsz élni, amikor ez elfogy.
 
 Másnap.
 
-— Halló, rendőrség?
+\dash Halló, rendőrség?
 
-— Mi történt?
+\dash Mi történt?
 
-— Azt mondja, elrabolták a szúnyogot. Most a zsiráf rabolta el a szúnyogot!
+\dash Azt mondja, elrabolták a szúnyogot. Most a zsiráf rabolta el a szúnyogot!
 
 
 \section*{Ha nagy leszek}
@@ -305,7 +319,7 @@ Egyszer csengettek. Bimm-bamm. Aki hallotta a csengőt, odament és kinyitotta a
 ajtót. Odakint egy gyerek állt. (Igazából a dínó.)
 
 
-\section*{Saab}
+\section*{Qubi}
 Nem gyártanak már Saabot. Vagyis egy darabig nem gyártottak Saabot. De a gepárd
 elkezdett Saabot gyártani. Aki akar Saabot venni, a gepárdtól vehet. Én szoktam
 tőle venni.
@@ -374,12 +388,16 @@ Egyszer csak kopogtatnak. Te is kitalálod, ki kopog? Három halacska volt.
 Fáztak, éhesek voltak. Amikor a három halacska kopogott, már este volt. Hideg
 volt. A katica is félt. Nem akart kimenni. (Gyagya, Kutyima, és Nemo.)
 
-Azt mondta a gepárd, ha majd reggel lesz, egy picit még itt leszek. Mert meg
-akarom nézni, milyen tortátok lesz. A három halnak is. Mert a három halnak
-egyszerre lesz a szülinapja. Nem ikrek, de egy napon van a szülinapjuk.
-Testvérek.
+Azt mondta a gepárd:
+
+\dash Ha majd reggel lesz, egy picit még itt leszek. Mert meg akarom nézni,
+milyen tortátok lesz.
+
+Mert a három halnak egyszerre lesz a szülinapja. Nem ikrek, de egy napon van a
+szülinapjuk.  Testvérek.
 
 És vége a történetnek, úgy látom. Fuss el véle!
+
 
 \section*{A harcsa látogatása}
 A gepárd kiesett az ágyból a zaj miatt. Mert a harcsa hangosan kopogott. Mert
@@ -450,11 +468,14 @@ Ezer évvel ezelőtt a gepárd olvasta az újságban, hogy esni fog az eső. Nag
 nagy eső lesz. Húsz napig fog esni. A gepárd szereti a dinoszauruszokat. Meg
 akarta menteni őket.
 
-Beugrott a vízbe, és azt kiabálta a dinoszauruszoknak, \textit{hé, itt vagyok, kapjatok
-el, ha tudtok!} Aztán futott nagyon gyorsan, és a dinoszauruszok futottak utána.
-Elfutott a Plutora és ott egy ketrecbe tette a dinoszauruszokat. Ha valamelyik
-nem fért már be a ketrecbe, akkor egy másik ketrecbe tette. Olyan sok
-dinoszaurusz volt, hogy húsz ketrecbe kellett tennie őket.
+Beugrott a vízbe, és azt kiabálta a dinoszauruszoknak:
+
+\dash Hé, itt vagyok, kapjatok el, ha tudtok!
+
+Aztán futott nagyon gyorsan, és a dinoszauruszok futottak utána.  Elfutott a
+Plutóra és ott egy ketrecbe tette a dinoszauruszokat. Ha valamelyik nem fért
+már be a ketrecbe, akkor egy másik ketrecbe tette. Olyan sok dinoszaurusz volt,
+hogy húsz ketrecbe kellett tennie őket.
 
 
 \section*{Krémtúrótorta}
