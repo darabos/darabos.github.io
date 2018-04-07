@@ -1,11 +1,11 @@
 \documentclass[12pt]{memoir}
 \usepackage{titlesec}
 \usepackage{t1enc}
-\def\magyarOptions{hyphenmins=44}
+\def\magyarOptions{hyphenmins=34}
 \usepackage[magyar]{babel}
 \usepackage[final]{microtype}
 \usepackage{fontspec}
-\usepackage{graphicx}
+\usepackage{incgraph}
 
 \clubpenalty=10000
 \widowpenalty=10000
@@ -15,7 +15,7 @@
 \setstocksize{22.86cm}{15.24cm}
 \settrimmedsize{\stockheight}{\stockwidth}{*}
 \settrims{0pt}{0pt}
-\setlrmarginsandblock{1.5cm}{1.5cm}{*}
+\setlrmarginsandblock{2cm}{1.25cm}{*}
 \setulmarginsandblock{2.5cm}{*}{1}
 \checkandfixthelayout
 \setlength{\emergencystretch}{2em}
@@ -23,13 +23,15 @@
 \newfontfamily\playfair{Playfair Display SC}
 \def\dash{---\kern 0.2em}
 
-\newcommand{\beforesection}{\cleartoverso\vspace*{0.25\textheight}}
+\newcommand{\beforesection}{\vspace*{0.25\textheight}}
 \titleformat{\section}
   {\center\huge\bfseries\playfair}
   {\thesection}
   {1em}
   {\beforesection}
   [\vspace*{1em}]
+\newcommand{\image}[1]{%
+\incgraph[documentpaper][keepaspectratio=true,width=\paperwidth,height=\paperheight]{#1}}
 
 \author{Darabos Félix}
 
@@ -53,10 +55,12 @@
 
 \vspace*{0.3\textheight}{\begin{center}\textit{``Anya, te vagy a legszebb.''}\end{center}}
 
+\cleartoverso
 \section{Karácsonyváró}
 A gepárd nem veszi ki a karácsonyváróból az ajándékokat, csak mikor már mind
 tele van. Mert autókat szeretne találni, hogy nekem adja. Ő csak ruhákat akar
 megtartani, mert nincs rózsaszín és lila ruhája.
+\image{karácsonyváró.png}
 
 
 \section{Kormányzár}
@@ -105,6 +109,7 @@ A Lamborghinije már akkor is megvolt.
 
 A gepárd örökké fog élni, mert az űrben lakik, a Plutón. Én is örökké akarok
 élni.
+\image{gepard.png}
 
 
 \section{A gepárd halakat tanít}
@@ -384,7 +389,7 @@ A gepárd beült a rendőrautóba. Morcos volt a rókára, mert nem szereti a r�
 A róka sem szereti a gepárdot. A gepárd becsukta a tetőt. Nem esett az eső, de
 mégis becsukta.
 
-Betett a katicának a hátizsákba ételt. Cukorát, édes dolgokat, de sósat is.
+Betett a katicának a hátizsákba ételt. Cukorkát, édes dolgokat, de sósat is.
 Halat. A cukorkát ki kellett, hogy bontsa neki a gepárd, mert ő nem tud bontani
 annyira ügyesen.
 
