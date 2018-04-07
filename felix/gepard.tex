@@ -1,16 +1,17 @@
 \documentclass[12pt]{memoir}
 \usepackage{titlesec}
 \usepackage{t1enc}
-\usepackage[utf8]{inputenc}
 \def\magyarOptions{hyphenmins=44}
 \usepackage[magyar]{babel}
 \usepackage[final]{microtype}
 \usepackage{fontspec}
+\usepackage{graphicx}
 
 \clubpenalty=10000
 \widowpenalty=10000
 \raggedbottom
 
+\setcounter{secnumdepth}{0}
 \setstocksize{22.86cm}{15.24cm}
 \settrimmedsize{\stockheight}{\stockwidth}{*}
 \settrims{0pt}{0pt}
@@ -22,11 +23,12 @@
 \newfontfamily\playfair{Playfair Display SC}
 \def\dash{---\kern 0.2em}
 
+\newcommand{\beforesection}{\cleartoverso\vspace*{0.25\textheight}}
 \titleformat{\section}
   {\center\huge\bfseries\playfair}
   {\thesection}
   {1em}
-  {\cleartoverso\vspace*{0.25\textheight}}
+  {\beforesection}
   [\vspace*{1em}]
 
 \author{Darabos Félix}
@@ -40,22 +42,24 @@
 \begin{titlingpage}
   \centering
   \vspace*{0.2\textheight}
-  {\Huge\bfseries\playfair \thetitle}\\[\baselineskip]
+  {\fontsize{80pt}{96pt}\playfair \thetitle}\\[\baselineskip]
   {\large\theauthor}\\[\baselineskip]
   \vfill
   {\thedate}
   \vspace*{0.1\textheight}
 \end{titlingpage}
 
+\pagestyle{plain}
+
 \vspace*{0.3\textheight}{\begin{center}\textit{``Anya, te vagy a legszebb.''}\end{center}}
 
-\section*{Karácsonyváró}
+\section{Karácsonyváró}
 A gepárd nem veszi ki a karácsonyváróból az ajándékokat, csak mikor már mind
 tele van. Mert autókat szeretne találni, hogy nekem adja. Ő csak ruhákat akar
 megtartani, mert nincs rózsaszín és lila ruhája.
 
 
-\section*{Kormányzár}
+\section{Kormányzár}
 A gepárdnak is van kormányzára. Tudod, milyen színű a gepárd kormányzára? Lila!
 
 Az oroszlán a gepárd barátja. Neki nincs olyan sok szép autója. Mindig el
@@ -63,7 +67,7 @@ akarja lopni a gepárd barna Lamborghinijét. Beül és el akarja indítani. De 
 indul az autó! Kormányzár!
 
 
-\section*{A gepárd és a macska}
+\section{A gepárd és a macska}
 A gepárd Olaszországban él. Lány, de mély hangja van. Hörr! Három nyelven
 beszél: olaszul, angolul és magyarul. A gepárd már 18 éves. Egyetemista.
 
@@ -84,7 +88,7 @@ A hölgyi gepárd két völgy között lakik. Magyarul úgy hívják, hogy völg
 gepárd. Angolul úgy, hogy hölgyi gepárd.
 
 
-\section*{A gepárd hátsó ülésén}
+\section{A gepárd hátsó ülésén}
 A gepárd vett múltkor egy űrhajót. Engem is elhívott kipróbálni. Együtt
 repültünk vele. A gepárd ült elöl, és én ültem a hátsó ülésen. Nagyon gyorsan
 mentünk, majdnem elestem.
@@ -93,7 +97,7 @@ Gofrit is csinált nekem a gepárd. A hátsó ülésen ettem a gofrit az űrhaj�
 Holdra szállt le az űrhajóval, és még ott is ettem gofrit.
 
  
-\section*{A gepárd születése}
+\section{A gepárd születése}
 A gepárd akkor született, amikor dinoszauruszok éltek. Meg mamutok. De
 ősemberek még nem.
 
@@ -103,7 +107,7 @@ A gepárd örökké fog élni, mert az űrben lakik, a Plutón. Én is örökké
 élni.
 
 
-\section*{A gepárd halakat tanít}
+\section{A gepárd halakat tanít}
 A gepárd 18 éves. Egyetemista. Már úszni is tud. A gepárd nagyon jól tud úszni.
 Ő tanította a halakat is úszni. Tanított kicsi halakat, nagyobb halakat, óriási
 halakat… Cápákat is tanított.
@@ -115,7 +119,7 @@ Amikor kimászott a vízből, a halak szomorúan néztek utána. Ők ott kellett
 maradjanak.
 
 
-\section*{A gepárd és a sárkányok}
+\section{Sárkányok}
 A gepárd drága autókat is gyűjt. Csak sárkányokat nem gyűjt. A sárkányokat csak
 lefényképezi. Fényképezett már alvó sárkányt. Ülő sárkányt. Álló sárkányt.
 Megyő sárkányt.
@@ -154,7 +158,7 @@ képeket. Odahozza őket dobozostul.
 \dash Azért, mert be van lakatolva — mondta a gepárd.
 
 
-\section*{A gepárd és a szarvasok}
+\section{A szarvasok és a nyuszi}
 A gepárdnak is van egy nyuszija. De nem fekete, hanem tarka-barka. A feje
 fehér, valahol sötétszürke, valahol sötétkék, valahol sötétbarna.
 
@@ -168,7 +172,7 @@ varázslatos farka van.
 Felültem a gepárd hátára, és olyan gyorsan szaladt, hogy majdnem leestem!
 
 
-\section*{Csiribú csiribá}
+\section{Csiribú csiribá}
 A királyi család reggelihez készülődött.
 
 \dash Mit ennél szívesen, édes lányom? — kérdezte a király a királylányt.
@@ -184,7 +188,7 @@ velünk?
 királylány a királyra. — Legyél tányér!
 
 
-\section*{Jelmezek}
+\section{Jelmezek}
 Az én barátom, a gepárd köt nekem egy rókajelmezt.
 
 A kis fehér bundám fonalból lesz. Szürke nyakam lesz. Az fonalból lesz, a
@@ -200,7 +204,7 @@ nem biztos, hogy tud.
 A béka köt Olinak ördögjelmezt. Apának a kutyus köt Hókuszpók-jelmezt.
 
 
-\section*{Galyatetőn}
+\section{Galyatetőn}
 Meg kell várjuk a gepárdot. Még gallyakat gyűjt Galyatetőn. És még beszélnie
 kell ott egy nővel. Nem tudom, mit kell beszélnie vele. Felhívom a gepárdot.
 
@@ -214,7 +218,7 @@ más holmikat is nyalogatniuk kell. Így mosnak fogat: (a nyelvükkel). Még az
 orrukat is nyállal mossák meg.
 
 
-\section*{A sárga Ferrari}
+\section{A sárga Ferrari}
 Nagyon régen az én barátom, a gepárd akart venni egy Ferrarit. Ez nagyon régen
 volt, amikor a gepárd született. Akart venni egy Ferrarit, de sehol sem kapott.
 Nem volt sehol Ferrari. Aztán tudod, hol talált egyet? A macskánál talált egy
@@ -229,7 +233,7 @@ Nagyon gyors volt. Nagyon gyors autó volt. Ez volt a leggyors autóbb. Mint egy
 versenyautó. Még a gepárdnál is gyorsabb volt!
 
 
-\section*{A szúnyog és a zsiráf}
+\section{A szúnyog és a zsiráf}
 Tili-tili, csörög a telefon.
 
 \dash Halló, rendőrség?
@@ -261,13 +265,13 @@ Másnap.
 \dash Azt mondja, elrabolták a szúnyogot. Most a zsiráf rabolta el a szúnyogot!
 
 
-\section*{Ha nagy leszek}
+\section{Ha nagy leszek}
 Amikor felnőtt leszek és lesz nekem lányom, majd úgy fogják hívni, ahogy te
 szereted, Anya. Zita. És ha te akkor már a Mennyországban leszel, akkor majd
 elmesélem neked, amikor én is ott leszek.
 
 
-\section*{A hosszúlábú egér}
+\section{A hosszúlábú egér}
 A gepárdnak vannak ilyen kis üregei. Be vannak ásva a falhoz. És ebben laknak a
 kis egérkék. Minden nap tesz bele egy kis ennivalót. Megeszi az egér és aztán
 kijön. Van neki ajtaja. Nem veszélyes bent lenni, mert van ajtaja az
@@ -285,7 +289,7 @@ Ráadásul az utcára megy ki vadászni. Én elkísérem a kapuig, ott elköszö
 én visszajövök a házba. Ő meg elmegy vadászni.
 
 
-\section*{Az iskolabuszállomás}
+\section{Az iskolabuszállomás}
 Mi is jártunk ott a gepárddal. És amikor ott voltunk, a gepárd mutatott nekem
 valami nagyon szépet! Olyan szép volt! Képzeld, mit mutatott…
 
@@ -297,7 +301,7 @@ víz és úsztak benne a halak. A vízben csobogtak lefelé. Be is volt fagyva a
 egész, de belül azért folyott és a halak tudtak csobogni.
 
 
-\section*{Tavasz}
+\section{Tavasz}
 Mama mondta, hogy visszaköltözött az első gólya. Benne volt a hírekben. A
 gepárd látta ezt a gólyát. Távcsővel nézte, és le is fényképezte.
 
@@ -311,7 +315,7 @@ mérgező. Ha megenné, nem tudná mozgatni a szárnyait. Megbénulnának a szá
 A gepárd szokott madarakat fényképezni, és békákat.
 
 
-\section*{Farsang}
+\section{Farsang}
 Ismerek egy dínót, aki nagyon szereti a gyerekeket. Annyira szereti a
 gyerekeket, hogy farsangra gyereknek öltözött.
 
@@ -319,7 +323,7 @@ Egyszer csengettek. Bimm-bamm. Aki hallotta a csengőt, odament és kinyitotta a
 ajtót. Odakint egy gyerek állt. (Igazából a dínó.)
 
 
-\section*{Qubi}
+\section{Qubi}
 Nem gyártanak már Saabot. Vagyis egy darabig nem gyártottak Saabot. De a gepárd
 elkezdett Saabot gyártani. Aki akar Saabot venni, a gepárdtól vehet. Én szoktam
 tőle venni.
@@ -335,7 +339,7 @@ A zimbi egy különleges állat. A szeme és a szája oldalt van a fején. A lá
 pedig a feje tetején vannak. És a szeme nagyon-nagyon sötét.
 
 
-\section*{A kutató}
+\section{A kutató}
 Van egy tatu, ami Apa szerint ankiloszaurusz. Ezt majd a gepárdtól kell
 megkérdezni. A gepárd jobban tudja. Mert a gepárd kutató. Szemüvege is van és
 egy monitor előtt ül. Olyan számítógépe van, aminek nem lehet lecsukni a
@@ -345,7 +349,7 @@ A gepárd mindenhez ért. Ő meg fogja tudni mondani, hogy tatu vagy
 ankiloszaurusz.
 
 
-\section*{Egykerekű}
+\section{Egykerekű}
 A gepárdnak is van egykerekű biciklije. De az olyan, hogy még ülése sincs. Csak
 egy kerék és a pedál.
 
@@ -356,7 +360,7 @@ sincs!
 Ha meglökik, elgurul. Figyelni kell, hogy alatta maradjon a kerék.
 
 
-\section*{A katica mentőakció}
+\section{A katica mentőakció}
 A gepárd odaslisszolt a kisvakondhoz egy Mercedes rendőrautóval, hogy megmentse
 a katicát a rókától. Betette a hátizsákjába. A gepárdnak csak menő autói vannak
 és kabriói. Lecsukta a tetőt, és leeresztette a redőnyt is. Mert ez az autó át
@@ -385,8 +389,8 @@ Halat. A cukorkát ki kellett, hogy bontsa neki a gepárd, mert ő nem tud bonta
 annyira ügyesen.
 
 Egyszer csak kopogtatnak. Te is kitalálod, ki kopog? Három halacska volt.
-Fáztak, éhesek voltak. Amikor a három halacska kopogott, már este volt. Hideg
-volt. A katica is félt. Nem akart kimenni. (Gyagya, Kutyima, és Nemo.)
+Gyagya, Kutyima, és Nemo. Fáztak, éhesek voltak. Amikor a három halacska
+kopogott, már este volt. Hideg volt. A katica is félt. Nem akart kimenni.
 
 Azt mondta a gepárd:
 
@@ -399,7 +403,7 @@ szülinapjuk.  Testvérek.
 És vége a történetnek, úgy látom. Fuss el véle!
 
 
-\section*{A harcsa látogatása}
+\section{A harcsa látogatása}
 A gepárd kiesett az ágyból a zaj miatt. Mert a harcsa hangosan kopogott. Mert
 megharapta a sneci. Pedig a sneci nem is eszik halat. Akkor miért harapta meg?
 
@@ -413,7 +417,7 @@ fürdőszoba, hanem a konyha mellett balra.
 Ez 22 éve történt.
 
 
-\section*{A Nílus}
+\section{A Nílus}
 A gepárd megsajnálta a halakat és bedobált nekik ennivalót.
 
 Eleredt az eső. Nem csepergett, hanem ömlött! A halakat elsodorta. Nem tudtak
@@ -433,7 +437,7 @@ vizet. Messziről nézték a házukat, és csak azt látták, hogy valami van a 
 De nem tudták, hogy az a folyó.
 
 
-\section*{A macska nyaralója}
+\section{A macska nyaralója}
 A gepárd házában nem a kenyéren van a lekvár. Minden lekvárból van. A kenyér is
 lekvár, a tányér is lekvár, az asztal is lekvár, a falak is lekvárból vannak.
 De nem igaziból: a gepárd csak erre gondol.
@@ -445,7 +449,7 @@ visszafordultam, és már azt láttam ahogy épp lerombolták.
 Én elkapkodtam a hamikat. Lekvár-hamikat!
 
 
-\section*{Macskababa születik}
+\section{Macskababa születik}
 A gepárd most nem tud velünk jönni.
 
 A gepárd barátja, a macska most fog szülni. Már van egy babája, egy lány. Most
@@ -456,14 +460,14 @@ a szobát. Mert a falak lekvárból vannak. A plafon mézeskalácsból. Az ablak
 lekvárból.
 
 
-\section*{Nyár télen}
+\section{Nyár télen}
 Télen volt egy nap, amikor nem esett az eső, nem esett a hó. Semmi sem esett,
 és olyan meleg volt, mint nyáron. A gepárd egy szál bugyiban szaladgált.
 Felfújt egy medencét és abban úszkált. Volt, hogy még bugyi sem volt rajta.
 Pucéran szaladgált.
 
 
-\section*{A dinoszauruszok menekülése}
+\section{A dinoszauruszok menekülése}
 Ezer évvel ezelőtt a gepárd olvasta az újságban, hogy esni fog az eső. Nagyon
 nagy eső lesz. Húsz napig fog esni. A gepárd szereti a dinoszauruszokat. Meg
 akarta menteni őket.
@@ -478,7 +482,7 @@ már be a ketrecbe, akkor egy másik ketrecbe tette. Olyan sok dinoszaurusz volt
 hogy húsz ketrecbe kellett tennie őket.
 
 
-\section*{Krémtúrótorta}
+\section{Krémtúrótorta}
 Egyszer kaptam egy krémtúrótortát. Megkérdeztem a gepárdot, hogy kér-e belőle.
 Azt mondta, á, nem, ő nem szereti a krémtúrótortát.
 
@@ -486,7 +490,7 @@ De utána tudod, mi történt? A gepárd megette az egész tortát! Megette elő
 mindet!
 
 
-\section*{Hurka recept}
+\section{Hurka recept}
 A gepárd finomabb hurkát tud csinálni. Összerántja, a tojásnak a levét beteszi
 egy pohárba, megissza, és utána a brokkoliban kifőzi a hurkát.
 
@@ -495,7 +499,13 @@ A tigrisről is van mese. A gepárdnak a barátja a tigris. De már meghalt. Nag
 foga.
 
 
-% Make sure the last page is not facing the inner cover.
-\cleartoverso \cleartorecto
+\begin{KeepFromToc}
+\makeatletter
+\renewcommand*{\@tocmaketitle}{}
+\makeatother
+\renewcommand{\beforesection}{\cleartorecto}
+\section*{Tartalom}
+\tableofcontents
+\end{KeepFromToc}
 
 \end{document}
