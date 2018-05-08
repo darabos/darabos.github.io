@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1270.6299"
+   height="967.32281"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="New document 1">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.42"
+     inkscape:cx="630.30159"
+     inkscape:cy="390.40838"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="cm"
+     inkscape:window-width="1290"
+     inkscape:window-height="721"
+     inkscape:window-x="0"
+     inkscape:window-y="1"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-85.038064)">
+    <rect
+       style="opacity:1;fill:#a6c19b;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       id="rect3122"
+       width="1270.6299"
+       height="967.32281"
+       x="0"
+       y="85.038017" />
+    <image
+       y="301.67163"
+       x="641.72192"
+       id="image3101"
+       xlink:href="file:///Users/darabos/Pictures/gepard-alpha.png"
+       height="907.89868"
+       width="605.26575" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Adobe Garamond Pro;-inkscape-font-specification:Adobe Garamond Pro"
+       x="951.03143"
+       y="254.59312"
+       id="text3104"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3106"
+         x="951.03143"
+         y="254.59312"
+         style="font-size:50px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:Playfair Display SC;-inkscape-font-specification:Playfair Display SC;fill:#000000">Darabos Félix</tspan><tspan
+         sodipodi:role="line"
+         x="951.03143"
+         y="367.82455"
+         style="font-size:100px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:Playfair Display SC;-inkscape-font-specification:Playfair Display SC;fill:#000000"
+         id="tspan3120">Gepárd</tspan></text>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3108"
+       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Adobe Garamond Pro;font-style:normal;font-weight:normal;font-size:40px;line-height:125%;letter-spacing:0px;word-spacing:0px;-inkscape-font-specification:Adobe Garamond Pro;font-stretch:normal;font-variant:normal"><flowRegion
+         id="flowRegion3110"><rect
+           id="rect3112"
+           width="91.666664"
+           height="50"
+           x="1370.8334"
+           y="875.65613" /></flowRegion><flowPara
+         id="flowPara3114"></flowPara></flowRoot>    <rect
+       y="85.038033"
+       x="618.66144"
+       height="967.32281"
+       width="34.015747"
+       id="rect3894"
+       style="fill:#002b00;fill-opacity:1;fill-rule:evenodd;stroke:none" />
+    <image
+       transform="matrix(0.03980397,0.99920751,-0.99920751,0.03980397,0,0)"
+       y="-700.51392"
+       x="705.74579"
+       id="image3898"
+       xlink:href="file:///Users/darabos/Pictures/gepard-alpha.png"
+       height="596.35876"
+       width="397.57248" />
+    <image
+       width="397.57248"
+       height="596.35876"
+       xlink:href="file:///Users/darabos/Pictures/gepard-alpha.png"
+       id="image3902"
+       x="204.60284"
+       y="653.45233"
+       transform="matrix(-0.82264773,0.56855142,0.56855142,0.82264773,0,0)" />
+    <image
+       width="605.26575"
+       height="907.89868"
+       xlink:href="file:///Users/darabos/Pictures/gepard-alpha.png"
+       id="image3896"
+       x="425.53818"
+       y="-341.94299"
+       transform="matrix(0.51362361,0.85801561,-0.85801561,0.51362361,0,0)" />
+    <image
+       transform="matrix(-0.82264773,-0.56855142,0.56855142,-0.82264773,0,0)"
+       y="-693.36993"
+       x="-528.15564"
+       id="image3904"
+       xlink:href="file:///Users/darabos/Pictures/gepard-alpha.png"
+       height="596.35876"
+       width="397.57248" />
+    <image
+       width="514.31659"
+       height="765.00543"
+       xlink:href="file:///Users/darabos/Pictures/gepard-alpha.png"
+       id="image3906"
+       x="-366.35233"
+       y="-816.06506"
+       transform="matrix(0.66773663,-0.74439761,-0.75909305,-0.65098214,0,0)" />
+    <image
+       transform="matrix(-0.10859072,-0.99408654,-0.99408654,0.10859072,0,0)"
+       y="-651.85516"
+       x="-683.33887"
+       id="image3908"
+       xlink:href="file:///Users/darabos/Pictures/gepard-alpha.png"
+       height="439.22226"
+       width="292.81482"
+       style="fill:none;fill-opacity:1" />
+    <image
+       transform="matrix(0.90463544,0.42618624,0.42618624,-0.90463544,0,0)"
+       y="-538.26489"
+       x="108.13586"
+       id="image3900"
+       xlink:href="file:///Users/darabos/Pictures/gepard-alpha.png"
+       height="907.89868"
+       width="605.26575" />
+    <path
+       id="rect3910"
+       style="fill:#e3f4d7;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 0,85.038017 1270.6299,0 0,967.322783 -1270.6299,0 z m -350,-348.061757 2023.0769,0 0,1715.38464 -2023.0769,0 z" />
+  </g>
+</svg>
